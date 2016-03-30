@@ -10,4 +10,4 @@ emacs24.5 setup for development and data analysis in Python language. Includes p
 * yasnippet
 * zenburn theme
 
-It is useful to check that the Python libraries required for ``elpy'' are installed to get a better coding experience
+It is useful to check that the Python libraries required for **elpy** are installed to get a better coding experience
