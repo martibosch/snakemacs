@@ -2,28 +2,40 @@
 ; loading package
 (load "~/.emacs.d/my-packages.el")
 
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-;; (setq ac-auto-start 1)
-;; (define-key ac-complete-mode-map "\t" 'ac-complete)
-;; (define-key ac-complete-mode-map "\r" nil)
+;; auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
+(setq ac-auto-start 1)
+(define-key ac-complete-mode-map "\t" 'ac-complete)
+(define-key ac-complete-mode-map "\r" nil)
 
+;; emacs ipython notebook
 (require 'ein)
-;; (setq ein:use-auto-complete t)
+(setq ein:use-auto-complete t)
 
+;; elpy
 (elpy-enable)
 (elpy-use-ipython)
 
+;; flycheck
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
+;; magit
 (require 'magit)
 (define-key global-map (kbd "C-x g") 'magit-status)
 
+;; autopep8
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
+;; sphinx
+(add-hook 'python-mode-hook (lambda ()
+                              (require 'sphinx-doc)
+                              (sphinx-doc-mode t)))
+
+;; yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
 (yas-load-directory "~/.emacs.d/snippets")
