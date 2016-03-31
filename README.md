@@ -1,5 +1,5 @@
-# emacs-d-python
-emacs24.5 setup for development and data analysis in Python language. Includes packages:
+# .emacs.d-python-data-analysis
+emacs24.5 setup for Python Data Analysis stack. Includes packages:
 
 * auto-complete
 * better-defaults
