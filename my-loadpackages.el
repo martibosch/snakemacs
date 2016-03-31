@@ -8,6 +8,9 @@
 (setq ac-auto-start 1)
 (define-key ac-complete-mode-map "\t" 'ac-complete)
 (define-key ac-complete-mode-map "\r" nil)
+(defadvice auto-complete-mode (around disable-auto-complete-for-python)
+  (unless (eq major-mode 'python-mode) ad-do-it))
+(ad-activate 'auto-complete-mode) ;; disable auto-complete for python-mode (since using elpy)
 
 ;; emacs ipython notebook
 (require 'ein)
