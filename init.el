@@ -3,8 +3,11 @@
 			      (load "~/.emacs.d/my-noexternals.el")))
 
 ;; BASIC CUSTOMIZATION
+(add-to-list 'load-path "~/.emacs.d/custom") ;; custom scripts path
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'zenburn t)
-(global-linum-mode t) ;; enable line numbers globally
 
+;; LINUM
+(global-linum-mode t) ;; enable line numbers globally
+(require 'linum-off)
 
