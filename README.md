@@ -19,7 +19,6 @@ sudo apt-get install git
 
 The following packages are commonly used by all the branches of the configuration:
 
-* auto-complete
 * better-defaults
 * elpy
 * flycheck
@@ -35,6 +34,7 @@ It is useful to check that the Python libraries required for `elpy` are installe
 
 These packages will be installed if working on `data` branch:
 
+* auto-complete
 * ein
 
 ### Packages for Web Development
