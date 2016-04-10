@@ -7,15 +7,15 @@
 
 (defvar required-packages
   '(
-    auto-complete
     better-defaults
-    ein
     elpy
     flycheck
     magit
+    pony-mode
     py-autopep8
     sphinx-doc
     yasnippet
+    web-mode
     zenburn-theme
   ) "a list of packages to ensure are installed at launch.")
 
