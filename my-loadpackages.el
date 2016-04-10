@@ -18,7 +18,7 @@
 
 ;; elpy
 (elpy-enable)
-(elpy-use-ipython)
+;; (elpy-use-ipython)
 
 ;; flycheck
 (when (require 'flycheck nil t)
@@ -28,6 +28,16 @@
 ;; magit
 (require 'magit)
 (define-key global-map (kbd "C-x g") 'magit-status)
+
+;; octave
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
+(add-hook 'octave-mode-hook
+          (lambda ()
+            (abbrev-mode 1)
+            (auto-fill-mode 1)
+            (if (eq window-system 'x)
+                (font-lock-mode 1))))
 
 ;; autopep8
 (require 'py-autopep8)
@@ -44,4 +54,3 @@
 (yas-load-directory "~/.emacs.d/snippets")
 (add-hook 'term-mode-hook (lambda()
     (setq yas-dont-activate t)))
-
