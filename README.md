@@ -26,7 +26,6 @@ The following packages are commonly used by all the branches of the configuratio
 * py-autopep8
 * sphinx-doc
 * yasnippet
-* zenburn-theme
 
 It is useful to check that the Python libraries required for `elpy` are installed to get a better coding experience
 
@@ -36,6 +35,7 @@ These packages will be installed if working on `data` branch:
 
 * auto-complete
 * ein
+* white-sand-theme
 
 ### Packages for Web Development
 
@@ -43,3 +43,4 @@ These packages will be installed if working on `web` branch:
 
 * pony-mode
 * web-mode
+* zenburn-theme
