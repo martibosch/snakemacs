@@ -9,7 +9,8 @@ This setup requires Emacs >= 24.5. The package can be installed from the source 
 The package `magit` requires Git >= 1.9.4. If you use `aptitude` this version can be obtained as follows:
 
 ```
-sudo add-apt-repository ppa:
+sudo add-apt-repository ppa:git-core/ppa -y
+sudo apt-get update
 sudo apt-get install git
 ```
 
