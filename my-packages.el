@@ -16,7 +16,7 @@
     py-autopep8
     sphinx-doc
     yasnippet
-    zenburn-theme
+    white-sand-theme
   ) "a list of packages to ensure are installed at launch.")
 
 (require 'cl)

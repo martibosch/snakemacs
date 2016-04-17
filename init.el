@@ -5,7 +5,7 @@
 ;; BASIC CUSTOMIZATION
 (add-to-list 'load-path "~/.emacs.d/custom") ;; custom scripts path
 (setq inhibit-startup-message t) ;; hide the startup message
-(load-theme 'zenburn t)
+(load-theme 'white-sand t)
 
 ;; SCROLLING IN TERM
 (if (eq window-system nil)
