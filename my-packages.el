@@ -14,9 +14,9 @@
     flycheck
     magit
     py-autopep8
+    solarized-theme
     sphinx-doc
     yasnippet
-    white-sand-theme
   ) "a list of packages to ensure are installed at launch.")
 
 (require 'cl)
