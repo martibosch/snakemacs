@@ -1,7 +1,7 @@
 # -*- mode: snippet -*-
-# name: pd
-# key: pd
+# name: nx
+# key: nx
 # group : general
 # --
-import pandas as pd
+import networkx as nx
 $0
