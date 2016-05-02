@@ -18,7 +18,9 @@
 
 ;; elpy
 (elpy-enable)
-;; (elpy-use-ipython)
+(elpy-use-ipython)
+(setq elpy-rpc-backend "jedi")
+(define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
 
 ;; flycheck
 (when (require 'flycheck nil t)
