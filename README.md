@@ -45,7 +45,7 @@ These packages will be installed if using the `data` branch:
 
 * `auto-complete`
 * `ein`
-* `white-sand-theme`
+* `solarized-theme`
 
 ### Packages for Web Development
 
