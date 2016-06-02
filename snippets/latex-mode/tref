@@ -1,0 +1,4 @@
+#contributor : Shane Celis (shane (at) gnufoo (dot) org)
+#name : tref
+# --
+Table~\ref{$1}$0

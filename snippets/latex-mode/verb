@@ -1,0 +1,4 @@
+#contributor : Shane Celis (shane (at) gnufoo (dot) org)
+#name : verb - begin a one line tag
+# --
+\\verb|$1|$0

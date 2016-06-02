@@ -1,0 +1,6 @@
+#contributor : Rodrigo Setti <rodrigosetti@gmail.com>
+#name : \end{environment} ... \begin{environment}
+# --
+\end{${1:environment}}
+$0
+\begin{$1}{$2}
