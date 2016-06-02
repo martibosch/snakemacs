@@ -1,4 +1,4 @@
-; my-loadpackages.el
+1; my-loadpackages.el
 ; loading package
 (load "~/.emacs.d/my-packages.el")
 
@@ -15,12 +15,19 @@
 ;; emacs ipython notebook
 (require 'ein)
 (setq ein:use-auto-complete t)
+(defun define-key-request-help ()
+  (interactive)
+  (define-key ein:notebook-mode-map (kbd "C-c C-f") 'ein:pytools-request-help)
+  (define-key ein:notebook-multilang-mode-map (kbd "C-c C-f") 'ein:pytools-request-help))
+(add-hook 'ein:notebook-mode-hook 'define-key-request-help)
 
 ;; elpy
 (elpy-enable)
 (elpy-use-ipython)
 (setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
+(setenv "WORKON_HOME" "~/anaconda2/envs") ;; for conda venvs
+(pyvenv-mode 1)
 
 ;; flycheck
 (when (require 'flycheck nil t)
