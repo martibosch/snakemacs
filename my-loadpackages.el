@@ -2,6 +2,26 @@
 ; loading package
 (load "~/.emacs.d/my-packages.el")
 
+;; auctex
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq TeX-save-query nil)
+;; (add-hook 'TeX-mode-hook (lambda()
+;;                            (alist-set 'TeX-command-list "View"
+;;                                       '("(lambda () (let ((f \"%o\")) (find-file-other-window f) (doc-view-mode)))" TeX-run-function nil t))))
+;; (add-hook 'TeX-mode-hook (lambda()
+;;                            (alist-set 'TeX-command-list "View" "firefox %o")))
+(add-hook 'TeX-mode-hook (lambda()
+                           (add-to-list 'TeX-command-list '("View" "(lambda () (let ((f \"%o\")) (find-file-other-window f) (doc-view-mode)))" TeX-run-function nil t))))
+;; (setq TeX-view-program-selection
+;;       '((output-pdf "Emacs")))
+;; (setq TeX-view-program-list
+;;       '(("Emacs" "emacsclient %o")))
+;; Turn on RefTeX in AUCTeX
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+;; Activate nice interface between RefTeX and AUCTeX
+(setq reftex-plug-into-AUCTeX t)
+
 ;; auto-complete
 (require 'auto-complete-config)
 (ac-config-default)
