@@ -7,7 +7,7 @@ git clone -b <branch> https://github.com/martibosch/.emacs.d/
 ```
 
 where `<branch>` might be:
-* `data` for a data analysis setup with `Jupyter` Notebooks, and using `Emacs` with the `X` window system
+* `data` for a data analysis setup with `Jupyter` Notebooks, and using `Emacs` with the `X` window system, and also `AucTeX` for LaTeX
 * `web` for a web development setup with `Django`, and using `Emacs` in the terminal
 
 See the packages that each branch includes in the `Packages` section below.
