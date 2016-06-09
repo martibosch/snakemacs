@@ -43,6 +43,7 @@ It is useful to check that the Python libraries required for `elpy` are installe
 
 These packages will be installed if using the `data` branch:
 
+* `auctex`
 * `auto-complete`
 * `ein`
 * `solarized-theme`
