@@ -7,6 +7,7 @@
 
 (defvar required-packages
   '(
+    auctex
     auto-complete
     better-defaults
     ein

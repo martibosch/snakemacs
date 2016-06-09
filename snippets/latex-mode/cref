@@ -1,0 +1,4 @@
+#contributor : Shane Celis (shane (at) gnufoo (dot) org)
+#name : cref
+# --
+\cref{$1}$0
