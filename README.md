@@ -14,12 +14,19 @@ See the packages that each branch includes in the `Packages` section below.
 
 ## System Requirements
 
-This setup requires Emacs >= 24.5. The package can be installed from the source downloaded at `foo`
+This setup requires Emacs >= 24.5. If you use `APT` this version can be obtained as follows:
+
+```
+sudo add-apt-repository ppa:ubuntu-elisp/ppa
+sudo apt-get update
+sudo apt-get install emacs-snapshot
+```     
 
 The package `magit` requires Git >= 1.9.4. If you use `APT` this version can be obtained as follows:
 
 ```
-sudo add-apt-repository ppa:
+sudo add-apt-repository ppa:git-core/ppa
+sudo apt-get update
 sudo apt-get install git
 ```
 
@@ -36,6 +43,7 @@ The following packages are commonly used by all the branches of the configuratio
 * `py-autopep8`
 * `sphinx-doc`
 * `yasnippet`
+* `zenburn-theme`
 
 It is useful to check that the Python libraries required for `elpy` are installed to get a better coding experience
 
@@ -54,4 +62,3 @@ These packages will be installed if using the `web` branch:
 
 * `pony-mode`
 * `web-mode`
-* `zenburn-theme`
