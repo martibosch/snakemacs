@@ -18,6 +18,7 @@
     solarized-theme
     sphinx-doc
     yasnippet
+    zenburn-theme
   ) "a list of packages to ensure are installed at launch.")
 
 (require 'cl)
