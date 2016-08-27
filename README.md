@@ -36,6 +36,7 @@ sudo apt-get install git
 
 The following packages are commonly used by all the branches of the configuration:
 
+* `bash-completion`
 * `better-defaults`
 * `elpy`
 * `flycheck`

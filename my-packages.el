@@ -9,6 +9,7 @@
   '(
     auctex
     auto-complete
+    bash-completion
     better-defaults
     ein
     elpy

@@ -32,6 +32,13 @@
   (unless (eq major-mode 'python-mode) ad-do-it))
 (ad-activate 'auto-complete-mode) ;; disable auto-complete for python-mode (since using elpy)
 
+;; bash-completion
+(autoload 'bash-completion-dynamic-complete 
+  "bash-completion"
+  "BASH completion hook")
+(add-hook 'shell-dynamic-complete-functions
+  'bash-completion-dynamic-complete)
+
 ;; emacs ipython notebook
 (require 'ein)
 (setq ein:use-auto-complete t)
@@ -46,7 +53,7 @@
 (elpy-use-ipython)
 (setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
-(setenv "WORKON_HOME" "~/anaconda2/envs") ;; for conda venvs
+(setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
 (pyvenv-mode 1)
 
 ;; flycheck
