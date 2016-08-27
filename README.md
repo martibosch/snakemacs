@@ -62,4 +62,5 @@ These packages will be installed if using the `data` branch:
 These packages will be installed if using the `web` branch:
 
 * `pony-mode`
+* `scss-mode`
 * `web-mode`
