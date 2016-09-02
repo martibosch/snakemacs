@@ -16,7 +16,7 @@ See the packages that each branch includes in the `Packages` section below.
 
 This setup requires Emacs >= 24.5. If you use `APT` this version can be obtained as follows:
 
-```
+```bash
 sudo add-apt-repository ppa:ubuntu-elisp/ppa
 sudo apt-get update
 sudo apt-get install emacs-snapshot
@@ -24,13 +24,32 @@ sudo apt-get install emacs-snapshot
 
 The package `magit` requires Git >= 1.9.4. If you use `APT` this version can be obtained as follows:
 
-```
+```bash
 sudo add-apt-repository ppa:git-core/ppa
 sudo apt-get update
 sudo apt-get install git
 ```
 
-## Packages:
+The `data` setup requires the `ipython` interpreter, which if you use `APT` can be obtained with:
+
+```bash
+sudo apt-get install ipython
+```
+
+### Python Package Dependencies
+
+The setup borrows from the following utilities that require certain python packages that can be obtained via `pip` as:
+
+```bash
+pip install pep8 # for automatic styling
+pip install jedi # for autocompletion
+```
+
+#### Data Science Environment: Anaconda
+
+If you are using the `data` setup, and you do not have or know Anaconda, you might go to [First Step: Download Anaconda part](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) of [this blog post](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) and install it in your computer. It is an open source Python distribution that comes with most of the data science packages that you will need.
+
+If you do install Anaconda and are working on its default `anaconda` virutal environment, you won't need to install `ipython` nor `pep8` nor `jedi`.
 
 ### Base Packages:
 
