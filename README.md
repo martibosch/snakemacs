@@ -74,6 +74,7 @@ These packages will be installed if using the `data` branch:
 * `auctex`
 * `auto-complete`
 * `ein`
+* `exec-path-from-shell`
 * `solarized-theme`
 
 ### Packages for Web Development
