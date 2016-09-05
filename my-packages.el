@@ -13,6 +13,7 @@
     better-defaults
     ein
     elpy
+    exec-path-from-shell
     flycheck
     magit
     py-autopep8

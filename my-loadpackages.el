@@ -49,12 +49,15 @@
 (add-hook 'ein:notebook-mode-hook 'define-key-request-help)
 
 ;; elpy
+;; exec-path-from-shell (must go before elpy for ipython)
+(exec-path-from-shell-copy-env "PATH")
 (elpy-enable)
 (elpy-use-ipython)
 (setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
 (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
 (pyvenv-mode 1)
+
 
 ;; flycheck
 (when (require 'flycheck nil t)
