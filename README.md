@@ -84,3 +84,30 @@ These packages will be installed if using the `web` branch:
 * `pony-mode`
 * `scss-mode`
 * `web-mode`
+
+## Other
+
+You might emacs-like browse with [Conkeror](https://github.com/retroj/conkeror). If you use Debian based systems (i.e. Ubuntu, Linux Mint...), follow these steps in order to install it:
+
+1. Check your Debian version with `cat /etc/debian_version`
+
+2. Go to [http://noone.org/conkeror-nightly-debs/], and add the two lines to `/etc/apt/sources.list` that correspond to your Debian version
+
+3. Run:
+
+```bash
+sudo apt-get update
+```
+
+and if you encounter any untrusted keys (of the form `303A7CB080379429`), add them to your `APT` key ring as in:
+
+```bash
+sudo apt-key adv --keyserver pgp.uni-mainz.de --recv-keys 303A7CB080379429
+```
+
+and you will then be ready to install Conkeror:
+
+```bash
+sudo apt-get update
+sudo apt-get install conkeror conkeror-spawn-process-helper
+```
