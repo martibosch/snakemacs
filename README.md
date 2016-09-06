@@ -93,19 +93,9 @@ You might emacs-like browse with [Conkeror](https://github.com/retroj/conkeror).
 
 2. Go to [http://noone.org/conkeror-nightly-debs/], and add the two lines to `/etc/apt/sources.list` that correspond to your Debian version
 
-3. Run:
+3. Run `sudo apt-get update` and if you encounter any untrusted keys (of the form `303A7CB080379429`), add them to your `APT` key ring as in `sudo apt-key adv --keyserver pgp.uni-mainz.de --recv-keys 303A7CB080379429`
 
-```bash
-sudo apt-get update
-```
-
-and if you encounter any untrusted keys (of the form `303A7CB080379429`), add them to your `APT` key ring as in:
-
-```bash
-sudo apt-key adv --keyserver pgp.uni-mainz.de --recv-keys 303A7CB080379429
-```
-
-and you will then be ready to install Conkeror:
+4. Now update the `APT` sources and you are ready to install Conkeror:
 
 ```bash
 sudo apt-get update
