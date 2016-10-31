@@ -17,6 +17,7 @@
     flycheck
     magit
     py-autopep8
+    rvm
     solarized-theme
     sphinx-doc
     yasnippet

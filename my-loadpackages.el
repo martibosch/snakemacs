@@ -82,6 +82,9 @@
 (require 'py-autopep8)
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
+(require 'rvm)
+(rvm-use-default)
+
 ;; sphinx
 (add-hook 'python-mode-hook (lambda ()
                               (require 'sphinx-doc)
