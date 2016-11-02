@@ -18,8 +18,10 @@
     magit
     py-autopep8
     rvm
+    scss-mode
     solarized-theme
     sphinx-doc
+    web-mode
     yasnippet
     zenburn-theme
   ) "a list of packages to ensure are installed at launch.")
