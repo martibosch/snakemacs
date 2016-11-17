@@ -90,6 +90,7 @@
 (require 'scss-mode) ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/folder-where-you-put-scss-mode-el"))
 (autoload 'scss-mode "scss-mode")
 (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(setq scss-compile-at-save nil)
 
 ;; sphinx
 (add-hook 'python-mode-hook (lambda ()
@@ -104,6 +105,12 @@
 (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(setq web-mode-engines-alist
+      '(
+        ("liquid" . "/\\(_includes|_layouts\\)/.*\\.html\\'")
+        ("django" . "/templates/.*/.*\\.html\\'")
+        )
+      )
 
 ;; yasnippet
 (require 'yasnippet)
@@ -111,3 +118,5 @@
 (yas-load-directory "~/.emacs.d/snippets")
 (add-hook 'term-mode-hook (lambda()
     (setq yas-dont-activate t)))
+(add-hook 'web-mode-hook (lambda ()
+                           (yas-activate-extra-mode 'html-mode)))
