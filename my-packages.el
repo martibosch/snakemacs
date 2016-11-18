@@ -1,6 +1,8 @@
 (require 'package)
+;; (add-to-list 'package-archives
+;;              '("stable-melpa" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://stable.melpa.org/packages/") t)
+             '("melpa" . "http://melpa.org/packages/") t) ;; for `helm-dash`
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
@@ -15,6 +17,8 @@
     elpy
     exec-path-from-shell
     flycheck
+    helm
+    helm-dash
     magit
     py-autopep8
     rvm
