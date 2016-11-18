@@ -7,34 +7,14 @@ git clone -b <branch> https://github.com/martibosch/.emacs.d/
 ```
 
 where `<branch>` might be:
-* `data` for a data analysis setup with `Jupyter` Notebooks, and using `Emacs` with the `X` window system
-* `web` for a web development setup with `Django`, and using `Emacs` in the terminal
+* `master` for a complete setup to run locally using `Emacs` with the `X` window system
+* `web` for a lighter web development setup with `Django`, to run remotely using `Emacs` in the terminal
 
 See the packages that each branch includes in the `Packages` section below.
 
 ## System Requirements
 
-This setup requires Emacs >= 24.5. If you use `APT` this version can be obtained as follows:
-
-```bash
-sudo add-apt-repository ppa:ubuntu-elisp/ppa
-sudo apt-get update
-sudo apt-get install emacs-snapshot
-```     
-
-The package `magit` requires Git >= 1.9.4. If you use `APT` this version can be obtained as follows:
-
-```bash
-sudo add-apt-repository ppa:git-core/ppa
-sudo apt-get update
-sudo apt-get install git
-```
-
-The `data` setup requires the `ipython` interpreter, which if you use `APT` can be obtained with:
-
-```bash
-sudo apt-get install ipython
-```
+This setup requires Emacs >= 24.5, and the package `magit` requires Git >= 1.9.4. The `master` setup requires the `ipython` interpreter.
 
 ### Python Package Dependencies
 
@@ -47,13 +27,13 @@ pip install jedi # for autocompletion
 
 #### Data Science Environment: Anaconda
 
-If you are using the `data` setup, and you do not have or know Anaconda, you might go to [First Step: Download Anaconda part](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) of [this blog post](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) and install it in your computer. It is an open source Python distribution that comes with most of the data science packages that you will need.
+If you are using the `master` setup, and you do not have or know Anaconda, you might go to [First Step: Download Anaconda part](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) of [this blog post](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) and install it in your computer. It is an open source Python distribution that comes with most of the data science packages that you will need.
 
 If you do install Anaconda and are working on its default `anaconda` virutal environment, you won't need to install `ipython` nor `pep8` nor `jedi`.
 
 ### Base Packages:
 
-The following packages are commonly used by all the branches of the configuration:
+The following packages are included in both branches:
 
 * `bash-completion`
 * `better-defaults`
@@ -61,29 +41,23 @@ The following packages are commonly used by all the branches of the configuratio
 * `flycheck`
 * `magit`
 * `py-autopep8`
+* `scss-mode`
 * `sphinx-doc`
 * `yasnippet`
+* `web-mode`
 * `zenburn-theme`
 
-It is useful to check that the Python libraries required for `elpy` are installed to get a better coding experience
+### Extra Packages
 
-### Packages for Data Analysis
-
-These packages will be installed if using the `data` branch:
+These packages will be installed if using the `master` branch:
 
 * `auctex`
 * `auto-complete`
 * `ein`
 * `exec-path-from-shell`
-* `solarized-theme`
-
-### Packages for Web Development
-
-These packages will be installed if using the `web` branch:
-
-* `pony-mode`
-* `scss-mode`
-* `web-mode`
+* `helm`
+* `helm-dash`
+* `solarized-theme` 
 
 ## Other
 
