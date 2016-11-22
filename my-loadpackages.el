@@ -99,8 +99,8 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (setq web-mode-engines-alist
       '(
-        ("liquid" . "/\\(_includes|_layouts\\)/.*\\.html\\'")
-        ("django" . "/templates/.*/.*\\.html\\'")
+        ("liquid" . "/\\(_includes\\|_layouts\\)/\\(.*/\\)*.*\\.html\\'")
+        ("django" . "/templates/\\(.*/\\)*.*\\.html\\'")
         )
       )
 
