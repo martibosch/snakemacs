@@ -11,7 +11,6 @@
   '(
     auctex
     auto-complete
-    bash-completion
     better-defaults
     ein
     elpy
@@ -21,6 +20,7 @@
     helm-dash
     magit
     py-autopep8
+    readline-complete
     rvm
     scss-mode
     solarized-theme
