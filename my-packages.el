@@ -16,8 +16,6 @@
     elpy
     exec-path-from-shell
     flycheck
-    helm
-    helm-dash
     magit
     py-autopep8
     readline-complete

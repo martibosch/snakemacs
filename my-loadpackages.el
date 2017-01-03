@@ -24,6 +24,15 @@
 (ad-activate 'auto-complete-mode) ;; disable auto-complete for python-mode (since using elpy)
 
 
+;; autopep8
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
+
+;; better-defaults
+(require 'better-defaults)
+
+
 ;; emacs ipython notebook
 (require 'ein)
 (setq ein:use-auto-complete t)
@@ -51,8 +60,8 @@
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 
-;; helm
-(require 'helm-config)
+;; ;; helm
+;; (require 'helm-config)
 
 
 ;; magit
@@ -69,11 +78,6 @@
             (auto-fill-mode 1)
             (if (eq window-system 'x)
                 (font-lock-mode 1))))
-
-
-;; autopep8
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 
 
 ;; readline-complete
