@@ -41,6 +41,7 @@ The following packages are included in both branches:
 * `flycheck`
 * `magit`
 * `py-autopep8`
+* `readline-complete`
 * `scss-mode`
 * `sphinx-doc`
 * `yasnippet`
@@ -54,10 +55,7 @@ These packages will be installed if using the `master` branch:
 * `auctex`
 * `auto-complete`
 * `ein`
-* `exec-path-from-shell`
-* `helm`
-* `helm-dash`
-* `solarized-theme` 
+* `solarized-theme`
 
 ## Other
 
