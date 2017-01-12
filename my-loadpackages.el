@@ -24,11 +24,6 @@
 (ad-activate 'auto-complete-mode) ;; disable auto-complete for python-mode (since using elpy)
 
 
-;; autopep8
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-
-
 ;; better-defaults
 (require 'better-defaults)
 
@@ -43,9 +38,9 @@
 (add-hook 'ein:notebook-mode-hook 'define-key-request-help)
 
 
-;; elpy
-;; exec-path-from-shell (must go before elpy for ipython)
-(exec-path-from-shell-copy-env "PATH")
+;; { begin elpy }
+(exec-path-from-shell-copy-env "PATH") ;; exec-path-from-shell (must go before elpy for ipython)
+(setq elpy-remove-modeline-lighter nil) ;; do not hide modeline, call before elpy-enable
 (elpy-enable)
 (elpy-use-ipython)
 (setq elpy-rpc-backend "jedi")
@@ -53,15 +48,16 @@
 (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
 (pyvenv-mode 1)
 
+;; autopep8
+(require 'py-autopep8)
+(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
+
 
 ;; flycheck
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-
-;; ;; helm
-;; (require 'helm-config)
+;; { end elpy }
 
 
 ;; magit
