@@ -5,6 +5,8 @@
              '("melpa" . "http://melpa.org/packages/") t) ;; for `helm-dash`
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives
+             '("elpy" . "http://jorgenschaefer.github.io/packages/"))
 (package-initialize)
 
 (defvar required-packages
