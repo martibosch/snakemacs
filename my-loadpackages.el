@@ -13,19 +13,12 @@
 (setq reftex-plug-into-AUCTeX t) ;; Activate nice interface between RefTeX and AUCTeX
 
 
-;; auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-(setq ac-auto-start 1)
-(define-key ac-complete-mode-map "\t" 'ac-complete)
-(define-key ac-complete-mode-map "\r" nil)
-(defadvice auto-complete-mode (around disable-auto-complete-for-python)
-  (unless (eq major-mode 'python-mode) ad-do-it))
-(ad-activate 'auto-complete-mode) ;; disable auto-complete for python-mode (since using elpy)
-
-
 ;; better-defaults
 (require 'better-defaults)
+
+
+;; company
+(add-hook 'after-init-hook 'global-company-mode)
 
 
 ;; emacs ipython notebook
@@ -81,8 +74,8 @@
 (setq explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
 (setq comint-process-echoes t)
 (require 'readline-complete)
-(add-to-list 'ac-modes 'shell-mode)
-(add-hook 'shell-mode-hook 'ac-rlc-setup-sources)
+(push 'company-readline company-backends)
+(add-hook 'rlc-no-readline-hook (lambda () (company-mode -1)))
 
 
 ;; rvm
