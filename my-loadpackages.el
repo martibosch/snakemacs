@@ -38,7 +38,18 @@
 (when (executable-find "ipython")
   (setenv "IPY_TEST_SIMPLE_PROMPT" "1")
   (elpy-use-ipython))
-(setq safe-local-variable-values '(python-shell-interpreter-args . "-i manage.py shell")) ;; to run django-shells
+(setq safe-local-variable-values '((python-shell-interpreter-args . "-i manage.py shell"))) ;; to run django-shells
+;; ACHTUNG: just related to a bug in emacs 25.1.x, so this way warning is ignored
+;; (setq python-shell-prompt-detect-failure-warning nil)
+(defun python-shell-completion-native-try ()
+  "Return non-nil if can trigger native completion."
+  (with-eval-after-load 'python
+    '(let ((python-shell-completion-native-enable t)
+           (python-shell-completion-native-output-timeout python-shell-completion-native-try-output-timeout))
+       (python-shell-completion-native-get-completions
+        (get-buffer-process (current-buffer))
+        nil "_")))
+  )
 (setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
 (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
