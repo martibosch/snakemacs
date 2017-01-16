@@ -38,6 +38,7 @@
 (when (executable-find "ipython")
   (setenv "IPY_TEST_SIMPLE_PROMPT" "1")
   (elpy-use-ipython))
+(setq safe-local-variable-values '(python-shell-interpreter-args . "-i manage.py shell")) ;; to run django-shells
 (setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
 (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
