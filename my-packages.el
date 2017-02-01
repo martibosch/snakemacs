@@ -1,8 +1,8 @@
 (require 'package)
-;; (add-to-list 'package-archives
-;;              '("stable-melpa" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t) ;; for `helm-dash`
+             '("stable-melpa" . "http://stable.melpa.org/packages/") t)
+;; (add-to-list 'package-archives
+;;              '("melpa" . "http://melpa.org/packages/") t) ;; for `helm-dash`
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
@@ -12,6 +12,7 @@
 (defvar required-packages
   '(
     auctex
+    auto-complete
     better-defaults
     ein
     elpy

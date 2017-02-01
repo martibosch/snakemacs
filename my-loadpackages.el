@@ -3,6 +3,14 @@
 (load "~/.emacs.d/my-packages.el")
 
 
+;; auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
+;; (setq ac-auto-start 1) do not enable ac, we are using company-mode!
+(define-key ac-complete-mode-map "\t" 'ac-complete)
+(define-key ac-complete-mode-map "\r" nil)
+
+
 ;; auctex
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -18,12 +26,14 @@
 
 
 ;; company
+(setq company-global-modes '(not ein:notebook-multilang-mode)) ;; disable company for ein, use auto-complete there (it sucks, see https://github.com/millejoh/emacs-ipython-notebook/issues/157 to try to come up with a hack)
 (add-hook 'after-init-hook 'global-company-mode)
 
 
 ;; emacs ipython notebook
 (require 'ein)
 (setq ein:use-auto-complete t)
+(setq ac-modes '(ein:notebook-multilang-mode)) ;; use auto-complete ONLY for ein
 (defun define-key-request-help ()
   (interactive)
   (define-key ein:notebook-mode-map (kbd "C-c C-f") 'ein:pytools-request-help)
