@@ -36,10 +36,9 @@
 (setq ac-modes '(ein:notebook-multilang-mode)) ;; use auto-complete ONLY for ein
 (defun define-key-request-help ()
   (interactive)
-  (define-key ein:notebook-mode-map (kbd "C-c C-f") 'ein:pytools-request-help)
   (define-key ein:notebook-multilang-mode-map (kbd "C-c C-f") 'ein:pytools-request-help))
+;;  (define-key ein:notebook-mode-map (kbd "C-c C-f") 'ein:pytools-request-help)
 (add-hook 'ein:notebook-mode-hook 'define-key-request-help)
-
 
 ;; { begin elpy }
 (exec-path-from-shell-copy-env "PATH") ;; exec-path-from-shell (must go before elpy for ipython)
