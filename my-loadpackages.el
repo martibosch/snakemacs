@@ -42,6 +42,7 @@
 
 ;; { begin elpy }
 (exec-path-from-shell-copy-env "PATH") ;; exec-path-from-shell (must go before elpy for ipython)
+(exec-path-from-shell-copy-env "WORKON_HOME")
 (setq elpy-remove-modeline-lighter nil) ;; do not hide modeline, call before elpy-enable
 (elpy-enable)
 (when (executable-find "ipython")
@@ -61,7 +62,7 @@
   )
 (setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
-(setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
+;; (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
 (pyvenv-mode 1)
 
 ;; autopep8
