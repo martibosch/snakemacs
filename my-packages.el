@@ -12,6 +12,7 @@
 (defvar required-packages
   '(
     auctex
+    auctex-latexmk
     auto-complete
     better-defaults
     ein

@@ -19,6 +19,8 @@
                            (add-to-list 'TeX-command-list '("View" "(lambda () (let ((f \"%o\")) (find-file-other-window f) (doc-view-mode)))" TeX-run-function nil t))))
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex) ;; Turn on RefTeX in AUCTeX
 (setq reftex-plug-into-AUCTeX t) ;; Activate nice interface between RefTeX and AUCTeX
+(require 'auctex-latexmk)
+(auctex-latexmk-setup)
 
 
 ;; better-defaults
