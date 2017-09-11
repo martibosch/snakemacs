@@ -84,6 +84,10 @@
 (define-key global-map (kbd "C-x g") 'magit-status)
 
 
+;; markdown
+(setq markdown-command "pandoc --css ~/.emacs.d/pandoc-gfm.css --from markdown_github -t html5 --mathjax --highlight-style pygments --standalone")
+
+
 ;; octave
 (setq auto-mode-alist
       (cons '("\\.m$" . octave-mode) auto-mode-alist))

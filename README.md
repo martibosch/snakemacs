@@ -28,6 +28,12 @@ pip install jedi flake8 importmagic autopep8 yapf
 
 To manage Python packages I strongly suggest that you use virtual environments with Anaconda. If you do not have or know Anaconda, you might go to [First Step: Download Anaconda part](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) of [this blog post](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) and install it in your computer. It is an open source Python distribution that comes with most of the data science packages that you will need.
 
+In order to be able to preview Markdown documents this setup uses the `pandoc` converter, which can be installed as:
+
+```bash
+pip install pandoc
+```
+
 
 ### Emacs Packages:
 
@@ -41,6 +47,7 @@ The following packages will be automatically installed by the emacs package mana
 * `exec-path-from-shell`
 * `flycheck`
 * `magit`
+* `markdown-mode`
 * `py-autopep8`
 * `readline-complete`
 * `rvm`
