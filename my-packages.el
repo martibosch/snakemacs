@@ -15,10 +15,12 @@
     auctex-latexmk
     auto-complete
     better-defaults
+    cython-mode
     ein
     elpy
     exec-path-from-shell
     flycheck
+    flycheck-cython
     magit
     markdown-mode
     py-autopep8
