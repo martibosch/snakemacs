@@ -21,7 +21,7 @@
     flycheck
     magit
     markdown-mode
-    py-autopep8
+    py-yapf
     readline-complete
     rvm
     scss-mode

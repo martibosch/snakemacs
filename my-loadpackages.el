@@ -67,10 +67,9 @@
 ;; (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
 (pyvenv-mode 1)
 
-;; autopep8
-(require 'py-autopep8)
-(add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
-
+;; yapf
+(require 'py-yapf)
+(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
 
 ;; flycheck
 (when (require 'flycheck nil t)
