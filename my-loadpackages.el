@@ -68,8 +68,7 @@
 (pyvenv-mode 1)
 
 ;; yapf
-(require 'py-yapf)
-(add-hook 'python-mode-hook 'py-yapf-enable-on-save)
+(add-hook 'python-mode-hook 'yapf-mode)
 
 ;; flycheck
 (when (require 'flycheck nil t)

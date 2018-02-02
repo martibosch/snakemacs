@@ -23,13 +23,13 @@
     flycheck-cython
     magit
     markdown-mode
-    py-yapf
     readline-complete
     rvm
     scss-mode
     solarized-theme
     sphinx-doc
     web-mode
+    yapfify
     yasnippet
     zenburn-theme
   ) "a list of packages to ensure are installed at launch.")
