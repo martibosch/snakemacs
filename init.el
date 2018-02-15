@@ -27,8 +27,3 @@
 (require 'linum-off)
 
 (put 'downcase-region 'disabled nil)
-
-;; conkeror
-(if (executable-find "conkeror")
-    (progn (setq browse-url-generic-program (executable-find "conkeror"))
-           (setq browse-url-browser-function 'browse-url-generic)))
