@@ -47,9 +47,12 @@
 (exec-path-from-shell-copy-env "WORKON_HOME")
 (setq elpy-remove-modeline-lighter nil) ;; do not hide modeline, call before elpy-enable
 (elpy-enable)
-(when (executable-find "ipython")
-  (setenv "IPY_TEST_SIMPLE_PROMPT" "1")
-  (elpy-use-ipython))
+(when (executable-find "jupyter")
+  (setq python-shell-interpreter "jupyter"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+(add-to-list 'python-shell-completion-native-disabled-interpreters
+             "jupyter"))
 (setq safe-local-variable-values '((python-shell-interpreter-args . "-i manage.py shell"))) ;; to run django-shells
 ;; ACHTUNG: just related to a bug in emacs 25.1.x, so this way warning is ignored
 ;; (setq python-shell-prompt-detect-failure-warning nil)
