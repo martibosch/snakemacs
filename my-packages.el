@@ -23,6 +23,7 @@
     flycheck-cython
     magit
     markdown-mode
+    meghanada
     readline-complete
     rvm
     scss-mode
