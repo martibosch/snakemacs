@@ -23,6 +23,11 @@
 (auctex-latexmk-setup)
 
 
+;; bash-completion
+(require 'bash-completion)
+(bash-completion-setup)
+
+
 ;; better-defaults
 (require 'better-defaults)
 
@@ -116,15 +121,6 @@
             (auto-fill-mode 1)
             (if (eq window-system 'x)
                 (font-lock-mode 1))))
-
-
-;; readline-complete
-(setq explicit-shell-file-name "bash")
-(setq explicit-bash-args '("-c" "export EMACS=; stty echo; bash"))
-(setq comint-process-echoes t)
-(require 'readline-complete)
-(push 'company-readline company-backends)
-(add-hook 'rlc-no-readline-hook (lambda () (company-mode -1)))
 
 
 ;; rvm

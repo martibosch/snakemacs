@@ -2,7 +2,7 @@
 (add-to-list 'package-archives
              '("stable-melpa" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t) ;; for `readline-complete`
+             '("melpa" . "http://melpa.org/packages/") t) ;; for `flycheck-cython`
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives
@@ -14,6 +14,7 @@
     auctex
     auctex-latexmk
     auto-complete
+    bash-completion
     better-defaults
     cython-mode
     ein
@@ -24,7 +25,6 @@
     magit
     markdown-mode
     meghanada
-    readline-complete
     rvm
     scss-mode
     solarized-theme
