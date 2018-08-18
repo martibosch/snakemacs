@@ -32,6 +32,7 @@
     web-mode
     yapfify
     yasnippet
+    yasnippet-snippets
     zenburn-theme
   ) "a list of packages to ensure are installed at launch.")
 
