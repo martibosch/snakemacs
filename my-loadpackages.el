@@ -128,6 +128,10 @@
 (rvm-use-default)
 
 
+;; sass
+(require 'sass-mode)
+
+
 ;; scss
 (require 'scss-mode) ;; (add-to-list 'load-path (expand-file-name "~/.emacs.d/folder-where-you-put-scss-mode-el"))
 (autoload 'scss-mode "scss-mode")

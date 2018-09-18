@@ -26,6 +26,7 @@
     markdown-mode
     meghanada
     rvm
+    sass-mode
     scss-mode
     solarized-theme
     sphinx-doc
