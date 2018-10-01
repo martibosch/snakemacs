@@ -1,7 +1,4 @@
-; my-loadpackages.el
-; loading package
-(load "~/.emacs.d/my-packages.el")
-
+; conf-packages.el
 
 ;; auto-complete
 (require 'auto-complete-config)

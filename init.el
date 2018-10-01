@@ -5,9 +5,13 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
-(load "~/.emacs.d/my-loadpackages.el")
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+
+(load "~/.emacs.d/conf-packages.el")
+
 (add-hook 'after-init-hook '(lambda ()
-			      (load "~/.emacs.d/my-noexternals.el")))
+			      (load "~/.emacs.d/noexternals.el")))
 
 ;; BASIC CUSTOMIZATION
 (add-to-list 'load-path "~/.emacs.d/custom") ;; custom scripts path

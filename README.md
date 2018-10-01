@@ -1,22 +1,27 @@
 # .emacs.d
 
-emacs25 setup for Python. Use: 
-
-```
-git clone https://github.com/martibosch/.emacs.d/
-```
+emacs25 setup for Python.
 
 ## System Requirements
 
-This setup requires Emacs >= 25.1.2. If you use `aptitude`, you might install an appropriate version as in:
+This setup requires emacs >= 25.1.2. The interactive emacs Python shell will use the `ipython` interpreter if you have it installed, otherwise it will use default python interpreter.
+
+The emacs packages are managed through [Cask](http://cask.readthedocs.io/). Follow their instruction to install it in your system.
+
+## Installation
+
+Navigate to your home folder and clone the repo:
 
 ```bash
-sudo add-apt-repository ppa:kelleyk/emacs
-sudo apt-get update
-sudo apt-get install emacs25
+cd ~
+git clone https://github.com/martibosch/.emacs.d/
 ```
 
-The interactive emacs Python shell will use the `ipython` interpreter if you have it installed, otherwise it will use default python interpreter.
+Then install the emacs packages via Cask
+
+```bash
+cask install
+```
 
 ### Python Package Dependencies
 
@@ -34,26 +39,6 @@ In order to be able to preview Markdown documents this setup uses the `pandoc` c
 pip install pandoc
 ```
 
-
 ### Emacs Packages:
 
-The following packages will be automatically installed by the emacs package manager:
-
-* `auctex`
-* `auto-complete`
-* `better-defaults`
-* `ein`
-* `elpy`
-* `exec-path-from-shell`
-* `flycheck`
-* `magit`
-* `markdown-mode`
-* `py-autopep8`
-* `readline-complete`
-* `rvm`
-* `scss-mode`
-* `solarized-theme`
-* `sphinx-doc`
-* `web-mode`
-* `yasnippet`
-* `zenburn-theme`
+Check the `Cask` file of this repo to see the packages that are used within this configuration.
