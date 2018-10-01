@@ -29,6 +29,22 @@
 (require 'better-defaults)
 
 
+;; { begin cmake-ide }
+(cmake-ide-setup)
+(setq cmake-ide-flycheck-enabled nil)
+
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+(add-hook 'irony-mode-hook #'irony-eldoc)
+;; { end cmake-ide }
+
+
 ;; company
 (setq company-global-modes '(not ein:notebook-multilang-mode)) ;; disable company for ein, use auto-complete there (it sucks, see https://github.com/millejoh/emacs-ipython-notebook/issues/157 to try to come up with a hack)
 (add-hook 'after-init-hook 'global-company-mode)
@@ -79,8 +95,8 @@
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'after-init-hook #'global-flycheck-mode)
 ;; { end elpy }
-
 
 ;; magit
 (require 'magit)

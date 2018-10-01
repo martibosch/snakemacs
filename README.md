@@ -1,12 +1,12 @@
 # .emacs.d
 
-emacs25 setup for Python.
+emacs25 setup for data-centric Python, web development and C/C++ for CMake projects
 
 ## System Requirements
 
 This setup requires emacs >= 25.1.2. The interactive emacs Python shell will use the `ipython` interpreter if you have it installed, otherwise it will use default python interpreter.
 
-The emacs packages are managed through [Cask](http://cask.readthedocs.io/). Follow their instruction to install it in your system.
+The emacs packages are managed through [Cask](http://cask.readthedocs.io/). Follow their instructions to install it in your system.
 
 ## Installation
 
@@ -21,6 +21,16 @@ Then install the emacs packages via Cask
 
 ```bash
 cask install
+```
+
+You might check the `Cask` file of this repo to see the packages that are used within this configuration.
+
+### Irony server
+
+In order to provide C/C++ autocompletion, syntax checking and function documentation, `irony-server` must be installed within emacs as:
+
+```
+M-x irony-install-server RET
 ```
 
 ### Python Package Dependencies
@@ -38,7 +48,3 @@ In order to be able to preview Markdown documents this setup uses the `pandoc` c
 ```bash
 pip install pandoc
 ```
-
-### Emacs Packages:
-
-Check the `Cask` file of this repo to see the packages that are used within this configuration.
