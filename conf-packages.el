@@ -104,8 +104,16 @@
 
 
 ;; markdown
-(setq markdown-command "pandoc --css ~/.emacs.d/pandoc-gfm.css --from markdown_github -t html5 --mathjax --highlight-style pygments --standalone")
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(autoload 'gfm-mode "markdown-mode"
+   "Major mode for editing GitHub Flavored Markdown files" t)
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+;; note that `markdown_github` is deprecated and should be replaced by `gfm` in pandoc 2.0
+(setq markdown-command "pandoc --css ~/.emacs.d/pandoc-gfm.css -f markdown_github -t html5 --mathjax --highlight-style pygments --standalone")
 
 ;; meghanada
 (require 'meghanada)
