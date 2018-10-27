@@ -32,16 +32,31 @@
 ;; { begin cmake-ide }
 (cmake-ide-setup)
 (setq cmake-ide-flycheck-enabled nil)
+(setq c-mode-hooks '(c++-mode-hook c-mode-hook objc-mode-hook))
 
-(add-hook 'c++-mode-hook 'irony-mode)
-(add-hook 'c-mode-hook 'irony-mode)
-(add-hook 'objc-mode-hook 'irony-mode)
+(dolist (hook c-mode-hooks)
+  (add-hook hook 'irony-mode))
 
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 (add-hook 'irony-mode-hook #'irony-eldoc)
+
+;; clang-format
+(require 'clang-format)
+(dolist (hook c-mode-hooks)
+  (add-hook hook
+            (lambda ()
+              (local-set-key (kbd "C-c i") 'clang-format-region)
+              (local-set-key (kbd "C-c u") 'clang-format-buffer))))
+
+(setq clang-format-style-option "llvm")
+(defun clang-format-before-save ()
+  "Apply clang-format to any c- buffer before saving."
+  (interactive)
+  (when (member major-mode '(c++-mode c-mode objc-mode)) (clang-format-buffer)))
+(add-hook 'before-save-hook #'clang-format-before-save)
 ;; { end cmake-ide }
 
 

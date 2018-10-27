@@ -25,7 +25,13 @@ cask install
 
 You might check the `Cask` file of this repo to see the packages that are used within this configuration.
 
-### Irony server
+### Complements for C modes
+
+The `clang-format` emacs package for automated C/C++ style formatting requires `clang-format` to be installed within your system. This can be done via `npm` as in:
+
+``` bash
+npm install -g clang-format  # also `sudo apt install clang-format` in Ubuntu
+```
 
 In order to provide C/C++ autocompletion, syntax checking and function documentation, `irony-server` must be installed within emacs as:
 

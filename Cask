@@ -8,6 +8,7 @@
 (depends-on "auto-complete")
 (depends-on "bash-completion")
 (depends-on "better-defaults")
+(depends-on "clang-format")
 (depends-on "cmake-ide")
 (depends-on "company")
 (depends-on "company-irony")
