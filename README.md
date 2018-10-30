@@ -1,6 +1,6 @@
 # .emacs.d
 
-emacs25 setup for data-centric Python, web development and C/C++ for CMake projects
+emacs25 setup for data-centric Python, C/C++ for CMake projects, web development, LaTeX and Markdown
 
 ## System Requirements
 

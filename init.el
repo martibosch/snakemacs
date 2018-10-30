@@ -1,3 +1,6 @@
+;;; .emacs.d --- emacs25 setup for Python, C/C++, Web, Latex...
+;;; Commentary:
+;;; author: Martí Bosch <marti.bosch.1992@gmail.com>
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -10,8 +13,8 @@
 
 (load "~/.emacs.d/conf-packages.el")
 
-(add-hook 'after-init-hook '(lambda ()
-			      (load "~/.emacs.d/noexternals.el")))
+(add-hook 'after-init-hook '(lambda () 
+                              (load "~/.emacs.d/noexternals.el")))
 
 ;; BASIC CUSTOMIZATION
 (add-to-list 'load-path "~/.emacs.d/custom") ;; custom scripts path
@@ -19,11 +22,11 @@
 (load-theme 'zenburn t)
 
 ;; SCROLLING IN TERM
-(if (eq window-system nil)
-    (let ((map (make-sparse-keymap)))
-      (define-key input-decode-map "\e[1;5A" [C-up])
-      (define-key input-decode-map "\e[1;5B" [C-down])
-      (define-key input-decode-map "\e[1;5C" [C-right])
+(if (eq window-system nil) 
+    (let ((map (make-sparse-keymap))) 
+      (define-key input-decode-map "\e[1;5A" [C-up]) 
+      (define-key input-decode-map "\e[1;5B" [C-down]) 
+      (define-key input-decode-map "\e[1;5C" [C-right]) 
       (define-key input-decode-map "\e[1;5D" [C-left])))
 
 ;; LINUM

@@ -1,4 +1,6 @@
-; conf-packages.el
+;;; conf-packages.el --- configuration of packages
+;;; Commentary:
+;;; author: Martí Bosch <marti.bosch.1992@gmail.com>
 
 ;; auto-complete
 (require 'auto-complete-config)
@@ -12,8 +14,10 @@
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq TeX-save-query nil)
-(add-hook 'TeX-mode-hook (lambda()
-                           (add-to-list 'TeX-command-list '("View" "(lambda () (let ((f \"%o\")) (find-file-other-window f) (doc-view-mode)))" TeX-run-function nil t))))
+(add-hook 'TeX-mode-hook (lambda() 
+                           (add-to-list 'TeX-command-list '("View"
+                                                            "(lambda () (let ((f \"%o\")) (find-file-other-window f) (doc-view-mode)))"
+                                                            TeX-run-function nil t))))
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex) ;; Turn on RefTeX in AUCTeX
 (setq reftex-plug-into-AUCTeX t) ;; Activate nice interface between RefTeX and AUCTeX
 (require 'auctex-latexmk)
@@ -34,28 +38,27 @@
 (setq cmake-ide-flycheck-enabled nil)
 (setq c-mode-hooks '(c++-mode-hook c-mode-hook objc-mode-hook))
 
-(dolist (hook c-mode-hooks)
+(dolist (hook c-mode-hooks) 
   (add-hook hook 'irony-mode))
 
 (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+(eval-after-load 'flycheck '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 (add-hook 'irony-mode-hook #'irony-eldoc)
 
 ;; clang-format
 (require 'clang-format)
-(dolist (hook c-mode-hooks)
-  (add-hook hook
-            (lambda ()
-              (local-set-key (kbd "C-c i") 'clang-format-region)
-              (local-set-key (kbd "C-c u") 'clang-format-buffer))))
+(dolist (hook c-mode-hooks) 
+  (add-hook hook (lambda () 
+                   (local-set-key (kbd "C-c i") 'clang-format-region) 
+                   (local-set-key (kbd "C-c u") 'clang-format-buffer))))
 
 (setq clang-format-style-option "llvm")
-(defun clang-format-before-save ()
-  "Apply clang-format to any c- buffer before saving."
-  (interactive)
-  (when (member major-mode '(c++-mode c-mode objc-mode)) (clang-format-buffer)))
+(defun clang-format-before-save () 
+  "Apply clang-format to any c- buffer before saving." 
+  (interactive) 
+  (when (member major-mode '(c++-mode c-mode objc-mode)) 
+    (clang-format-buffer)))
 (add-hook 'before-save-hook #'clang-format-before-save)
 ;; { end cmake-ide }
 
@@ -65,12 +68,23 @@
 (add-hook 'after-init-hook 'global-company-mode)
 
 
+;; elisp-format
+(require 'elisp-format)
+(defun elisp-format-before-save () 
+  "Apply elisp-format to any elisp-buffer before saving." 
+  (interactive) 
+  (when (eq major-mode 'emacs-lisp-mode) 
+    (elisp-format-buffer)))
+(add-hook 'before-save-hook #'elisp-format-before-save)
+
+
+
 ;; emacs ipython notebook
 (require 'ein)
 (setq ein:use-auto-complete t)
 (setq ac-modes '(ein:notebook-multilang-mode)) ;; use auto-complete ONLY for ein
-(defun define-key-request-help ()
-  (interactive)
+(defun define-key-request-help () 
+  (interactive) 
   (define-key ein:notebook-multilang-mode-map (kbd "C-c C-f") 'ein:pytools-request-help))
 ;;  (define-key ein:notebook-mode-map (kbd "C-c C-f") 'ein:pytools-request-help)
 (add-hook 'ein:notebook-mode-hook 'define-key-request-help)
@@ -80,24 +94,20 @@
 (exec-path-from-shell-copy-env "WORKON_HOME")
 (setq elpy-remove-modeline-lighter nil) ;; do not hide modeline, call before elpy-enable
 (elpy-enable)
-(when (executable-find "jupyter")
-  (setq python-shell-interpreter "jupyter"
-      python-shell-interpreter-args "console --simple-prompt"
-      python-shell-prompt-detect-failure-warning nil)
-(add-to-list 'python-shell-completion-native-disabled-interpreters
-             "jupyter"))
+(when (executable-find "jupyter") 
+  (setq python-shell-interpreter "jupyter" python-shell-interpreter-args "console --simple-prompt"
+        python-shell-prompt-detect-failure-warning nil) 
+  (add-to-list 'python-shell-completion-native-disabled-interpreters "jupyter"))
 (setq safe-local-variable-values '((python-shell-interpreter-args . "-i manage.py shell"))) ;; to run django-shells
 ;; ACHTUNG: just related to a bug in emacs 25.1.x, so this way warning is ignored
 ;; (setq python-shell-prompt-detect-failure-warning nil)
-(defun python-shell-completion-native-try ()
+(defun python-shell-completion-native-try () 
   "Return non-nil if can trigger native completion."
-  (with-eval-after-load 'python
-    '(let ((python-shell-completion-native-enable t)
-           (python-shell-completion-native-output-timeout python-shell-completion-native-try-output-timeout))
-       (python-shell-completion-native-get-completions
-        (get-buffer-process (current-buffer))
-        nil "_")))
-  )
+  (with-eval-after-load 'python '(let ((python-shell-completion-native-enable t) 
+                                       (python-shell-completion-native-output-timeout
+                                        python-shell-completion-native-try-output-timeout)) 
+                                   (python-shell-completion-native-get-completions
+                                    (get-buffer-process (current-buffer)) nil "_"))))
 (setq elpy-rpc-backend "jedi")
 (define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
 ;; (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
@@ -107,8 +117,9 @@
 (add-hook 'python-mode-hook 'yapf-mode)
 
 ;; flycheck
-(when (require 'flycheck nil t)
-  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+(when 
+    (require 'flycheck nil t) 
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)) 
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 (add-hook 'after-init-hook #'global-flycheck-mode)
 ;; { end elpy }
@@ -119,44 +130,39 @@
 
 
 ;; markdown
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
+(autoload 'markdown-mode "markdown-mode" "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
-(autoload 'gfm-mode "markdown-mode"
-   "Major mode for editing GitHub Flavored Markdown files" t)
+(autoload 'gfm-mode "markdown-mode" "Major mode for editing GitHub Flavored Markdown files" t)
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 ;; note that `markdown_github` is deprecated and should be replaced by `gfm` in pandoc 2.0
-(setq markdown-command "pandoc --css ~/.emacs.d/pandoc-gfm.css -f markdown_github -t html5 --mathjax --highlight-style pygments --standalone")
+(setq markdown-command
+      "pandoc --css ~/.emacs.d/pandoc-gfm.css -f markdown_github -t html5 --mathjax --highlight-style pygments --standalone")
 
 ;; meghanada
 (require 'meghanada)
-(add-hook 'java-mode-hook
-          (lambda ()
-            ;; meghanada-mode on
-            (meghanada-mode t)
-            (flycheck-mode +1)
-            (setq c-basic-offset 2)
-            ;; use code format
-            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
-(cond
-   ((eq system-type 'windows-nt)
-    (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-    (setq meghanada-maven-path "mvn.cmd"))
-   (t
-    (setq meghanada-java-path "java")
-    (setq meghanada-maven-path "mvn")))
+(add-hook 'java-mode-hook (lambda ()
+                            ;; meghanada-mode on
+                            (meghanada-mode t) 
+                            (flycheck-mode +1) 
+                            (setq c-basic-offset 2)
+                            ;; use code format
+                            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+(cond ((eq system-type 'windows-nt) 
+       (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME"))) 
+       (setq meghanada-maven-path "mvn.cmd")) 
+      (t 
+       (setq meghanada-java-path "java") 
+       (setq meghanada-maven-path "mvn")))
 
 ;; octave
-(setq auto-mode-alist
-      (cons '("\\.m$" . octave-mode) auto-mode-alist))
-(add-hook 'octave-mode-hook
-          (lambda ()
-            (abbrev-mode 1)
-            (auto-fill-mode 1)
-            (if (eq window-system 'x)
-                (font-lock-mode 1))))
+(setq auto-mode-alist (cons '("\\.m$" . octave-mode) auto-mode-alist))
+(add-hook 'octave-mode-hook (lambda () 
+                              (abbrev-mode 1) 
+                              (auto-fill-mode 1) 
+                              (if (eq window-system 'x) 
+                                  (font-lock-mode 1))))
 
 
 ;; rvm
@@ -176,8 +182,8 @@
 
 
 ;; sphinx
-(add-hook 'python-mode-hook (lambda ()
-                              (require 'sphinx-doc)
+(add-hook 'python-mode-hook (lambda () 
+                              (require 'sphinx-doc) 
                               (sphinx-doc-mode t)))
 
 
@@ -190,18 +196,15 @@
 (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(setq web-mode-engines-alist
-      '(
-        ("django" . "\\(/templates/\\(.*/\\)*.*\\.html\\'\\|/\\(_includes\\|_layouts\\)/\\(.*/\\)*.*\\.html\\'\\)")
-        )
-      )
+(setq web-mode-engines-alist '(("django" .
+                                "\\(/templates/\\(.*/\\)*.*\\.html\\'\\|/\\(_includes\\|_layouts\\)/\\(.*/\\)*.*\\.html\\'\\)")))
 
 
 ;; yasnippet
 (require 'yasnippet)
 (yas-global-mode 1)
 (yas-load-directory "~/.emacs.d/snippets")
-(add-hook 'term-mode-hook (lambda()
-    (setq yas-dont-activate t)))
-(add-hook 'web-mode-hook (lambda ()
+(add-hook 'term-mode-hook (lambda() 
+                            (setq yas-dont-activate t)))
+(add-hook 'web-mode-hook (lambda () 
                            (yas-activate-extra-mode 'html-mode)))

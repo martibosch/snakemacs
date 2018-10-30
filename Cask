@@ -14,6 +14,7 @@
 (depends-on "company-irony")
 (depends-on "cython-mode")
 (depends-on "ein")
+(depends-on "elisp-format")
 (depends-on "elpy")
 (depends-on "exec-path-from-shell")
 (depends-on "flycheck")
