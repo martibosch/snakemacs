@@ -64,9 +64,8 @@
 
 ;; emacs ipython notebook
 (require 'ein)
-(setq ein:use-auto-complete t)
-(setq ac-modes '(ein:notebook-multilang-mode)) ;; use auto-complete ONLY for ein
-(setq company-global-modes '(not ein:notebook-multilang-mode)) ;; disable company for ein, use auto-complete there (it sucks, see https://github.com/millejoh/emacs-ipython-notebook/issues/157 to try to come up with a hack)
+(setq ein:use-company-backend t)
+(setq ein:use-company-jedi-backends t)
 (defun define-key-request-help () 
   (interactive) 
   (define-key ein:notebook-multilang-mode-map (kbd "C-c C-f") 'ein:pytools-request-help))
