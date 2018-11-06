@@ -68,8 +68,7 @@
 (setq ein:use-company-jedi-backends t)
 (defun define-key-request-help () 
   (interactive) 
-  (define-key ein:notebook-multilang-mode-map (kbd "C-c C-f") 'ein:pytools-request-help))
-;;  (define-key ein:notebook-mode-map (kbd "C-c C-f") 'ein:pytools-request-help)
+  (define-key ein:notebook-multilang-mode-map (kbd "C-c C-h") 'ein:pytools-request-help))
 (add-hook 'ein:notebook-mode-hook 'define-key-request-help)
 
 ;; { begin elpy }
@@ -92,7 +91,7 @@
                                    (python-shell-completion-native-get-completions
                                     (get-buffer-process (current-buffer)) nil "_"))))
 (setq elpy-rpc-backend "jedi")
-(define-key elpy-mode-map (kbd "C-c C-f") 'elpy-doc)
+(define-key elpy-mode-map (kbd "C-c C-h") 'elpy-doc)
 ;; (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
 (pyvenv-mode 1)
 ;; { end elpy }
