@@ -23,6 +23,7 @@
 (depends-on "ein")
 (depends-on "elpy")
 (depends-on "flycheck-cython")
+(depends-on "py-isort")
 (depends-on "sphinx-doc")
 (depends-on "yapfify")
 
