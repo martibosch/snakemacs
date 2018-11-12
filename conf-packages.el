@@ -102,6 +102,10 @@
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules)) 
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 
+;; py-isort
+(require 'py-isort)
+(add-hook 'before-save-hook 'py-isort-before-save)
+
 ;; sphinx
 (add-hook 'python-mode-hook (lambda () 
                               (require 'sphinx-doc) 
