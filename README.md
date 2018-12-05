@@ -27,6 +27,7 @@ You might check the `Cask` file of this repo to see the packages that are used w
 In order to provide C/C++ autocompletion, syntax checking and function documentation, [`irony-server`](https://github.com/Sarcasm/irony-mode) must be installed. This requires the packages [CMake](http://www.cmake.org/) and [libclang](http://clang.llvm.org/doxygen/group__CINDEX.html), which can be installed as in:
 
 ``` bash
+# also `conda install -c conda-forge cmake clangdev`
 sudo apt install cmake libclang-dev
 ```
 
@@ -53,7 +54,7 @@ The setup (specially [elpy](https://github.com/jorgenschaefer/elpy)) has functio
 pip install isort jedi flake8 importmagic autopep8 yapf
 ```
 
-To manage Python packages I strongly suggest that you use virtual environments with Anaconda. If you do not have or know Anaconda, you might go to [First Step: Download Anaconda part](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) of [this blog post](http://martibosch.github.io/blog/2016/08/27/how-to-do-your-machine-learning-assignments-in-10-mins.html#first-step-download-anaconda) and install it in your computer. It is an open source Python distribution that comes with most of the data science packages that you will need.
+To manage Python packages I strongly suggest that you use Anaconda, which can be downloaded from [their website](https://www.anaconda.com/download). It is an open source Python distribution that comes with most of the data science packages that you will need.
 
 In order to be able to preview Markdown documents this setup uses the [pandoc](https://pandoc.org/) converter, which can be installed as:
 
