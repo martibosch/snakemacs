@@ -183,7 +183,19 @@
 (setq reftex-plug-into-AUCTeX t) ;; Activate nice interface between RefTeX and AUCTeX
 (require 'auctex-latexmk)
 (auctex-latexmk-setup)
-
+;; disable (annoying) indentation for tabular environments
+(setq LaTeX-indent-environment-list (quote (("verbatim" current-indentation) 
+                                            ("verbatim*" current-indentation) 
+                                            ("align" LaTeX-indent-tabular) 
+                                            ("align*" LaTeX-indent-tabular) 
+                                            ("array" LaTeX-indent-tabular) 
+                                            ("eqnarray" LaTeX-indent-tabular) 
+                                            ("eqnarray*" LaTeX-indent-tabular) 
+                                            ("displaymath") 
+                                            ("equation") 
+                                            ("equation*") 
+                                            ("picture") 
+                                            ("tabbing"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; Web
