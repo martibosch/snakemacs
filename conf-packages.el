@@ -45,6 +45,10 @@
 (setq markdown-command
       "pandoc --css ~/.emacs.d/pandoc-gfm.css -f markdown_github -t html5 --mathjax --highlight-style pygments --standalone")
 
+;; pandoc
+(add-hook 'markdown-mode-hook 'pandoc-mode)
+
+
 ;; rvm
 (require 'rvm)
 (rvm-use-default)

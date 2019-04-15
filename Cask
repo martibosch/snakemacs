@@ -13,6 +13,7 @@
 (depends-on "flycheck")
 (depends-on "magit")
 (depends-on "markdown-mode")
+(depends-on "pandoc-mode")
 (depends-on "rvm")
 (depends-on "yasnippet")
 (depends-on "yasnippet-snippets")
@@ -46,4 +47,3 @@
 (depends-on "sass-mode")
 (depends-on "scss-mode")
 (depends-on "web-mode")
-
