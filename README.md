@@ -1,10 +1,10 @@
 # .emacs.d
 
-emacs25 setup for data-centric Python, C/C++ for CMake projects, web development, LaTeX and Markdown
+emacs26 setup for scientific Python (and LaTeX)
 
 ## Installation
 
-This setup requires emacs >= 25.1.2. The emacs packages are managed through [Cask](http://cask.readthedocs.io/). Follow [their instructions to install it in your system](https://cask.readthedocs.io/en/latest/guide/installation.html).
+This setup is designed for emacs 26. The emacs packages are managed through [Cask](http://cask.readthedocs.io/). Follow [their instructions to install it in your system](https://cask.readthedocs.io/en/latest/guide/installation.html).
 
 Navigate to your home folder and clone the repo:
 
@@ -22,42 +22,4 @@ cask install
 
 You might check the `Cask` file of this repo to see the packages that are used within this configuration.
 
-### C/C++ Dependencies
-
-In order to provide C/C++ autocompletion, syntax checking and function documentation, [`irony-server`](https://github.com/Sarcasm/irony-mode) must be installed. This requires the packages [CMake](http://www.cmake.org/) and [libclang](http://clang.llvm.org/doxygen/group__CINDEX.html), which can be installed as in:
-
-``` bash
-# also `conda install -c conda-forge cmake clangdev`
-sudo apt install cmake libclang-dev
-```
-
-Then, `irony-server` can be installed within emacs as in:
-
-```
-M-x irony-install-server RET
-```
-
-The [clang-format emacs package](https://github.com/sonatard/clang-format) for automated C/C++ style formatting requires [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to be installed within your system. This can be done via [npm](https://www.npmjs.com/) as in:
-
-``` bash
-npm install -g clang-format  # also `sudo apt install clang-format` in Ubuntu
-```
-
-
-### Python Dependencies
-
-The interactive emacs Python shell will use the [ipython](https://ipython.org/) interpreter if you have it installed, otherwise it will use default python interpreter. 
-
-The setup (specially [elpy](https://github.com/jorgenschaefer/elpy)) has functionalities that borrow from certain Python packages that can be obtained via [pip](https://pypi.org/project/pip/) as in:
-
-```bash
-pip install isort jedi flake8 importmagic autopep8 yapf
-```
-
-To manage Python packages I strongly suggest that you use Anaconda, which can be downloaded from [their website](https://www.anaconda.com/download). It is an open source Python distribution that comes with most of the data science packages that you will need.
-
-In order to be able to preview Markdown documents this setup uses the [pandoc](https://pandoc.org/) converter, which can be installed as:
-
-```bash
-pip install pandoc
-```
+When editing Python files or Jupyter notebooks, you might get a popup "Automatically install the RPC dependencies from PyPI (needed for completion, autoformatting and documentation)?". Answer "Yes".

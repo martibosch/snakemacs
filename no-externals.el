@@ -1,4 +1,4 @@
-; ~/.emacs.d/my-noexternals.el
+; ~/.emacs.d/custom/noexternals.el
 
 ;; Remove scrollbars, menu bars, and toolbars
 ; when is a special form of "if", with no else clause, it reads:
