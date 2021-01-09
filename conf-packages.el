@@ -68,15 +68,6 @@
 
 ;; emacs ipython notebook
 (require 'ein)
-;; (setq ein:use-company-backend t)
-;; (setq ein:use-company-jedi-backends t)
-(setq ein:completion-backend 'ein:use-company-backend)
-(defun define-key-request-help () 
-  (interactive) 
-  (define-key ein:notebook-multilang-mode-map (kbd "C-c C-h") 'ein:pytools-request-help))
-(add-hook 'ein:notebook-mode-hook 'define-key-request-help)
-;; set notebook mode preferences
-(setq ein:notebook-modes '(ein:notebook-python-mode ein:notebook-multilang-mode))
 
 ;; { begin elpy }
 (exec-path-from-shell-copy-env "PATH") ;; exec-path-from-shell (must go before elpy for ipython)
