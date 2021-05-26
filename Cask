@@ -20,13 +20,13 @@
 (depends-on "zenburn-theme")
 
 ;; Python
+(depends-on "blacken")
 (depends-on "cython-mode")
 (depends-on "ein")
 (depends-on "elpy")
 (depends-on "flycheck-cython")
 (depends-on "py-isort")
 (depends-on "sphinx-doc")
-(depends-on "yapfify")
 
 ;; C/C++
 (depends-on "clang-format")

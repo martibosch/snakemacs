@@ -89,6 +89,10 @@
                                    (python-shell-completion-native-get-completions
                                     (get-buffer-process (current-buffer)) nil "_"))))
 (setq elpy-rpc-backend "jedi")
+;; use black (needs python 3)
+(setq elpy-rpc-python-command "python3")
+(add-hook 'elpy-mode-hook (lambda () 
+                            (add-hook 'before-save-hook 'elpy-black-fix-code nil t)))
 (define-key elpy-mode-map (kbd "C-c C-h") 'elpy-doc)
 ;; (setenv "WORKON_HOME" "~/anaconda3/envs") ;; for conda venvs
 (pyvenv-mode 1)
@@ -108,12 +112,6 @@
 (add-hook 'python-mode-hook (lambda () 
                               (require 'sphinx-doc) 
                               (sphinx-doc-mode t)))
-
-;; yapf
-(add-hook 'python-mode-hook (lambda () 
-                              (unless (eq major-mode 'ein:notebook-python-mode) 
-                                (yapf-mode))))
-
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; C/C++
