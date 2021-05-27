@@ -1,0 +1,16 @@
+name: emacs
+channels:
+  - conda-forge
+dependencies:
+  - pip
+  - pip:
+    - importmagic
+  - autopep8
+  - black    
+  - clangdev
+  - cmake  
+  - emacs=27
+  - flake8
+  - isort
+  - jedi
+  - pandoc

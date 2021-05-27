@@ -9,6 +9,8 @@
 ;; (package-initialize)
 
 (require 'cask "~/.cask/cask.el")
+;; see https://github.com/cask/cask/issues/463
+(setq warning-suppress-log-types '((package reinitialization)))
 (cask-initialize)
 
 (load "~/.emacs.d/conf-packages.el")

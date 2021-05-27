@@ -89,6 +89,7 @@
                                    (python-shell-completion-native-get-completions
                                     (get-buffer-process (current-buffer)) nil "_"))))
 (setq elpy-rpc-backend "jedi")
+(setq elpy-rpc-virtualenv-path "~/anaconda3/envs/emacs")
 ;; use black (needs python 3)
 (setq elpy-rpc-python-command "python3")
 (add-hook 'elpy-mode-hook (lambda () 
