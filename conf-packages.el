@@ -6,12 +6,10 @@
 ;; Common utilities
 
 ;; auto-complete
-(require 'auto-complete-config)
 (ac-config-default)
 ;; (setq ac-auto-start 1) do not enable ac, we are using company-mode!
 (define-key ac-complete-mode-map "\t" 'ac-complete)
 (define-key ac-complete-mode-map "\r" nil)
-
 
 ;; bash-completion
 (require 'bash-completion)
@@ -52,6 +50,7 @@
 ;; rvm
 (require 'rvm)
 (rvm-use-default)
+
 
 ;; yasnippet
 (require 'yasnippet)
