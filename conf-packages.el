@@ -66,7 +66,7 @@
 ;; Python
 
 ;; emacs ipython notebook
-(require 'ein)
+(setq ein:output-area-inlined-images t)
 
 ;; { begin elpy }
 (exec-path-from-shell-copy-env "PATH") ;; exec-path-from-shell (must go before elpy for ipython)
