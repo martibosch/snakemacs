@@ -32,7 +32,7 @@
       (define-key input-decode-map "\e[1;5D" [C-left])))
 
 ;; LINUM
-(global-linum-mode t) ;; enable line numbers globally
-(require 'linum-off)
+;; (global-linum-mode t) ;; enable line numbers globally
+;; (require 'linum-off)
 
 (put 'downcase-region 'disabled nil)
