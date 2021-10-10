@@ -1,8 +1,0 @@
-#contributor : Shane Celis (shane (at) gnufoo (dot) org)
-#name : figure
-# --
-\begin{figure}
-  \centering
-  \includegraphics{${1:filename}} 
-  \caption[Short Label]{\label{$1}${2:Caption}}
-\end{figure}

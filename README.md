@@ -1,6 +1,6 @@
 # .emacs.d
 
-emacs setup for data-centric Python, C/C++ for CMake projects, web development, LaTeX and Markdown
+emacs setup for Python, conda, Jupyter and web
 
 ## Installation
 
@@ -21,18 +21,15 @@ This setup uses emacs 27. To get it working, you can follow the steps below:
     conda activate emacs
     ```
     
-3. The emacs packages are managed through [Cask](http://cask.readthedocs.io/). Follow [their instructions to install it in your system](https://cask.readthedocs.io/en/latest/guide/installation.html). Then, you can install the emacs packages (you might check the `Cask` file of this repo to see the packages that are used within this configuration) as in:
+3. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, libvterm may not be installed properly):
 
-    ```bash
-    cask install
-    ```
+   ```bash
+   emacs
+   ```
 
-4. You can now run emacs:
+4. `M-x all-the-icons-install-fonts`
 
-    ```bash
-    emacs
-    ```
-    
+
 ### Ubuntu only: add a desktop shortcut (optional)
 
 To avoid having to launch a terminal, activate a conda environment and run `emacs`, you can add a desktop shortcut with the following command:

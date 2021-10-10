@@ -5,12 +5,17 @@ dependencies:
   - pip
   - pip:
     - importmagic
-  - autopep8
+  - autoconf
+  - automake
   - black    
   - clangdev
-  - cmake  
+  - cmake
   - emacs=27
   - flake8
-  - isort
+  - isort  
   - jedi
+  - jupyter
+  - libtool
   - pandoc
+  - pkg-config
+  - zeromq
