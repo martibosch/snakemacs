@@ -4,6 +4,11 @@
 
 (setq inhibit-startup-screen t)
 
+;; BEGIN custom-file
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+;; END custom-file
+
 ;; BEGIN use-package
 ;; https://cestlaz.github.io/posts/using-emacs-1-setup/
 (require 'package)
@@ -101,6 +106,12 @@
 (use-package magit)
 ;; END magit
 
+;; BEGIN projectile
+(use-package projectile
+  :init (projectile-mode +1)
+  :bind (:map projectile-mode-map ("C-c p" . projectile-command-map)))
+;; END projectile
+
 ;; BEGIN markdown-mode
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -121,55 +132,20 @@
   (conda-env-activate "emacs"))
 ;; END conda
 
-;; BEGIN jupyter
-(use-package jupyter
-  :commands (jupyter-run-server-repl
-             jupyter-run-repl
-             jupyter-server-list-kernels))
-;; END jupyter
+;; BEGIN elpy
+(use-package elpy
+  :init (elpy-enable)
+  :config (progn (setq elpy-rpc-virtualenv-path (expand-file-name "~/anaconda3/envs/emacs"))
+                 (add-hook 'elpy-mode-hook (lambda () 
+                            (add-hook 'before-save-hook 'elpy-black-fix-code nil t)))))
+;; END elpy
 
-;; BEGIN org-babel
-(use-package ob
-  :ensure nil
-  :config (progn
-            ;; load more languages for org-babel
-            (org-babel-do-load-languages
-             'org-babel-load-languages
-             '((python . t)
-               (shell . t)
-               (latex . t)
-               ; (ditaa . t)
-               (C . t)
-               (dot . t)
-               ; (plantuml . t)
-               (makefile . t)
-               (jupyter . t)))          ; must be last
+;; BEGIN py-isort
+(use-package py-isort
+  :config (add-hook 'before-save-hook 'py-isort-before-save))
+;; END py-isort
 
-            (setq org-babel-default-header-args:sh    '((:results . "output replace"))
-                  org-babel-default-header-args:bash  '((:results . "output replace"))
-                  org-babel-default-header-args:shell '((:results . "output replace"))
-                  ;; org-babel-default-header-args:jupyter-python '((:async . "yes")
-                  ;;                                                (:session . "py")
-                  ;;                                                (:kernel . "sagemath"))
-                  )
-
-            ;; (setq org-confirm-babel-evaluate nil
-            ;;       org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar"
-            ;;       org-ditaa-jar-path "/usr/share/ditaa/ditaa.jar")
-
-            ;; (add-to-list 'org-src-lang-modes (quote ("plantuml" . plantuml)))
-  ))
-;; END org-babel
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(conda magit format-all zenburn-theme use-package)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+;; BEGIN ein
+(use-package ein
+  :config (setq ein:output-area-inlined-images t))
+;; END ein
