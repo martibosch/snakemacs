@@ -45,13 +45,14 @@
   :config (progn
             (require 'doom-modeline-segments)
             ;; https://martinralbrecht.wordpress.com/2020/08/23/conda-jupyter-and-emacs/
-            (doom-modeline-def-segment conda-env
-              "The current conda environment.  Works with `conda'."
-              (when (bound-and-true-p conda-env-current-name)
-                (propertize (format " |%s|" conda-env-current-name)
-                            'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
-                            'help-echo (format "Conda environment: %s"
-                                               conda-env-current-name)))))
+            ;; (doom-modeline-def-segment conda-env
+            ;;   "The current conda environment.  Works with `conda'."
+            ;;   (when (bound-and-true-p conda-env-current-name)
+            ;;     (propertize (format " |%s|" conda-env-current-name)
+            ;;                 'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
+            ;;                 'help-echo (format "Conda environment: %s"
+            ;;                                    conda-env-current-name))))
+            )
   (setq doom-modeline-icon t
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t
@@ -65,7 +66,8 @@
     '(bar workspace-name window-number modals
           matches buffer-info remote-host
           buffer-position word-count parrot selection-info
-          conda-env)
+          ;; conda-env
+          )
     '(objed-state misc-info persp-name battery grip irc mu4e
                   gnus github debug lsp minor-modes input-method
                   indent-info buffer-encoding major-mode process vcs checker))
@@ -127,21 +129,11 @@
   :init (setq markdown-command "multimarkdown"))
 ;; END markdown-mode
 
-;; BEGIN conda
-(use-package conda
-  :config (progn (conda-env-initialize-interactive-shells)
-                 (conda-env-initialize-eshell)
-                 (conda-env-autoactivate-mode t))
-  :custom ((conda-anaconda-home (expand-file-name "~/anaconda3/"))))
-;; use `emacs` default env, where we installed emacs, black, clangdev, etc. (see environment.yml)
-(unless (getenv "CONDA_DEFAULT_ENV")
-  (conda-env-activate "emacs"))
-;; END conda
-
 ;; BEGIN elpy
 (use-package elpy
   :init (elpy-enable)
-  :config (progn (setq elpy-rpc-virtualenv-path (expand-file-name "~/anaconda3/envs/emacs"))
+  :config (progn (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs"))
+                 (setq elpy-rpc-virtualenv-path (expand-file-name "~/anaconda3/envs/emacs"))
                  (add-hook 'elpy-mode-hook (lambda () 
                             (add-hook 'before-save-hook 'elpy-black-fix-code nil t)))))
 ;; END elpy
