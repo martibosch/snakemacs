@@ -112,6 +112,12 @@
   :bind (:map projectile-mode-map ("C-c p" . projectile-command-map)))
 ;; END projectile
 
+;; BEGIN yasnippet
+(use-package yasnippet
+  :config (progn (use-package yasnippet-snippets)
+                 (yas-global-mode)))
+;; END yasnippet
+
 ;; BEGIN markdown-mode
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
