@@ -129,13 +129,20 @@
   :init (setq markdown-command "multimarkdown"))
 ;; END markdown-mode
 
+;; BEGIN web-mode
+(use-package web-mode
+  :mode (("\\.html$" .  web-mode)
+         ("\\.phtml$" .  web-mode))
+  :init (setq web-mode-engines-alist '(("django" . "\\(/templates/\\(.*/\\)*.*\\.html\\'\\|/\\(_includes\\|_layouts\\)/\\(.*/\\)*.*\\.html\\'\\)"))))
+;; END web-mode
+
 ;; BEGIN elpy
 (use-package elpy
   :init (elpy-enable)
   :config (progn (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs"))
                  (setq elpy-rpc-virtualenv-path (expand-file-name "~/anaconda3/envs/emacs"))
-                 (add-hook 'elpy-mode-hook (lambda () 
-                            (add-hook 'before-save-hook 'elpy-black-fix-code nil t)))))
+                 (add-hook 'elpy-mode-hook (lambda ()
+                                             (add-hook 'before-save-hook 'elpy-black-fix-code nil t)))))
 ;; END elpy
 
 ;; BEGIN py-isort
