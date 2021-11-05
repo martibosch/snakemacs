@@ -89,6 +89,12 @@
   better-defaults)
 ;; END better-defaults
 
+;; BEGIN format-all
+(use-package 
+  format-all 
+  :config (add-hook 'prog-mode-hook 'format-all-mode))
+;; END format-all
+
 ;; BEGIN vterm
 (use-package 
   vterm 
@@ -146,6 +152,11 @@
   :init (setq web-mode-engines-alist '(("django" .
                                         "\\(/templates/\\(.*/\\)*.*\\.html\\'\\|/\\(_includes\\|_layouts\\)/\\(.*/\\)*.*\\.html\\'\\)"))))
 ;; END web-mode
+
+;; BEGIN snakemake
+(use-package 
+  snakemake-mode)
+;; END snakemake
 
 ;; BEGIN elpy
 (use-package 

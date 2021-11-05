@@ -1,6 +1,7 @@
 name: emacs
 channels:
   - conda-forge
+  - bioconda
 dependencies:
   - pip
   - pip:
@@ -17,3 +18,4 @@ dependencies:
   - libtool
   - make
   - pandoc
+  - snakefmt
