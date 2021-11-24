@@ -144,6 +144,12 @@
   :init (setq markdown-command "multimarkdown"))
 ;; END markdown-mode
 
+;; BEGIN dockerfile-mode
+(use-package 
+  dockerfile-mode 
+  :mode ("Dockerfile\\'" . dockerfile-mode))
+;; END dockerfile-mode
+
 ;; BEGIN web-mode
 (use-package 
   web-mode 
