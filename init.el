@@ -150,6 +150,11 @@
   :mode ("Dockerfile\\'" . dockerfile-mode))
 ;; END dockerfile-mode
 
+;; BEGIN docker-compose-mode
+(use-package 
+  docker-compose-mode)
+;; END docker-compose-mode
+
 ;; BEGIN web-mode
 (use-package 
   web-mode 
