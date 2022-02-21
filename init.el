@@ -169,6 +169,17 @@
   docker-compose-mode)
 ;; END docker-compose-mode
 
+;; BEGIN terraform-mode
+(use-package 
+  terraform-mode)
+;; END terraform-mode
+
+;; ;; BEGIN company-terraform
+;; (use-package
+;;   company-terraform
+;;   :init (company-terrafrom-init))
+;; ;; END company-terraform
+
 ;; BEGIN web-mode
 (use-package 
   web-mode 
