@@ -21,13 +21,19 @@ This setup uses emacs 27. To get it working, you can follow the steps below:
     conda activate emacs
     ```
     
+3. Install [EAF](https://github.com/emacs-eaf/emacs-application-framework) without its system, core and Python dependencies (since they are already taken care of via conda):
+
+    ```bash
+	python install-eaf.py --ignore-sys-deps --ignore-core-deps --ignore-py-deps
+	```
+
 3. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, libvterm may not be installed properly):
 
    ```bash
    emacs
    ```
 
-4. `M-x all-the-icons-install-fonts`
+4. From inside emacs, install all the icon fonts `M-x all-the-icons-install-fonts`
 
 
 ### Ubuntu only: add a desktop shortcut (optional)

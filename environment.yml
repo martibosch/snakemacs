@@ -11,11 +11,18 @@ dependencies:
   - cmake
   - compilers
   - emacs=27
+  - epc
   - flake8
+  - glib
   - isort  
   - jedi
   - jupyter
   - libtool
+  - lxml
   - make
+  - nodejs
   - pandoc
+  - pyqtwebengine
+  - pygit2  
   - snakefmt
+  - wmctrl
