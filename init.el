@@ -190,7 +190,7 @@
   :config (progn (conda-env-initialize-interactive-shells) 
                  (conda-env-initialize-eshell) 
                  (conda-env-autoactivate-mode t)) 
-  :custom ((conda-anaconda-home (expand-file-name "~/anaconda3/"))))
+  :custom ((conda-anaconda-home (expand-file-name "~/mambaforge/"))))
 ;; use `emacs` default env, where we installed emacs, black, clangdev, etc. (see environment.yml)
 (unless (getenv "CONDA_DEFAULT_ENV") 
   (conda-env-activate "emacs"))
@@ -230,8 +230,8 @@
 (use-package 
   elpy 
   :init (elpy-enable) 
-  :config (progn (setenv "WORKON_HOME" (expand-file-name "~/anaconda3/envs")) 
-                 (setq elpy-rpc-virtualenv-path (expand-file-name "~/anaconda3/envs/emacs")) 
+  :config (progn (setenv "WORKON_HOME" (expand-file-name "~/mambaforge/envs")) 
+                 (setq elpy-rpc-virtualenv-path (expand-file-name "~/mambaforge/envs/emacs")) 
                  (add-hook 'elpy-mode-hook (lambda () 
                                              (add-hook 'before-save-hook 'elpy-black-fix-code nil
                                                        t)))))
