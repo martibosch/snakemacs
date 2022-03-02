@@ -187,13 +187,13 @@
 ;; BEGIN conda
 (use-package 
   conda 
-  :config (progn (conda-env-initialize-interactive-shells) 
-                 (conda-env-initialize-eshell) 
+  :config (progn (conda-env-initialize-interactive-shells)
+                 ;; (conda-env-initialize-eshell)
                  (conda-env-autoactivate-mode t)) 
   :custom ((conda-anaconda-home (expand-file-name "~/mambaforge/"))))
-;; use `emacs` default env, where we installed emacs, black, clangdev, etc. (see environment.yml)
-(unless (getenv "CONDA_DEFAULT_ENV") 
-  (conda-env-activate "emacs"))
+;; ;; use `emacs` default env, where we installed emacs, black, clangdev, etc. (see environment.yml)
+;; (unless (getenv "CONDA_DEFAULT_ENV")
+;;   (conda-env-activate "emacs"))
 ;; END conda
 
 ;; BEGIN docker-compose-mode
