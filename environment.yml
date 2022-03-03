@@ -25,4 +25,5 @@ dependencies:
   - pyqtwebengine
   - pygit2  
   - snakefmt
+  - tectonic
   - wmctrl

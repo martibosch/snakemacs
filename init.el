@@ -129,6 +129,14 @@
   :config (add-hook 'prog-mode-hook 'format-all-mode))
 ;; END format-all
 
+;; BEGIN
+(use-package 
+  exec-path-from-shell 
+  :ensure t 
+  :config ;; (setq exec-path-from-shell-arguments '("-l"))
+  (exec-path-from-shell-initialize))
+;; END
+
 ;; BEGIN vterm
 (use-package 
   vterm 
@@ -177,6 +185,28 @@
          ("\\.markdown\\'" . markdown-mode)) 
   :init (setq markdown-command "multimarkdown"))
 ;; END markdown-mode
+
+;; BEGIN tex
+(use-package 
+  tex 
+  :defer t 
+  :ensure auctex 
+  :config (setq TeX-auto-save t) 
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  ;; (add-to-list 'TeX-command-list '("tectonic" "%`tectonic -X compile --synctex --keep-logs %t"
+  ;;                                  TeX-run-TeX nil t))
+  (add-to-list 'TeX-command-list '("tectonic" "%`tectonic -X compile --synctex --keep-logs %t"
+                                   TeX-run-command nil t)) 
+  (add-to-list 'TeX-view-program-list '("eaf" eaf-pdf-synctex-forward-view)) 
+  (add-to-list 'TeX-view-program-selection '(output-pdf "eaf")))
+;; END tex
+
+;; BEGIN reftex
+(use-package 
+  reftex 
+  :commands turn-on-reftex 
+  :config (setq reftex-plug-into-AUCTeX t))
+;; END reftex
 
 ;; BEGIN dockerfile-mode
 (use-package 
