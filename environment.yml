@@ -27,5 +27,5 @@ dependencies:
   - pyqtwebengine
   - pygit2  
   - snakefmt
-  - tectonic
+  - tectonic=0.8
   - wmctrl
