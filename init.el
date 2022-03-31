@@ -68,7 +68,7 @@
   ;; (eaf-terminal-dark-mode nil)
   ;; (eaf-mindmap-dark-mode "follow")     ; default option
   ;; (eaf-pdf-dark-mode "ignore")         ; see below
-  ) ;; unbind, see more in the Wiki
+  (setq eaf-pdf-dark-mode nil)) ;; unbind, see more in the Wiki
 ;; END eaf
 
 ;; BEGIN doom-modeline
@@ -196,9 +196,10 @@
   ;; (add-to-list 'TeX-command-list '("tectonic" "%`tectonic -X compile --synctex --keep-logs %t"
   ;;                                  TeX-run-TeX nil t))
   (add-to-list 'TeX-command-list '("tectonic" "%`tectonic -X compile --synctex --keep-logs %t"
-                                   TeX-run-command nil t)) 
-  (add-to-list 'TeX-view-program-list '("eaf" eaf-pdf-synctex-forward-view)) 
-  (add-to-list 'TeX-view-program-selection '(output-pdf "eaf")))
+                                   TeX-run-command nil t))
+  ;; (add-to-list 'TeX-view-program-list '("eaf" eaf-pdf-synctex-forward-view))
+  ;; (add-to-list 'TeX-view-program-selection '(output-pdf "eaf"))
+  )
 ;; END tex
 
 ;; BEGIN reftex

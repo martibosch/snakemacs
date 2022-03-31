@@ -6,11 +6,12 @@ dependencies:
   - pip
   - pip:
     - importmagic
+    - pymupdf
   - black    
   - clangdev
   - cmake
   - compilers
-  - emacs=27
+  - emacs=27.2
   - epc
   - flake8
   - glib
@@ -22,6 +23,7 @@ dependencies:
   - make
   - nodejs
   - pandoc
+  - pyqt
   - pyqtwebengine
   - pygit2  
   - snakefmt
