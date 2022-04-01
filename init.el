@@ -400,3 +400,9 @@
   ;; (eaf-mindmap-dark-mode "follow")     ; default option
   ;; (eaf-pdf-dark-mode "ignore")         ; see below
   ) ;; unbind, see more in the Wiki
+
+;;;; applications
+;;; shell
+(use-package 
+  vterm 
+  :custom (vterm-install t))
