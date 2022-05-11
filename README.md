@@ -20,7 +20,7 @@ This setup uses emacs 27. To get it working, you can follow the steps below:
     conda env create -f environment.yml
     conda activate emacs
     ```
-    
+
 3. Install [EAF](https://github.com/emacs-eaf/emacs-application-framework) without its system, core and Python dependencies (since they are already taken care of via conda):
 
     ```bash

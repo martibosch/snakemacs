@@ -7,7 +7,7 @@ dependencies:
   - pip:
     - importmagic
     - pymupdf
-  - black    
+  - black
   - clangdev
   - cmake
   - compilers
@@ -15,7 +15,7 @@ dependencies:
   - epc
   - flake8
   - glib
-  - isort  
+  - isort
   - jedi
   - jupyter
   - libtool
@@ -25,7 +25,7 @@ dependencies:
   - pandoc
   - pyqt
   - pyqtwebengine
-  - pygit2  
+  - pygit2
   - snakefmt
   - tectonic=0.8
   - wmctrl
