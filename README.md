@@ -4,7 +4,7 @@ emacs setup for Python, conda, Jupyter and web
 
 ## Installation
 
-This setup uses emacs 27. To get it working, you can follow the steps below:
+This setup uses emacs 28. To get it working, you can follow the steps below:
 
 1. Navigate to your home folder and clone the repo, and navigate to the (newly-created) `~/.emacs.d/` folder:
 
@@ -24,11 +24,11 @@ This setup uses emacs 27. To get it working, you can follow the steps below:
 3. Install [EAF](https://github.com/emacs-eaf/emacs-application-framework) without its system, core and Python dependencies (since they are already taken care of via conda):
 
     ```bash
-	git clone --depth=1 -b master \
+	git clone --depth=100 -b master \
 		https://github.com/emacs-eaf/emacs-application-framework.git \
 		~/.emacs.d/site-lisp/emacs-application-framework
 	cd ~/.emacs.d/site-lisp/emacs-application-framework
-	git checkout 03412e21
+	git checkout 98ebfb9
 	python install-eaf.py --ignore-sys-deps --ignore-core-deps --ignore-py-deps
 	```
 
@@ -43,16 +43,13 @@ This setup uses emacs 27. To get it working, you can follow the steps below:
 
 ## Notes for future versions
 
-### emacs 28
+### emacs28
 
-Emacs 28 is not yet available in conda-forge. Once it is, the following changes to the setup can be done:
-
-* As noted in step 3, EAF must be pinned to the `03412e21` commit, because [its child commit `6a07d96`](https://github.com/emacs-eaf/emacs-application-framework/commit/6a07d96779bb9f96b7fc5afb07244841c360b1c3) uses the `json-parse-buffer` function of Emacs 28.
-* The setup of the conda package uses the `string-replace` function of Emacs 28. A workaround function definition is used with prior emacs versions.
+* In Linux, there may be [an issue](https://github.com/conda-forge/emacs-feedstock/issues/60) with the emacs 28.1 from conda-forge
 
 ### PyQt6
 
-PyQt6 is not yet available in conda-forge. Once it is, the following changes to the setup can be done:
+PyQt6 is not yet available in conda-forge. Accordingly, EAF must be pinned to the `98ebfb9` commit, because [its child commit `c3ab6a6`](https://github.com/emacs-eaf/emacs-application-framework/commit/c3ab6a600d2fce562bd15c0e0249604d7974bbac). Once it is, the following changes to the setup can be done:
 
-* vterm can be changed for the eaf-terminal
 * eaf-pdf-viewer can be used as the main TeX PDF viewer
+* vterm can be changed for the eaf-terminal (but vterm may actually better because of its copy mode)

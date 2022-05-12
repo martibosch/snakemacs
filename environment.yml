@@ -11,7 +11,7 @@ dependencies:
   - clangdev
   - cmake
   - compilers
-  - emacs=27.2
+  - emacs=28
   - epc
   - flake8
   - glib

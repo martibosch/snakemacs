@@ -1,5 +1,5 @@
 ;;;; .emacs.d
-;;; description: emacs27 setup for Python with conda and Jupyter
+;;; description: emacs 28 setup for Python with conda and Jupyter
 ;;; author: Martí Bosch <marti.bosch@protonmail.com>
 
 ;;;; bootstrap
@@ -33,9 +33,6 @@
 (setq inhibit-startup-screen t)
 
 ;;; conda
-(if (version< emacs-version "28")
-    (defun string-replace (what with in)
-      (replace-regexp-in-string (regexp-quote what) with in nil 'literal)))
 (use-package
   conda
   :custom
