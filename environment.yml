@@ -6,7 +6,6 @@ dependencies:
   - pip
   - pip:
     - importmagic
-    - pymupdf
   - black
   - clangdev
   - cmake
