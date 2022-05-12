@@ -35,6 +35,9 @@
 ;;; conda
 (use-package
   conda
+  :hook
+  ;; hook below needed for auto-activation, see https://github.com/necaris/conda.el/issues/93
+  (find-file . conda-env-activate-for-buffer)
   :custom
   ;; (conda-anaconda-home (string-replace "/bin/mamba" "" (executable-find "mamba")))
   (conda-anaconda-home (expand-file-name "~/mambaforge/"))
@@ -54,7 +57,8 @@
   ;; 			_) 
   ;; 		       (setenv "EMACS_CONDA_ENV" nil) 
   ;; 		       (setenv "INIT_CONDA" nil)))
-  (conda-env-activate "emacs"))
+  (conda-env-activate "emacs")
+  )
 
 ;;;; config files
 ;;; custom config file location (rather than setting custom variables in init.el)
