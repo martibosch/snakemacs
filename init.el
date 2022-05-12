@@ -32,29 +32,32 @@
 
 (setq inhibit-startup-screen t)
 
-;;; anaconda
+;;; conda
 (if (version< emacs-version "28")
     (defun string-replace (what with in)
       (replace-regexp-in-string (regexp-quote what) with in nil 'literal)))
 (use-package
   conda
-  :custom (conda-anaconda-home (string-replace "/bin/mamba" "" (executable-find "mamba")))
-  (conda-env-home-directory (expand-file-name "~/mambaforge/"))
+  :custom
+  ;; (conda-anaconda-home (string-replace "/bin/mamba" "" (executable-find "mamba")))
+  (conda-anaconda-home (expand-file-name "~/mambaforge/"))
+  ;; (conda-env-home-directory (expand-file-name "~/mambaforge/"))
   (conda-env-subdirectory "envs")
-  :config (advice-add 'conda-env-activate
-                      :after (lambda
-                               (&rest
-                                _)
-                               (setenv "EMACS_CONDA_ENV" conda-env-current-name)
-                               (setenv "INIT_CONDA" "true")))
-  (advice-add 'conda-env-deactivate
-              :after (lambda
-                       (&rest
-                        _)
-                       (setenv "EMACS_CONDA_ENV" nil)
-                       (setenv "INIT_CONDA" nil)))
-  (unless (getenv "CONDA_DEFAULT_ENV")
-    (conda-env-activate "emacs")))
+  :config
+  (conda-env-autoactivate-mode t)
+  ;; (advice-add 'conda-env-activate 
+  ;;             :after (lambda 
+  ;; 		       (&rest 
+  ;; 			_) 
+  ;; 		       (setenv "EMACS_CONDA_ENV" conda-env-current-name) 
+  ;; 		       (setenv "INIT_CONDA" "true"))) 
+  ;; (advice-add 'conda-env-deactivate 
+  ;;             :after (lambda 
+  ;; 		       (&rest 
+  ;; 			_) 
+  ;; 		       (setenv "EMACS_CONDA_ENV" nil) 
+  ;; 		       (setenv "INIT_CONDA" nil)))
+  (conda-env-activate "emacs"))
 
 ;;;; config files
 ;;; custom config file location (rather than setting custom variables in init.el)
@@ -113,7 +116,25 @@
   (setq doom-modeline-persp-name nil)
   :config (setq doom-modeline-minor-modes nil)
   (setq doom-modeline-buffer-state-icon nil)
-  (doom-modeline-mode 1))
+  (doom-modeline-mode 1)
+  (progn 
+    (require 'doom-modeline-segments)
+    ;; https://martinralbrecht.wordpress.com/2020/08/23/conda-jupyter-and-emacs/
+    (doom-modeline-def-segment conda-env
+      "The current conda environment.  Works with `conda'." (when (bound-and-true-p
+                                                                   conda-env-current-name) 
+                                                              (propertize (format " |%s|"
+                                                                                  conda-env-current-name)
+                                                                          'face (if
+                                                                                    (doom-modeline--active)
+                                                                                    'mode-line
+                                                                                  'mode-line-inactive)
+                                                                          'help-echo (format
+                                                                                      "Conda environment: %s"
+                                                                                      conda-env-current-name)))))
+  (doom-modeline-def-modeline 'main '(bar workspace-name window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info conda-env)
+    '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug lsp minor-modes input-method indent-info buffer-encoding major-mode process vcs checker))
+  )
 
 ;;;; general settings
 ;;; key bindings
@@ -383,14 +404,14 @@
   (eaf-browser-enable-adblocker t)
   (browse-url-browser-function 'eaf-open-browser)
   :config (require 'eaf-browser)
-  (require 'eaf-org-previewer)
+  ;; (require 'eaf-org-previewer)
   ;; (require 'eaf-pdf-viewer)
   ;; (require 'eaf-camera)
   ;; (require 'eaf-jupyter)
   ;; (require 'eaf-terminal)
   (defalias 'browse-web #'eaf-open-browser)
   ;; (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-  (eaf-bind-key scroll_up "C-o" eaf-org-previewer-keybinding)
+  ;; (eaf-bind-key scroll_up "C-o" eaf-org-previewer-keybinding)
   ;; (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
   ;; (eaf-bind-key take_photo "p" eaf-camera-keybinding)
   (eaf-bind-key nil "M-q" eaf-browser-keybinding)
