@@ -28,8 +28,12 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
 		https://github.com/emacs-eaf/emacs-application-framework.git \
 		~/.emacs.d/site-lisp/emacs-application-framework
 	cd ~/.emacs.d/site-lisp/emacs-application-framework
+	# the following commands will not be needed when Qt6 can be installed from conda
 	git checkout 98ebfb9
 	python install-eaf.py --ignore-sys-deps --ignore-core-deps --ignore-py-deps
+	cd app/browser
+	git pull --unshallow 
+	git checkout 89e3dee
 	```
 
 3. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, libvterm may not be installed properly):
