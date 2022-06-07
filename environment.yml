@@ -27,4 +27,5 @@ dependencies:
   - pygit2
   - snakefmt
   - tectonic=0.8
+  - terraform
   - wmctrl

@@ -339,6 +339,14 @@
   :mode "Dockerfile\\'"
   :config (add-hook 'dockerfile-mode 'smartparens-mode))
 
+;;; Terraform
+(use-package
+  terraform-mode
+  ;; TODO: see the link below on how to connect terraform with lsp
+  ;; https://www.reddit.com/r/emacs/comments/k6pp9r/debugging_lsp_and_terraform_config/
+  ;; :hook (terraform-mode . lsp)
+  )
+
 ;;; YAML
 (use-package
   yaml-mode
