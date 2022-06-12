@@ -333,6 +333,10 @@
   blacken
   :hook (python-mode . blacken-mode))
 
+;;; Snakemake
+(use-package
+  snakemake-mode)
+
 ;;; Dockerfile
 (use-package
   dockerfile-mode
@@ -346,6 +350,11 @@
   ;; https://www.reddit.com/r/emacs/comments/k6pp9r/debugging_lsp_and_terraform_config/
   ;; :hook (terraform-mode . lsp)
   )
+
+
+;;; Snakemake
+(use-package
+  snakemake-mode)
 
 ;;; YAML
 (use-package
