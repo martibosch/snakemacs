@@ -347,6 +347,11 @@
   ;; :hook (terraform-mode . lsp)
   )
 
+
+;;; Snakemake
+(use-package
+  snakemake-mode)
+
 ;;; YAML
 (use-package
   yaml-mode
