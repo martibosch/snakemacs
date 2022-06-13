@@ -414,6 +414,113 @@
 (use-package
   gscholar-bibtex)
 
+;;;; org
+(use-package
+  org
+  :defer t
+  :init
+  :config (setq org-startup-indented t)
+  (setq org-return-follows-link t)
+  (setq org-src-tab-acts-natively nil)
+  (setq org-confirm-babel-evaluate nil)
+  (add-hook 'org-mode-hook 'smartparens-mode)
+  (add-hook 'org-mode-hook (lambda ()
+			     (rainbow-delimiters-mode -1)))
+  (require 'org-tempo)
+  (add-to-list 'org-structure-template-alist '("py" . "src python")))
+
+;;; python and jupyter
+(use-package
+  jupyter
+  :after (org))
+(org-babel-do-load-languages 'org-babel-load-languages '((python . t)
+							 (shell . t)
+							 (jupyter . t)))
+
+(defun my/jupyter-refresh-kernelspecs ()
+  "Refresh Jupyter kernelspecs"
+  (interactive)
+  (jupyter-available-kernelspecs t))
+
+(defun my/jupyter-refesh-langs ()
+  "Refresh Jupyter languages"
+  (interactive)
+  (org-babel-jupyter-aliases-from-kernelspecs t))
+(add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
+(org-babel-jupyter-override-src-block "python")
+(add-hook 'org-src-mode-hook (lambda ()
+			       ;; (hs-minor-mode -1)
+			       ;; (electric-indent-local-mode -1)
+			       ;; (rainbow-delimiters-mode -1)
+			       (highlight-indent-guides-mode -1)))
+
+(setq my/org-view-html-tmp-dir "/tmp/org-html-preview/")
+
+(use-package
+  f)
+
+(defun my/org-view-html ()
+  (interactive)
+  (let ((elem (org-element-at-point))
+	(temp-file-path (concat my/org-view-html-tmp-dir (number-to-string (random (expt 2 32)))
+				".html")))
+    (cond ((not (eq 'export-block (car elem)))
+	   (message "Not in an export block!"))
+	  ((not (string-equal (plist-get (car (cdr elem))
+					 :type) "HTML"))
+	   (message "Export block is not HTML!"))
+	  (t (progn (f-mkdir my/org-view-html-tmp-dir)
+		    (f-write (plist-get (car (cdr elem))
+					:value) 'utf-8 temp-file-path)
+		    (start-process "org-html-preview" nil "xdg-open" temp-file-path))))))
+
+(use-package
+  ob-async
+  :after (org)
+  :config (setq ob-async-no-async-languages-alist '("python" "jupyter-python")))
+
+(setq my/jupyter-runtime-folder (expand-file-name "~/.local/share/jupyter/runtime"))
+
+(defun my/get-open-ports ()
+  (mapcar #'string-to-number (split-string (shell-command-to-string
+					    "ss -tulpnH | awk '{print $5}' | sed -e 's/.*://'")
+					   "\n")))
+
+(defun my/list-jupyter-kernel-files ()
+  (mapcar (lambda (file)
+	    (cons (car file)
+		  (cdr (assq 'shell_port (json-read-file (car file))))))
+	  (sort (directory-files-and-attributes my/jupyter-runtime-folder t ".*kernel.*json$")
+		(lambda (x y)
+		  (not (time-less-p (nth 6 x)
+				    (nth 6 y)))))))
+
+(defun my/select-jupyter-kernel ()
+  (let ((ports (my/get-open-ports))
+	(files (my/list-jupyter-kernel-files)))
+    (completing-read "Jupyter kernels: " (seq-filter (lambda (file)
+						       (member (cdr file) ports)) files))))
+
+(defun my/insert-jupyter-kernel ()
+  "Insert a path to an active Jupyter kernel into the buffer"
+  (interactive)
+  (insert (my/select-jupyter-kernel)))
+
+(defun my/jupyter-connect-repl ()
+  "Open an emacs-jupyter REPL, connected to a Jupyter kernel"
+  (interactive)
+  (jupyter-connect-repl (my/select-jupyter-kernel) nil nil nil t))
+
+(defun my/jupyter-cleanup-kernels ()
+  (interactive)
+  (let* ((ports (my/get-open-ports))
+	 (files (my/list-jupyter-kernel-files))
+	 (to-delete (seq-filter (lambda (file)
+				  (not (member (cdr file) ports))) files)))
+    (when (and (length> to-delete 0)
+	       (y-or-n-p (format "Delete %d files?" (length to-delete))))
+      (dolist (file to-delete)
+	(delete-file (car file))))))
 
 ;;;; eaf
 (use-package
