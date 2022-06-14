@@ -360,6 +360,15 @@
   (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 
+;;; web
+(use-package
+  web-mode
+  :mode (("\\.html$" .  web-mode)
+	 ("\\.phtml$" .  web-mode))
+  :init (setq web-mode-engines-alist '(("django" .
+					"\\(/templates/\\(.*/\\)*.*\\.html\\'\\|/\\(_includes\\|_layouts\\)/\\(.*/\\)*.*\\.html\\'\\)")))
+:config (add-hook 'web-mode-hook 'smartparens-mode))
+
 ;;; LaTeX
 (use-package
   tex
