@@ -526,31 +526,31 @@
 	(delete-file (car file))))))
 
 ;;;; eaf
-(use-package
- eaf
- :load-path "~/.emacs.d/site-lisp/emacs-application-framework" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
- :custom ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
- (eaf-browser-continue-where-left-off t)
- (eaf-browser-enable-adblocker t)
- (browse-url-browser-function 'eaf-open-browser)
- :config (require 'eaf-browser)
- ;; (require 'eaf-org-previewer)
- ;; (require 'eaf-pdf-viewer)
- ;; (require 'eaf-camera)
- ;; (require 'eaf-jupyter)
- ;; (require 'eaf-terminal)
- (defalias 'browse-web #'eaf-open-browser)
- ;; (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
- ;; (eaf-bind-key scroll_up "C-o" eaf-org-previewer-keybinding)
- ;; (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
- ;; (eaf-bind-key take_photo "p" eaf-camera-keybinding)
- (eaf-bind-key nil "M-q" eaf-browser-keybinding)
- ;; (eaf-browser-dark-mode t)
- ;; (eaf-get-theme-foreground-color "#ff8103")
- ;; (eaf-terminal-dark-mode nil)
- ;; (eaf-mindmap-dark-mode "follow")     ; default option
- ;; (eaf-pdf-dark-mode "ignore")         ; see below
- ) ;; unbind, see more in the Wiki
+;; (use-package
+;;  eaf
+;;  :load-path "~/.emacs.d/site-lisp/emacs-application-framework" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
+;;  :custom ; See https://github.com/emacs-eaf/emacs-application-framework/wiki/Customization
+;;  (eaf-browser-continue-where-left-off t)
+;;  (eaf-browser-enable-adblocker t)
+;;  (browse-url-browser-function 'eaf-open-browser)
+;;  :config (require 'eaf-browser)
+;;  ;; (require 'eaf-org-previewer)
+;;  ;; (require 'eaf-pdf-viewer)
+;;  ;; (require 'eaf-camera)
+;;  ;; (require 'eaf-jupyter)
+;;  ;; (require 'eaf-terminal)
+;;  (defalias 'browse-web #'eaf-open-browser)
+;;  ;; (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+;;  ;; (eaf-bind-key scroll_up "C-o" eaf-org-previewer-keybinding)
+;;  ;; (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+;;  ;; (eaf-bind-key take_photo "p" eaf-camera-keybinding)
+;;  (eaf-bind-key nil "M-q" eaf-browser-keybinding)
+;;  ;; (eaf-browser-dark-mode t)
+;;  ;; (eaf-get-theme-foreground-color "#ff8103")
+;;  ;; (eaf-terminal-dark-mode nil)
+;;  ;; (eaf-mindmap-dark-mode "follow")     ; default option
+;;  ;; (eaf-pdf-dark-mode "ignore")         ; see below
+;;  ) ;; unbind, see more in the Wiki
 
 ;;;; applications
 ;;; shell
