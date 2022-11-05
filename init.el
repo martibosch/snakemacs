@@ -328,7 +328,12 @@
  :defer t
  :hook (python-mode . (lambda ()
 			(require 'lsp-pyright)
-			(lsp))))
+			(lsp)))
+ (python-mode . (lambda () (setq fill-column 88)
+		  (auto-fill-mode t)
+		  (display-fill-column-indicator-mode 1))
+	      )
+ )
 (use-package
  py-isort
  :hook (before-save . py-isort-before-save))
