@@ -28,6 +28,7 @@ dependencies:
   - pyqt
   - pyqtwebengine
   - pygit2
+  - pyright
   - snakefmt
   - tectonic=0.8
   - terraform

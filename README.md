@@ -32,7 +32,7 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
 	git checkout 98ebfb9
 	python install-eaf.py --ignore-sys-deps --ignore-core-deps --ignore-py-deps
 	cd app/browser
-	git pull --unshallow 
+	git pull --unshallow
 	git checkout 89e3dee
 	```
 
@@ -50,6 +50,29 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
 ### emacs28
 
 * In Linux, there may be [an issue](https://github.com/conda-forge/emacs-feedstock/issues/60) with the emacs 28.1 from conda-forge
+* The conda-forge emacs recipe [does not natively support json yet](https://github.com/conda-forge/emacs-feedstock/issues/59), which can prevent environment activation in conda.el. A workaround is to manually modify the `conda--call-json` function in the local `conda.el` file (at, e.g., `.emacs.d/elpa/conda-20220830.1547/conda.el`), changing:
+
+```cl
+(condition-case err
+        (if (version< emacs-version "27.1")
+            (json-read-from-string output)
+          (json-parse-string output :object-type 'alist :null-object nil))
+      (error "Could not parse %s as JSON: %s" output err))))
+```
+
+to
+
+```cl
+(condition-case err
+        (if ;; (version< emacs-version "27.1")
+            (progn
+              (require 'json)
+              (fboundp 'json-parse-string))
+	    (json-parse-string output :object-type 'alist :null-object nil)
+          (json-read-from-string output))
+      (error "Could not parse %s as JSON: %s" output err))))
+```
+
 
 ### PyQt6
 
