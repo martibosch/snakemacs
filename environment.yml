@@ -1,4 +1,3 @@
-name: emacs
 channels:
   - conda-forge
   - bioconda
@@ -6,12 +5,14 @@ dependencies:
   - autoconf
   - automake
   - black
+  - ca-certificates
   - clangdev
   - cmake
   - compilers
   - emacs=28
   - epc
   - flake8
+  - git
   - glib
   - isort
   - jedi
@@ -20,16 +21,19 @@ dependencies:
   - lxml
   - make
   - nodejs
+  - openssl
   - pandoc
   - pip
-  - pip:
-    - importmagic
   - pkg-config
+  - pre-commit
+  - pygit2
   - pyqt
   - pyqtwebengine
-  - pygit2
   - pyright
   - snakefmt
   - tectonic=0.8
   - terraform
   - wmctrl
+  - pip:
+      - importmagic
+name: emacs
