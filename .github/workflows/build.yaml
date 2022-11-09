@@ -1,0 +1,46 @@
+name: build
+
+on: push
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - environment-file: environment.yml
+            miniforge-variant: Mambaforge
+            miniforge-version: 4.14.0-2
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: checkout code repository
+        uses: actions/checkout@v3
+
+      - name: setup conda environment with mambaforge
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          use-mamba: true
+          activate-environment: emacs
+          python-version: ${{ matrix.python-version }}
+          condarc-file: ${{ matrix.condarc-file }}
+          environment-file: ${{ matrix.environment-file }}
+          miniforge-variant: ${{ matrix.miniforge-variant }}
+          miniforge-version: ${{ matrix.miniforge-version }}
+
+      - name: run emacs
+        run: |
+          emacs -nw --batch --load early-init.el \
+                --eval '(progn
+                        (defvar url-show-status)
+                        (let ((debug-on-error t)
+                              (url-show-status nil)
+                              (user-emacs-directory default-directory)
+                              (user-init-file (expand-file-name "init.el"))
+                              (load-path (delq default-directory load-path)))
+                           (load-file user-init-file)
+                           (run-hooks (quote after-init-hook))))'

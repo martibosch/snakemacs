@@ -1,38 +1,36 @@
-;;; .emacs.d --- emacs25 setup for Python, C/C++, Web, Latex...
-;;; Commentary:
-;;; author: Martí Bosch <marti.bosch.1992@gmail.com>
+;;; snakemacs
+;;; description: emacs 28 setup for Python with conda/mamba and Jupyter
+;;; author: Martí Bosch <marti.bosch@protonmail.com>
+;;; -*- lexical-binding: t; -*-
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-;; (package-initialize)
+;;; bootstrap straight and use-package
+;; https://github.com/radian-software/straight.el#getting-started
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 6))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+;; https://github.com/radian-software/straight.el#integration-with-use-package
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
 
-(require 'cask "~/.cask/cask.el")
-;; see https://github.com/cask/cask/issues/463
-(setq warning-suppress-log-types '((package reinitialization)))
-(cask-initialize)
+;;; custom file
+(setq custom-file (expand-file-name (concat user-emacs-directory "custom.el")))
+(when (file-exists-p custom-file)
+  (load-file custom-file))
 
-(load "~/.emacs.d/conf-packages.el")
-
-(add-hook 'after-init-hook '(lambda () 
-                              (load "~/.emacs.d/noexternals.el")))
-
-;; BASIC CUSTOMIZATION
-(add-to-list 'load-path "~/.emacs.d/custom") ;; custom scripts path
-(setq inhibit-startup-message t) ;; hide the startup message
-(load-theme 'zenburn t)
-
-;; SCROLLING IN TERM
-(if (eq window-system nil) 
-    (let ((map (make-sparse-keymap))) 
-      (define-key input-decode-map "\e[1;5A" [C-up]) 
-      (define-key input-decode-map "\e[1;5B" [C-down]) 
-      (define-key input-decode-map "\e[1;5C" [C-right]) 
-      (define-key input-decode-map "\e[1;5D" [C-left])))
-
-;; LINUM
-(global-linum-mode t) ;; enable line numbers globally
-(require 'linum-off)
-
-(put 'downcase-region 'disabled nil)
+;;; config by sections
+(setq config-files '(
+		     "look.el"
+		     "main.el"
+		     "apps.el"
+		     ))
+(dolist (file config-files)
+  (load-file (expand-file-name (concat user-emacs-directory file))))

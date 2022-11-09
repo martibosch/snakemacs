@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: nx
-# key: nx
-# group : general
-# --
-import networkx as nx
-$0

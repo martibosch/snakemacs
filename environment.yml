@@ -1,16 +1,20 @@
-name: emacs
 channels:
   - conda-forge
+  - bioconda
 dependencies:
-  - pip
-  - pip:
-    - importmagic
-  - autopep8
-  - black    
-  - clangdev
-  - cmake  
-  - emacs=27
-  - flake8
+  - autoconf
+  - automake
+  - black
+  - cmake
+  - compilers
+  - emacs=28
+  - git
   - isort
-  - jedi
-  - pandoc
+  - jupyter
+  - libtool
+  - pkg-config
+  - pre-commit
+  - pyright
+  - python=3.10
+  - snakefmt
+name: emacs
