@@ -68,6 +68,17 @@
   company
   :config (global-company-mode))
 
+;; syntax checker
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+;; code parsing
+(use-package tree-sitter
+  :hook ((python-mode . tree-sitter-mode)
+	 (python-mode . tree-sitter-hl-mode)))
+
+(use-package tree-sitter-langs
+  :after tree-sitter)
 
 ;;; YAML
 (use-package
