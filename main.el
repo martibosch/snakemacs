@@ -132,6 +132,21 @@
 					 ("pandoc" "--to" "org" "--from" "ipynb")
 					 org-mode)))
 
+;;; docker
+(use-package dockerfile-mode
+  :mode "Dockerfile\\'"
+  ;; :config
+  ;; (add-hook 'dockerfile-mode 'smartparens-mode)
+  )
+
+;;; terraform
+(use-package
+  terraform-mode
+  ;; TODO: see the link below on how to connect terraform with lsp
+  ;; https://www.reddit.com/r/emacs/comments/k6pp9r/debugging_lsp_and_terraform_config/
+  ;; :hook (terraform-mode . lsp)
+  :hook (terraform-mode . terraform-format-on-save-mode))
+
 ;;; org
 
 ;; base
