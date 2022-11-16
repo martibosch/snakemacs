@@ -6,7 +6,9 @@
 (use-package
   conda
   :config (conda-env-autoactivate-mode t)
-  :hook (python-mode . (lambda () (conda-env-activate-for-buffer))))
+  ;; TODO: we need to activate the envs for python files but not for, e.g., jupyter repl buffer
+  ;; :hook (python-mode . (lambda () (conda-env-activate-for-buffer)))
+  )
 
 ;; text editing
 (use-package aggressive-indent
@@ -104,8 +106,9 @@
   :config
   ;; these hooks can't go in the :hook section since lsp-restart-workspace
   ;; is not available if lsp isn't active
-  (add-hook 'conda-postactivate-hook (lambda () (lsp-restart-workspace)))
-  (add-hook 'conda-postdeactivate-hook (lambda () (lsp-restart-workspace))))
+  ;; (add-hook 'conda-postactivate-hook (lambda () (lsp-restart-workspace)))
+  ;; (add-hook 'conda-postdeactivate-hook (lambda () (lsp-restart-workspace)))
+  )
 
 
 ;; formatting
@@ -148,6 +151,8 @@
 
 (use-package org-contrib
   :after (org))
+
+(use-package poly-org)
 
 ;; python and jupyter
 (use-package
