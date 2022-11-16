@@ -12,6 +12,7 @@ dependencies:
   - isort
   - jupyter
   - libtool
+  - pandoc>=2.19.2
   - pkg-config
   - pre-commit
   - pyright

@@ -121,6 +121,14 @@
 (use-package
   snakemake-mode)
 
+;;; code cells
+(use-package code-cells
+  :commands (code-cells-mode)
+  :config
+  (setq code-cells-convert-ipynb-style '(("pandoc" "--to" "ipynb" "--from" "org")
+					 ("pandoc" "--to" "org" "--from" "ipynb")
+					 org-mode)))
+
 ;;; org
 
 ;; base
