@@ -1,6 +1,9 @@
 [![build](https://github.com/martibosch/snakemacs/actions/workflows/build.yaml/badge.svg)](https://github.com/martibosch/snakemacs/actions/workflows/build.yaml)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/martibosch/snakemacs/main.svg)](https://results.pre-commit.ci/latest/github/martibosch/snakemacs/main)
 
 # snakemacs
+
+![snakemacs logo](https://github.com/martibosch/snakemacs/blob/main/snakemacs.svg)
 
 emacs28 setup for Python with conda/mamba
 
@@ -31,3 +34,9 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
    ```
 
 4. From inside emacs, install all the icon fonts `M-x all-the-icons-install-fonts`
+
+## TODO
+
+### Python, conda/mamba and lsp worfklow
+
+Each buffer with Python code (e.g., `.py` files and `.org` files) must have a pyright language server with the proper conda/mamba environment.
