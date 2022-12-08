@@ -89,6 +89,20 @@
   :hook (yaml-mode . highlight-indent-guides-mode)
   :config (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 
+;;; web
+(use-package web-mode
+  :commands (web-mode)
+  :init (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  :hook (web-mode . my/engine-map-hook)
+  :config (defun my/engine-map-hook ()
+	    (if (projectile-project-p)
+		(if (or (file-exists-p (concat (projectile-project-root) "manage.py"))
+			(file-exists-p (concat (projectile-project-root) "_config.yml"))
+			)
+		    (web-mode-set-engine "django"))
+	      )
+	    ))
+
 ;;; lisp
 (use-package lispy
   :hook (emacs-lisp-mode . (lambda () (lispy-mode 1))))
