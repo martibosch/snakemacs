@@ -40,3 +40,7 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
 ### Python, conda/mamba and lsp worfklow
 
 Each buffer with Python code (e.g., `.py` files and `.org` files) must have a pyright language server with the proper conda/mamba environment.
+
+### Default environment activation
+
+The [`conda--infer-env-from-buffer` function of conda.el](https://github.com/necaris/conda.el/blob/main/conda.el#L264-L274) activates the base environment, i.e., happens if `conda-activate-base-by-default` is set to `true` (altough it is `nil` by default) or if the "auto_activate_base" conda setting is set to `true`, which depends on the user's settings. However, snakemacs should instead use the `emacs` environment by default. This can either be acheived by (a) contributing to conda.el or (b) overriding the `codna--infer-env-from-buffer` function within this configuration (see https://stackoverflow.com/questions/15717103/preferred-method-of-overriding-an-emacs-lisp-function).
