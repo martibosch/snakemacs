@@ -18,4 +18,3 @@ dependencies:
   - pyright
   - python=3.10
   - snakefmt
-name: emacs

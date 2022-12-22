@@ -19,11 +19,20 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
    cd .emacs.d
    ```
 
-2. Create a conda environment with the `environment.yml` file included in this repository (which will install emacs as well as the Python and C/C++ dependencies required for autocompletion, syntax checking and function documentation - **note**: this only works in Linux and OSX), and then activate the conda environment:
+2. Use conda/mamba and the `environment.yml` file included in this repository to install emacs (as well as the Python and C/C++ dependencies required for autocompletion, syntax checking and function documentation - **note**: this only works in Linux and OSX), by either:
+
+   a. installing the requirements in the `base` environment (or any other existing environment _provided that it is active at the time of running the commands_):
 
    ```bash
    # or use mamba instead of conda
-   conda env create -f environment.yml
+   conda env update -f environment.yml
+   ```
+
+   b. create a new dedicated environment (e.g., named `emacs`) - **note** that in such case, you must always run emacs from within the dedicated environment:
+
+   ```bash
+   # or use mamba instead of conda
+   conda env create -n emacs -f environment.yml
    conda activate emacs
    ```
 

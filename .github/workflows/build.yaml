@@ -21,6 +21,10 @@ jobs:
       - name: checkout code repository
         uses: actions/checkout@v3
 
+      - name: add environment name
+        run: |
+          echo "name: emacs" >> environment.yml
+
       - name: setup conda environment with mambaforge
         uses: conda-incubator/setup-miniconda@v2
         with:
