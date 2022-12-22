@@ -7,8 +7,7 @@
   conda
   :config (conda-env-autoactivate-mode t)
   ;; TODO: we need to activate the envs for python files but not for, e.g., jupyter repl buffer
-  ;; :hook (python-mode . (lambda () (conda-env-activate-for-buffer)))
-  )
+  :hook (python-mode . (lambda () (conda-env-activate-for-buffer))))
 
 ;; text editing
 (use-package aggressive-indent
