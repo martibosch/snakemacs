@@ -188,7 +188,7 @@
 (use-package org-contrib
   :after (org))
 
-(use-package poly-org)
+;; (use-package poly-org)
 
 ;; python and jupyter
 (use-package
