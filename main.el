@@ -75,8 +75,10 @@
 
 ;; code parsing
 (use-package tree-sitter
-  :hook ((python-mode . tree-sitter-mode)
-	 (python-mode . tree-sitter-hl-mode)))
+  :hook (python-mode . (lambda () (unless (eq major-mode 'snakemake-mode)
+				    (tree-sitter-mode))))
+  (python-mode . (lambda () (unless (eq major-mode 'snakemake-mode)
+			      (tree-sitter-hl-mode)))))
 
 (use-package tree-sitter-langs
   :after tree-sitter)
@@ -115,7 +117,8 @@
   :defer t
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
-			 (lsp)))
+			 ((lambda () (unless (eq major-mode 'snakemake-mode)
+				       (lsp))))))
   :config
   ;; these hooks can't go in the :hook section since lsp-restart-workspace
   ;; is not available if lsp isn't active
