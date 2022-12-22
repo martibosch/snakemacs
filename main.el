@@ -131,7 +131,12 @@
 
 (use-package
   blacken
-  :hook (python-mode . blacken-mode))
+  :hook (python-mode . blacken-mode)
+  ;; this is not exactly a blacken concern but it can be placed here since it is a Python-sytle related hook that does not require any use-package declaration
+  (python-mode . (lambda () (setq fill-column 88)
+		   (auto-fill-mode t)
+		   (display-fill-column-indicator-mode 1))
+	       ))
 
 ;;; Snakemake
 (use-package
