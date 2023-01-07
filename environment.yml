@@ -9,6 +9,7 @@ dependencies:
   - compilers
   - emacs=28
   - git
+  - flake8
   - isort
   - jupyter
   - libtool
