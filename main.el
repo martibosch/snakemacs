@@ -209,11 +209,11 @@
   (org-babel-jupyter-aliases-from-kernelspecs t))
 (add-hook 'org-babel-after-execute-hook 'org-redisplay-inline-images)
 (org-babel-jupyter-override-src-block "python")
-(add-hook 'org-src-mode-hook (lambda ()
-			       ;; (hs-minor-mode -1)
-			       ;; (electric-indent-local-mode -1)
-			       ;; (rainbow-delimiters-mode -1)
-			       (highlight-indent-guides-mode -1)))
+;; (add-hook 'org-src-mode-hook (lambda ()
+;; 			       ;; (hs-minor-mode -1)
+;; 			       ;; (electric-indent-local-mode -1)
+;; 			       ;; (rainbow-delimiters-mode -1)
+;; 			       (highlight-indent-guides-mode -1)))
 
 (setq my/org-view-html-tmp-dir "/tmp/org-html-preview/")
 
