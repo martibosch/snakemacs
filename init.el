@@ -30,7 +30,6 @@
 (setq config-files '(
 		     "look.el"
 		     "main.el"
-		     "apps.el"
 		     ))
 (dolist (file config-files)
   (load-file (expand-file-name (concat user-emacs-directory file))))
