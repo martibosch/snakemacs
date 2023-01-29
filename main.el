@@ -9,6 +9,14 @@
   ;; TODO: we need to activate the envs for python files but not for, e.g., jupyter repl buffer
   :hook (python-mode . (lambda () (conda-env-activate-for-buffer))))
 
+;;  key bindings
+(use-package which-key
+  :config
+  (setq which-key-idle-delay 0.3)
+  (setq which-key-popup-type 'frame)
+  (which-key-mode)
+  (which-key-setup-side-window-bottom))
+
 ;; text editing
 (use-package aggressive-indent
   :commands (aggressive-indent-mode))
