@@ -118,7 +118,7 @@
 (use-package
   yaml-mode
   :mode "\\.yml\\'"
-  :hook (yaml-mode . highlight-indent-guides-mode)
+  ;; :hook (yaml-mode . highlight-indent-guides-mode)
   :config (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 
 ;;; web
