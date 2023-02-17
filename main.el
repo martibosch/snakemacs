@@ -180,9 +180,35 @@
 (use-package code-cells
   :commands (code-cells-mode)
   :config
-  (setq code-cells-convert-ipynb-style '(("pandoc" "--to" "ipynb" "--from" "org")
-					 ("pandoc" "--to" "org" "--from" "ipynb")
-					 org-mode)))
+  ;; (setq code-cells-convert-ipynb-style '(("pandoc" "--to" "ipynb" "--from" "org")
+  ;; 					 ("pandoc" "--to" "org" "--from" "ipynb")
+  ;; 					 org-mode))
+  (setq code-cells-convert-ipynb-style '(("jupytext" "--to" "ipynb" "--execute")
+					 ("jupytext" "--to" "auto:percent")))
+  (let ((map code-cells-mode-map))
+    (define-key map (kbd "C-c <up>") 'code-cells-backward-cell)
+    (define-key map (kbd "C-c <down>") 'code-cells-forward-cell)
+    (define-key map (kbd "M-<up>") 'code-cells-move-cell-up)
+    (define-key map (kbd "M-<down>") 'code-cells-move-cell-down)
+    (define-key map (kbd "C-c C-c") 'code-cells-eval)
+    ;; Overriding other minor mode bindings requires some insistence...
+    (define-key map [remap jupyter-eval-line-or-region] 'code-cells-eval)))
+(defun my/new-notebook (notebook-name &optional kernel)
+  "Creates an empty notebook in the current directory with an associated kernel."
+  (interactive "sEnter the notebook name: ")
+  (when (file-name-extension notebook-name)
+    (setq notebook-name (file-name-sans-extension notebook-name)))
+  (unless kernel
+    (setq kernel (completing-read "Choose kernel: " (jupyter-available-kernelspecs))))
+  (unless (executable-find "jupytext")
+    (error "Can't find \"jupytext\""))
+  (let ((notebook-py (concat notebook-name ".py")))
+    (shell-command (concat "touch " notebook-py))
+    (shell-command (concat "jupytext --set-kernel " kernel " " notebook-py))
+    (shell-command (concat "jupytext --to notebook " notebook-py))
+    (shell-command (concat "rm " notebook-py))
+    (message (concat "Notebook successfully created at " notebook-name ".ipynb"))))
+
 
 ;;; docker
 (use-package dockerfile-mode
