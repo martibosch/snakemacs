@@ -186,13 +186,10 @@
 
 ;;; code cells
 (use-package code-cells
-  :commands (code-cells-mode)
   :config
   ;; (setq code-cells-convert-ipynb-style '(("pandoc" "--to" "ipynb" "--from" "org")
   ;; 					 ("pandoc" "--to" "org" "--from" "ipynb")
   ;; 					 org-mode))
-  (setq code-cells-convert-ipynb-style '(("jupytext" "--to" "ipynb" "--execute")
-					 ("jupytext" "--to" "auto:percent")))
   (let ((map code-cells-mode-map))
     (define-key map (kbd "C-c <up>") 'code-cells-backward-cell)
     (define-key map (kbd "C-c <down>") 'code-cells-forward-cell)
