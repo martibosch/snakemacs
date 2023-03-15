@@ -143,6 +143,19 @@
 	      )
 	    ))
 
+;;; markdown
+(use-package markdown-mode
+  :mode ("README\\.md\\'" . gfm-mode)
+  :config
+  ;; (setq markdown-command
+  ;; 	(concat
+  ;; 	 "pandoc"
+  ;; 	 " --from=markdown --to=html"
+  ;; 	 " --standalone --mathjax --highlight-style=pygments"
+  ;; 	 " --css=pandoc.css"
+  ;; 	 " --quiet"
+  ;; 	 ))
+  )
 ;;; lisp
 (use-package lispy
   :hook (emacs-lisp-mode . (lambda () (lispy-mode 1))))
