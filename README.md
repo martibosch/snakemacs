@@ -44,11 +44,26 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
 
 4. From inside emacs, install all the icon fonts `M-x all-the-icons-install-fonts`
 
-## TODO
+## Caveats
 
-### Python, conda/mamba and lsp worfklow
+### Conda environments and IDE features for Python buffers
 
-Each buffer with Python code (e.g., `.py` files and `.org` files) must have a pyright language server with the proper conda/mamba environment.
+Each buffer with Python code (e.g., `.py` and `.ipynb` files) is associated to a conda/mamba environment. To ensure that IDE features are properly provided, each environment must have a set of packages installed, e.g., [pyright](https://github.com/microsoft/pyright) for static type checking, [black](https://github.com/psf/black) for formatting on save, [ruff](https://beta.ruff.rs) to check sytnax and style on the fly via flycheck, [jupytext](https://github.com/mwouts/jupytext) to convert Jupyter notebooks to Python scripts...
+
+In order to ensure that these packages are included by default in all environments at the time of their creation, you can set up the [`create_default_packages`](https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html#config-add-default-pkgs) options by adding the following (feel free to adapt the list of packages to suit your needs) to the `.condarc` file:
+
+```
+create_default_packages:
+  - black
+  - jupytext
+  - pandoc
+  - pre-commit
+  - pyright
+  - ruff
+  - ipykernel
+```
+
+There remains nevertheless a caveat with this approach, as these packages will inevitably appear when exporting a conda environment (i.e., `conda env export`), adding dependencies that other users trying to reproduce your code may not need.
 
 ### Default environment activation
 
