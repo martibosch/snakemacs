@@ -186,10 +186,14 @@
 
 (use-package
   blacken
-  :hook (python-mode . blacken-mode)
-  ;; this is not exactly a blacken concern but it can be placed here since it is a Python-sytle related hook that does not require any use-package declaration
+  :hook (python-mode . blacken-mode))
+
+(use-package python-docstring
+  :hook (python-mode . python-docstring-mode)
+  ;; this hook does not necessarily belong here as it applies to python-mode more broadly
+  ;; but it is the most related use-package declaration
   (python-mode . (lambda () (setq fill-column 88)
-		   (auto-fill-mode t)
+		   ;; (auto-fill-mode t)
 		   (display-fill-column-indicator-mode 1))
 	       ))
 
