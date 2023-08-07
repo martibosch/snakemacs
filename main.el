@@ -160,6 +160,78 @@
   ;; 	 " --quiet"
   ;; 	 ))
   )
+
+;;; LaTeX
+(use-package
+  tex
+  :straight auctex
+  :defer t
+  :custom (TeX-auto-save t)
+  :config
+  ;; use XeLaTeX
+  ;; (setq-default TeX-engine 'xetex)
+  ;; (setq-default TeX-command-extra-options "-shell-escape")
+  ;; synctex
+  (setq-default TeX-source-correlate-method 'synctex)
+  (TeX-source-correlate-mode)
+  (setq-default TeX-source-correlate-start-server t)
+  (setq-default LaTeX-math-menu-unicode t)
+  ;; (setq-default font-latex-fontify-sectioning 1.3)
+  ;; use tectonic
+  ;; ACHTUNG: tectonic is built around XeLaTeX which is INCOMPATIBLE with arxiv, so use texlive until https://github.com/tectonic-typesetting/tectonic/discussions/956 is addressed
+  ;; ;; (add-to-list 'TeX-command-list '("tectonic" "%`tectonic -X compile --synctex --keep-logs %t"
+  ;; ;; 				   TeX-run-command nil t))
+  ;; (setq TeX-engine-alist '((default
+  ;;                            "Tectonic"
+  ;;                            "tectonic -X compile -f plain %T"
+  ;;                            ;; "tectonic -X watch"
+  ;; 			     "tectonic -X compile --synctex --keep-logs %T"
+  ;;                            nil)))
+  ;; (setq LaTeX-command-style '(("" "%(latex)")))
+  ;; (setq TeX-process-asynchronous t
+  ;; 	TeX-check-TeX nil
+  ;; 	TeX-engine 'default)
+  ;; (let ((tex-list (assoc "TeX" TeX-command-list))
+  ;; 	(latex-list (assoc "LaTeX" TeX-command-list)))
+  ;;   (setf (cadr tex-list) "%(tex)"
+  ;;         (cadr latex-list) "%l"))
+  ;; ;; pdf view with eaf
+  ;; (add-to-list 'TeX-view-program-list '("eaf" eaf-pdf-synctex-forward-view))
+  ;; (add-to-list 'TeX-view-program-selection '(output-pdf "eaf"))
+
+  ;; Do not run lsp within templated TeX files
+  :hook (LaTeX-mode . (lambda ()
+			(unless (string-match "\.hogan\.tex$" (buffer-name))
+			  (lsp))
+			(setq-local lsp-diagnostic-package
+				    :none)
+			(setq-local flycheck-checker 'tex-chktex)))
+  (LaTeX-mode . turn-on-reftex))
+
+;; (use-package
+;;   ivy-bibtex
+;;   :commands (ivy-bibtex)
+;;   :bind ("C-c b" . ivy-bibtex)
+;;   :hook (bibtex-mode . smartparens-mode))
+(use-package
+  reftex
+  :commands turn-on-reftex
+  :custom (reftex-plug-into-AUCTeX t))
+
+(use-package
+  gscholar-bibtex)
+
+(use-package lsp-latex
+  :disabled
+  :hook ((TeX-mode bibtex-mode) . lsp-deferred)
+  :commands (lsp-latex-build)
+  :config
+  (setq lsp-latex-build-executable "tectonic")
+  (setq lsp-latex-build-args '( "%f"
+                                "--synctex"
+                                "--keep-logs"
+                                "--keep-intermediates")))
+
 ;;; lisp
 (use-package lispy
   :hook (emacs-lisp-mode . (lambda () (lispy-mode 1))))
