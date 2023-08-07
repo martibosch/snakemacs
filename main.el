@@ -31,6 +31,10 @@
   (setq yas-triggers-in-field t)
   (yas-global-mode 1))
 
+;; matching parentheses
+(use-package smartparens
+  :config (show-smartparens-global-mode t))
+
 ;; project management
 (use-package
   magit)
