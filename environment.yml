@@ -7,7 +7,7 @@ dependencies:
   - black
   - cmake
   - compilers
-  - emacs=28
+  # - emacs=28
   - git
   - isort
   - jupyter
