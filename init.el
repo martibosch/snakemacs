@@ -4,6 +4,8 @@
 ;;; -*- lexical-binding: t; -*-
 
 ;;; bootstrap straight and use-package
+;; see https://jeffkreeftmeijer.com/emacs-native-comp-log/
+;; (setq straight-repository-branch "develop")
 ;; https://github.com/radian-software/straight.el#getting-started
 (defvar bootstrap-version)
 (let ((bootstrap-file
