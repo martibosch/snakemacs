@@ -273,6 +273,9 @@
 		   (display-fill-column-indicator-mode 1))
 	       ))
 
+(use-package filladapt
+  :hook (python-mode . filladapt-mode))
+
 ;;; Snakemake
 (use-package
   snakemake-mode)
