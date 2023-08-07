@@ -42,7 +42,7 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
    emacs
    ```
 
-4. From inside emacs, install all the icon fonts `M-x all-the-icons-install-fonts`
+4. From inside emacs, install all the icon fonts `M-x nerd-icons-install-fonts`
 
 ## Caveats
 
