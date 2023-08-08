@@ -19,7 +19,7 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
    cd .emacs.d
    ```
 
-2. Use conda/mamba and the `environment.yml` file included in this repository to install emacs (as well as the Python and C/C++ dependencies required for autocompletion, syntax checking and function documentation - **note**: this only works in Linux and OSX), by either:
+2. Use conda/mamba and the `environment.yml` file included in this repository to install the Python and C/C++ dependencies required for autocompletion, syntax checking and function documentation by either:
 
    a. installing the requirements in the `base` environment (or any other existing environment _provided that it is active at the time of running the commands_):
 
@@ -36,15 +36,21 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
    conda activate emacs
    ```
 
-3. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, `libvterm` may not be installed properly):
+3. Install emacs in your system. Currently, only ubuntu builds are supported, but the idea is to eventually (i.e., after several issues are addressed, see the caveats section below) use [conda-forge's emacs](https://github.com/conda-forge/emacs-feedstock) for a fully conda-based cross-platform setup.
+
+4. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, `libvterm` may not be installed properly):
 
    ```bash
    emacs
    ```
 
-4. From inside emacs, install all the icon fonts `M-x nerd-icons-install-fonts`
+5. From inside emacs, install all the icon fonts `M-x nerd-icons-install-fonts`
 
 ## Caveats
+
+### Issues with conda-forge emacs
+
+There are currently two main issues with the emacs from conda-forge, namely [an error with newer Linux versions](https://github.com/conda-forge/emacs-feedstock/issues/63) and [the lack of native JSON and native compilation](https://github.com/conda-forge/emacs-feedstock/issues/59), which slow down several features such as lsp. This may be addressed once [the v29.1 branch](https://github.com/conda-forge/emacs-feedstock/pull/73) is merged.
 
 ### Conda environments and IDE features for Python buffers
 
