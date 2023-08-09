@@ -446,7 +446,7 @@
   (when (file-name-extension notebook-name)
     (setq notebook-name (file-name-sans-extension notebook-name)))
   (unless kernel
-    (setq kernel (completing-read "Choose kernel: " (jupyter-available-kernelspecs))))
+    (setq kernel (jupyter-kernelspec-name (jupyter-completing-read-kernelspec))))
   (unless (executable-find "jupytext")
     (error "Can't find \"jupytext\""))
   (let ((notebook-py (concat notebook-name ".py")))
