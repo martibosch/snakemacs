@@ -318,6 +318,14 @@
 ;; (use-package poly-org)
 
 ;; python and jupyter
+;;; custom zmq build - see https://github.com/alexmurray/emacs-snap/issues/66
+(let* ((emacs-snap-dir (file-name-as-directory (getenv "EMACS_SNAP_DIR")))
+       (process-environment (append process-environment `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-10" )
+                                                          ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-10")
+                                                          ,(concat "CFLAGS=--sysroot=" emacs-snap-dir)
+							  ,(concat "CPPFLAGS=--sysroot=" emacs-snap-dir)
+							  ,(concat "LDFLAGS=--sysroot=" emacs-snap-dir " -L" emacs-snap-dir "/usr/lib")))))
+  (use-package zmq))
 ;;; emacs-jupyter
 (use-package
   jupyter

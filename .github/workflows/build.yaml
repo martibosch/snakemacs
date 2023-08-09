@@ -31,12 +31,10 @@ jobs:
           miniforge-variant: ${{ matrix.miniforge-variant }}
           miniforge-version: ${{ matrix.miniforge-version }}
 
-      - name: install emacs28
+      - name: install emacs28 from snap
         run: |
-          sudo apt -y remove --autoremove emacs emacs-common
-          sudo add-apt-repository -y ppa:kelleyk/emacs
-          sudo apt -y update
-          sudo apt -y install emacs28
+          sudo apt remove -y --autoremove emacs emacs-common
+          sudo snap install emacs --channel=28.x/stable --classic
 
       - name: run emacs
         run: |
