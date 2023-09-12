@@ -39,7 +39,7 @@
  ("iedit" . "27c61866b1b9b8d77629ac702e5f48e67dfe0d3b")
  ("ivy-rich" . "aff9b6bd53e0fdcf350ab83c90e64e651b47dba4")
  ("jsonrpc" . "ba4275ef5bcbfceebd7049c5669dec9edabcb1fc")
- ("jupyter" . "1baabc8f2d0631f8f4308400f9a53f1aadd58d14")
+ ("jupyter" . "455166712e606c9c6a8de763ea0a77548cadcef2")
  ("let-alist" . "021fc10df2e44faba4728d849ee767cf890aa51a")
  ("lispy" . "fe44efd21573868638ca86fc8313241148fabbe3")
  ("lsp-mode" . "1dcf2facdd72dd38c49aa1dc1a7e0814476010b5")

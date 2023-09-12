@@ -429,9 +429,9 @@
   ;; 					 ("pandoc" "--to" "org" "--from" "ipynb")
   ;; 					 org-mode))
   ;; see https://github.com/astoff/code-cells.el/issues/22
-  (defun gm/jupyter-eval-region (beg end)
-    (jupyter-eval-region nil beg end))
-  (add-to-list 'code-cells-eval-region-commands '(jupyter-repl-interaction-mode . gm/jupyter-eval-region))
+  ;; (defun gm/jupyter-eval-region (beg end)
+  ;;   (jupyter-eval-region nil beg end))
+  ;; (add-to-list 'code-cells-eval-region-commands '(jupyter-repl-interaction-mode . gm/jupyter-eval-region))
   (let ((map code-cells-mode-map))
     (define-key map (kbd "C-c <up>") 'code-cells-backward-cell)
     (define-key map (kbd "C-c <down>") 'code-cells-forward-cell)
