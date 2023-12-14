@@ -96,7 +96,8 @@
     "A Python syntax and style checker using the ruff utility.
     To override the path to the ruff executable, set
     `flycheck-python-ruff-executable'.
-    See URL `http://pypi.python.org/pypi/ruff'."
+    See URL `http://pypi.python.org/pypi/ruff'.
+    Also see https://github.com/flycheck/flycheck/issues/1974."
     :command ("ruff"
               "--format=text"
               (eval (when buffer-file-name
@@ -256,6 +257,13 @@
 
 
 ;; formatting
+;; TODO: use ruff instead of black and isort when:
+;; - ruff-format can be configured to work on code-cells ipynb buffers (treat it like an
+;;   ipynb file despite the ipynb extension, e.g., `--format=text`)
+;; - import sorting is applied in ruff format (rather than lint) command
+;; (use-package ruff-format
+;;   :hook (python-mode . ruff-format-on-save-mode))
+
 (use-package
   py-isort
   :hook (before-save . py-isort-before-save))

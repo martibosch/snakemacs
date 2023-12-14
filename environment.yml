@@ -4,12 +4,10 @@ channels:
 dependencies:
   - autoconf
   - automake
-  - black
   - cmake
   - compilers
   # - emacs=28
   - git
-  - isort
   - jupyter
   - libtool
   - pandoc>=2.19.2
@@ -17,5 +15,5 @@ dependencies:
   - pre-commit
   - pyright
   - python=3.10
-  - ruff
+  - ruff>=0.1.0
   - snakefmt
