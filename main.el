@@ -179,15 +179,17 @@
   (setq-default LaTeX-math-menu-unicode t)
   ;; (setq-default font-latex-fontify-sectioning 1.3)
   ;; use tectonic
+  ;; https://tectonic-typesetting.github.io/book/latest/howto/auctex-setup/index.html
   ;; ACHTUNG: tectonic is built around XeLaTeX which is INCOMPATIBLE with arxiv, so use texlive until https://github.com/tectonic-typesetting/tectonic/discussions/956 is addressed
-  ;; ;; (add-to-list 'TeX-command-list '("tectonic" "%`tectonic -X compile --synctex --keep-logs %t"
-  ;; ;; 				   TeX-run-command nil t))
+  ;; (add-to-list 'TeX-command-list '("tectonic" "%`tectonic -X compile --synctex --keep-logs %t"
+  ;; 				   TeX-run-command nil t))
+  ;; start: uncomment to use tectonic
   ;; (setq TeX-engine-alist '((default
-  ;;                            "Tectonic"
-  ;;                            "tectonic -X compile -f plain %T"
-  ;;                            ;; "tectonic -X watch"
-  ;; 			     "tectonic -X compile --synctex --keep-logs %T"
-  ;;                            nil)))
+  ;;                           "Tectonic"
+  ;;                           "tectonic -X compile -f plain %T"
+  ;;                           ;; "tectonic -X watch"
+  ;; 			    "tectonic -X compile --synctex --keep-logs %T"
+  ;;                           nil)))
   ;; (setq LaTeX-command-style '(("" "%(latex)")))
   ;; (setq TeX-process-asynchronous t
   ;; 	TeX-check-TeX nil
@@ -196,6 +198,13 @@
   ;; 	(latex-list (assoc "LaTeX" TeX-command-list)))
   ;;   (setf (cadr tex-list) "%(tex)"
   ;;         (cadr latex-list) "%l"))
+  ;; (add-hook 'after-change-major-mode-hook
+  ;;           (lambda ()
+  ;;             (when-let ((project (project-current))
+  ;; 			 (proot (project-root project)))
+  ;; 		(when (file-exists-p (expand-file-name "Tectonic.toml" proot))
+  ;;                 (setq-local TeX-output-dir (expand-file-name "build/index" proot))))))
+  ;; end: uncomment to use tectonic
   ;; ;; pdf view with eaf
   ;; (add-to-list 'TeX-view-program-list '("eaf" eaf-pdf-synctex-forward-view))
   ;; (add-to-list 'TeX-view-program-selection '(output-pdf "eaf"))
