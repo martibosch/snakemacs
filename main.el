@@ -289,6 +289,10 @@
 ;;; Snakemake
 (use-package
   snakemake-mode)
+(use-package format-all
+  ;; TODO: replace with reformatter?
+  :commands format-all-mode
+  :hook (snakemake-mode . format-all-mode))
 
 ;;; docker
 (use-package dockerfile-mode
