@@ -15,5 +15,5 @@ dependencies:
   - pre-commit
   - pyright
   - python=3.10
-  - ruff>=0.1.0
+  - ruff>=0.4.0
   - snakefmt

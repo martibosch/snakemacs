@@ -99,7 +99,7 @@
     See URL `http://pypi.python.org/pypi/ruff'.
     Also see https://github.com/flycheck/flycheck/issues/1974."
     :command ("ruff"
-              "--format=text"
+              "check --output-format=text"
               (eval (when buffer-file-name
                       (concat "--stdin-filename=" buffer-file-name)))
               "-")
@@ -257,20 +257,22 @@
 
 
 ;; formatting
-;; TODO: use ruff instead of black and isort when:
-;; - ruff-format can be configured to work on code-cells ipynb buffers (treat it like an
-;;   ipynb file despite the ipynb extension, e.g., `--format=text`)
-;; - import sorting is applied in ruff format (rather than lint) command
-;; (use-package ruff-format
-;;   :hook (python-mode . ruff-format-on-save-mode))
-
-(use-package
-  py-isort
-  :hook (before-save . py-isort-before-save))
-
-(use-package
-  blacken
-  :hook (python-mode . blacken-mode))
+(use-package reformatter
+  :hook
+  (python-mode . ruff-check-fix-on-save-mode)
+  (python-mode . ruff-format-on-save-mode)
+  :config
+  ;; from https://www.reddit.com/r/emacs/comments/17gqjsy/using_ruff_format_with_emacs_to_reformat_python/
+  ;; ACHTUNG: do NOT use `--stdin-filename` `buffer-file-name` because it will fail when
+  ;; formatting notebooks (since in emacs buffers they are python scripts with percent
+  ;; format using code-cells)
+  (reformatter-define ruff-check-fix
+    :program "ruff"
+    :args `("check" "--fix" "--fix-only" "-"))
+  (reformatter-define ruff-format
+    :program "ruff"
+    :args `("format" "-"))
+  )
 
 (use-package python-docstring
   :hook (python-mode . python-docstring-mode)
