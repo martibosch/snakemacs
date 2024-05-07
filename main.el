@@ -251,18 +251,13 @@
 
 ;;; python
 ;; language server
-(use-package lsp-pyright
-  :defer t
-  :hook (python-mode . (lambda ()
-			 (require 'lsp-pyright)
-			 ((lambda () (unless (eq major-mode 'snakemake-mode)
-				       (lsp))))))
-  :config
-  ;; these hooks can't go in the :hook section since lsp-restart-workspace
-  ;; is not available if lsp isn't active
-  ;; (add-hook 'conda-postactivate-hook (lambda () (lsp-restart-workspace)))
-  ;; (add-hook 'conda-postdeactivate-hook (lambda () (lsp-restart-workspace)))
-  )
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook (python-mode . (lambda () (unless (eq major-mode 'snakemake-mode)
+				    (lsp))))
+  :commands lsp)
 
 
 ;; formatting

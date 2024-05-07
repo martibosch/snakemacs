@@ -13,7 +13,7 @@ dependencies:
   - pandoc>=2.19.2
   - pkg-config
   - pre-commit
-  - pyright
   - python=3.10
+  - python-lsp-ruff
   - ruff>=0.4.0
   - snakefmt

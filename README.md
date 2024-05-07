@@ -54,19 +54,19 @@ There are currently two main issues with the emacs from conda-forge, namely [an 
 
 ### Conda environments and IDE features for Python buffers
 
-Each buffer with Python code (e.g., `.py` and `.ipynb` files) is associated to a conda/mamba environment. To ensure that IDE features are properly provided, each environment must have a set of packages installed, e.g., [pyright](https://github.com/microsoft/pyright) for static type checking, [black](https://github.com/psf/black) for formatting on save, [ruff](https://beta.ruff.rs) to check sytnax and style on the fly via flycheck, [jupytext](https://github.com/mwouts/jupytext) to convert Jupyter notebooks to Python scripts...
+Each buffer with Python code (e.g., `.py` and `.ipynb` files) is associated to a conda/mamba environment. To ensure that IDE features are properly provided, each environment must have a set of packages installed, e.g., [python-lsp-ruff](https://github.com/python-lsp/python-lsp-ruff) for language server protocol (LSP) linting with [ruff](https://docs.astral.sh/ruff), also checking sytnax and style on the fly via flycheck, [jupytext](https://github.com/mwouts/jupytext) to convert Jupyter notebooks to Python scripts...
 
 In order to ensure that these packages are included by default in all environments at the time of their creation, you can set up the [`create_default_packages`](https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html#config-add-default-pkgs) options by adding the following (feel free to adapt the list of packages to suit your needs) to the `.condarc` file:
 
 ```
 create_default_packages:
-  - black
+  - ipykernel
   - jupytext
+  - nodejs
   - pandoc
   - pre-commit
-  - pyright
+  - python-lsp-ruff
   - ruff
-  - ipykernel
 ```
 
 There remains nevertheless a caveat with this approach, as these packages will inevitably appear when exporting a conda environment (i.e., `conda env export`), adding dependencies that other users trying to reproduce your code may not need.
