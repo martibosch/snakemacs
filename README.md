@@ -48,6 +48,16 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
 
 ## Caveats
 
+### Issues with emacs-jupyter and zmq
+
+Several [emacs-jupyter](https://github.com/emacs-jupyter) users (including myself) have encountered an error of the form:
+
+```
+zmq.error.ZMQError: Address already in use
+```
+
+when trying to launch a Jupyter REPL, i.e., `M-x jupyter-run-repl`. In my case, I managed to avoid it following [the hack suggested by deepestthought42](https://github.com/emacs-jupyter/jupyter/issues/464#issuecomment-1937499393).
+
 ### Issues with conda-forge emacs
 
 There are currently two main issues with the emacs from conda-forge, namely [an error with newer Linux versions](https://github.com/conda-forge/emacs-feedstock/issues/63) and [the lack of native JSON and native compilation](https://github.com/conda-forge/emacs-feedstock/issues/59), which slow down several features such as lsp. This may be addressed once [the v29.1 branch](https://github.com/conda-forge/emacs-feedstock/pull/73) is merged.
