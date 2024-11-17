@@ -91,7 +91,48 @@
 
 ;; syntax checker
 (use-package flycheck
-  :init (global-flycheck-mode))
+  :init (global-flycheck-mode)
+  :config
+  ;; we have to redefine the python-ruff checker to work on notebooks-as-scripts with code-cells
+  (flycheck-define-checker python-ruff
+    "A Python syntax and style checker using Ruff.
+
+See URL `https://docs.astral.sh/ruff/'."
+    :command ("ruff"
+              "check"
+              (config-file "--config" flycheck-python-ruff-config)
+              "--output-format=concise"
+	      ;; we actually only change the commented line below
+	      ;; (option "--stdin-filename" buffer-file-name)
+	      ;; for this `eval`
+              (eval
+               (when (and buffer-file-name
+                          (not (string-suffix-p ".ipynb" buffer-file-name)))
+                 `("--stdin-filename" ,buffer-file-name)))
+	      ;; end of changes
+              "-")
+    :standard-input t
+    :error-filter (lambda (errors)
+                    (let* ((errors (flycheck-sanitize-errors errors))
+                           (errors-with-ids (seq-filter #'flycheck-error-id errors)))
+                      (seq-union
+                       (seq-difference errors errors-with-ids)
+                       (seq-map #'flycheck-flake8-fix-error-level errors-with-ids))))
+    :error-patterns
+    ((error line-start
+            (or "-" (file-name)) ":" line ":" (optional column ":") " "
+            "SyntaxError: "
+            (message (one-or-more not-newline))
+            line-end)
+     (warning line-start
+              (or "-" (file-name)) ":" line ":" (optional column ":") " "
+              (id (one-or-more (any alpha)) (one-or-more digit) " ")
+              (message (one-or-more not-newline))
+              line-end))
+    :working-directory flycheck-python-find-project-root
+    :modes (python-mode python-ts-mode)
+    :next-checkers ((warning . python-mypy)))
+  )
 
 ;; code parsing
 (use-package tree-sitter
