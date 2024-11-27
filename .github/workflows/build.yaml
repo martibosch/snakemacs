@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: setup conda environment with mambaforge
-        uses: conda-incubator/setup-miniconda@v2
+        uses: conda-incubator/setup-miniconda@v3
         with:
           use-mamba: true
           python-version: ${{ matrix.python-version }}
