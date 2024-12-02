@@ -337,6 +337,8 @@ See URL `https://docs.astral.sh/ruff/'."
 ;;      (require 'lsp-pyright)
 ;;      (lsp))))
 
+(use-package cython-mode)
+
 ;; formatting
 (use-package
   reformatter
