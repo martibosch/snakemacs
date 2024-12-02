@@ -10,7 +10,8 @@
   :hook (python-mode . (lambda () (conda-env-activate-for-buffer))))
 
 ;;  key bindings
-(use-package which-key
+(use-package
+  which-key
   :config
   (setq which-key-idle-delay 0.3)
   (setq which-key-popup-type 'frame)
@@ -18,34 +19,27 @@
   (which-key-setup-side-window-bottom))
 
 ;; text editing
-(use-package aggressive-indent
-  :commands (aggressive-indent-mode))
+(use-package aggressive-indent :commands (aggressive-indent-mode))
 
-(use-package
-  yasnippet-snippets)
+(use-package yasnippet-snippets)
 
 (use-package
   yasnippet
-  :config (setq yas-snippet-dirs `(,(concat (expand-file-name user-emacs-directory) "snippets")
-				   yasnippet-snippets-dir))
-  (setq yas-triggers-in-field t)
-  (yas-global-mode 1))
+  :config
+  (setq yas-snippet-dirs
+	`(,(concat (expand-file-name user-emacs-directory) "snippets")
+          yasnippet-snippets-dir))
+  (setq yas-triggers-in-field t) (yas-global-mode 1))
 
 ;; matching parentheses
-(use-package smartparens
-  :config (show-smartparens-global-mode t))
+(use-package smartparens :config (show-smartparens-global-mode t))
 
 ;; project management
-(use-package
-  magit)
+(use-package magit)
 
-(use-package
-  projectile
-  :config (projectile-mode +1))
+(use-package projectile :config (projectile-mode +1))
 
-(use-package
-  counsel-projectile
-  :after (counsel projectile))
+(use-package counsel-projectile :after (counsel projectile))
 
 ;; completion
 (use-package
@@ -53,96 +47,123 @@
   :custom (ivy-use-virtual-buffers t)
   :config (ivy-mode))
 
-(use-package
-  counsel
-  :after ivy
-  :config (counsel-mode))
+(use-package counsel :after ivy :config (counsel-mode))
 
-(use-package swiper
-  :defer t)
+(use-package swiper :defer t)
 
 (use-package
   ivy-rich
   :after ivy
   :config (ivy-rich-mode 1)
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line))
+  (setcdr
+   (assq t ivy-format-functions-alist) #'ivy-format-function-line))
 
 (use-package
   ivy-prescient
   :after counsel
   :custom (ivy-prescient-retain-classic-highlighting t)
-  :config (ivy-prescient-mode +1)
-  (prescient-persist-mode 1)
+  :config (ivy-prescient-mode +1) (prescient-persist-mode 1)
   ;; Do not use prescient in find-file
-  (ivy--alist-set 'ivy-sort-functions-alist #'read-file-name-internal
-		  #'ivy-sort-file-function-default))
+  (ivy--alist-set
+   'ivy-sort-functions-alist
+   #'read-file-name-internal
+   #'ivy-sort-file-function-default))
+
+(use-package company :config (global-company-mode))
 
 (use-package
-  company
-  :config (global-company-mode))
-
-(use-package copilot
+  copilot
   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
   :after company
-  :config (delq 'company-preview-if-just-one-frontend company-frontends)
-  (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-  (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-  :hook ((prog-mode . (lambda () (unless (equal (buffer-name) "*scratch*") copilot-mode)))))
+  :config
+  (delq 'company-preview-if-just-one-frontend company-frontends)
+  (define-key
+   copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+  (define-key
+   copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+  :hook
+  ((prog-mode
+    .
+    (lambda ()
+      (unless (equal (buffer-name) "*scratch*")
+	copilot-mode)))))
 
 ;; syntax checker
-(use-package flycheck
+(use-package
+  flycheck
   :init (global-flycheck-mode)
   :config
   ;; we have to redefine the python-ruff checker to work on notebooks-as-scripts with code-cells
-  (flycheck-define-checker python-ruff
+  (flycheck-define-checker
+      python-ruff
     "A Python syntax and style checker using Ruff.
 
 See URL `https://docs.astral.sh/ruff/'."
-    :command ("ruff"
-              "check"
-              (config-file "--config" flycheck-python-ruff-config)
-              "--output-format=concise"
-	      ;; we actually only change the commented line below
-	      ;; (option "--stdin-filename" buffer-file-name)
-	      ;; for this `eval`
-              (eval
-               (when (and buffer-file-name
-                          (not (string-suffix-p ".ipynb" buffer-file-name)))
-                 `("--stdin-filename" ,buffer-file-name)))
-	      ;; end of changes
-              "-")
+    :command
+    ("ruff"
+     "check"
+     (config-file "--config" flycheck-python-ruff-config)
+     "--output-format=concise"
+     ;; we actually only change the commented line below
+     ;; (option "--stdin-filename" buffer-file-name)
+     ;; for this `eval`
+     (eval
+      (when (and buffer-file-name
+		 (not (string-suffix-p ".ipynb" buffer-file-name)))
+	`("--stdin-filename" ,buffer-file-name)))
+     ;; end of changes
+     "-")
     :standard-input t
-    :error-filter (lambda (errors)
-                    (let* ((errors (flycheck-sanitize-errors errors))
-                           (errors-with-ids (seq-filter #'flycheck-error-id errors)))
-                      (seq-union
-                       (seq-difference errors errors-with-ids)
-                       (seq-map #'flycheck-flake8-fix-error-level errors-with-ids))))
+    :error-filter
+    (lambda (errors)
+      (let* ((errors (flycheck-sanitize-errors errors))
+             (errors-with-ids (seq-filter #'flycheck-error-id errors)))
+	(seq-union
+	 (seq-difference errors errors-with-ids)
+	 (seq-map #'flycheck-flake8-fix-error-level errors-with-ids))))
     :error-patterns
-    ((error line-start
-            (or "-" (file-name)) ":" line ":" (optional column ":") " "
-            "SyntaxError: "
-            (message (one-or-more not-newline))
-            line-end)
-     (warning line-start
-              (or "-" (file-name)) ":" line ":" (optional column ":") " "
-              (id (one-or-more (any alpha)) (one-or-more digit) " ")
-              (message (one-or-more not-newline))
-              line-end))
+    ((error
+      line-start
+      (or "-" (file-name))
+      ":"
+      line
+      ":"
+      (optional column ":")
+      " "
+      "SyntaxError: "
+      (message (one-or-more not-newline))
+      line-end)
+     (warning
+      line-start
+      (or "-" (file-name))
+      ":"
+      line
+      ":"
+      (optional column ":")
+      " "
+      (id (one-or-more (any alpha)) (one-or-more digit) " ")
+      (message (one-or-more not-newline))
+      line-end))
     :working-directory flycheck-python-find-project-root
     :modes (python-mode python-ts-mode)
-    :next-checkers ((warning . python-mypy)))
-  )
+    :next-checkers ((warning . python-mypy))))
 
 ;; code parsing
-(use-package tree-sitter
-  :hook (python-mode . (lambda () (unless (eq major-mode 'snakemake-mode)
-				    (tree-sitter-mode))))
-  (python-mode . (lambda () (unless (eq major-mode 'snakemake-mode)
-			      (tree-sitter-hl-mode)))))
+(use-package
+  tree-sitter
+  :hook
+  (python-mode
+   .
+   (lambda ()
+     (unless (eq major-mode 'snakemake-mode)
+       (tree-sitter-mode))))
+  (python-mode
+   .
+   (lambda ()
+     (unless (eq major-mode 'snakemake-mode)
+       (tree-sitter-hl-mode)))))
 
-(use-package tree-sitter-langs
-  :after tree-sitter)
+(use-package tree-sitter-langs :after tree-sitter)
 
 ;;; YAML
 (use-package
@@ -152,21 +173,23 @@ See URL `https://docs.astral.sh/ruff/'."
   :config (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
 
 ;;; web
-(use-package web-mode
+(use-package
+  web-mode
   :commands (web-mode)
   :init (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   :hook (web-mode . my/engine-map-hook)
-  :config (defun my/engine-map-hook ()
-	    (if (projectile-project-p)
-		(if (or (file-exists-p (concat (projectile-project-root) "manage.py"))
-			(file-exists-p (concat (projectile-project-root) "_config.yml"))
-			)
-		    (web-mode-set-engine "django"))
-	      )
-	    ))
+  :config
+  (defun my/engine-map-hook ()
+    (if (projectile-project-p)
+	(if (or (file-exists-p
+                 (concat (projectile-project-root) "manage.py"))
+		(file-exists-p
+                 (concat (projectile-project-root) "_config.yml")))
+            (web-mode-set-engine "django")))))
 
 ;;; markdown
-(use-package markdown-mode
+(use-package
+  markdown-mode
   :mode ("README\\.md\\'" . gfm-mode)
   :config
   ;; (setq markdown-command
@@ -227,12 +250,14 @@ See URL `https://docs.astral.sh/ruff/'."
   ;; (add-to-list 'TeX-view-program-selection '(output-pdf "eaf"))
 
   ;; Do not run lsp within templated TeX files
-  :hook (LaTeX-mode . (lambda ()
-			(unless (string-match "\.hogan\.tex$" (buffer-name))
-			  (lsp))
-			(setq-local lsp-diagnostic-package
-				    :none)
-			(setq-local flycheck-checker 'tex-chktex)))
+  :hook
+  (LaTeX-mode
+   .
+   (lambda ()
+     (unless (string-match "\.hogan\.tex$" (buffer-name))
+       (lsp))
+     (setq-local lsp-diagnostic-package :none)
+     (setq-local flycheck-checker 'tex-chktex)))
   (LaTeX-mode . turn-on-reftex))
 
 ;; (use-package
@@ -245,30 +270,33 @@ See URL `https://docs.astral.sh/ruff/'."
   :commands turn-on-reftex
   :custom (reftex-plug-into-AUCTeX t))
 
-(use-package
-  gscholar-bibtex)
+(use-package gscholar-bibtex)
 
-(use-package lsp-latex
+(use-package
+  lsp-latex
   :disabled
   :hook ((TeX-mode bibtex-mode) . lsp-deferred)
   :commands (lsp-latex-build)
-  :config
-  (setq lsp-latex-build-executable "tectonic")
-  (setq lsp-latex-build-args '( "%f"
-                                "--synctex"
-                                "--keep-logs"
-                                "--keep-intermediates")))
+  :config (setq lsp-latex-build-executable "tectonic")
+  (setq lsp-latex-build-args
+	'("%f" "--synctex" "--keep-logs" "--keep-intermediates")))
 
 ;;; lisp
-(use-package lispy
+(use-package
+  lispy
   :hook (emacs-lisp-mode . (lambda () (lispy-mode 1))))
 (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
 ;; (add-hook 'emacs-lisp-mode-hook #'smartparens-strict-mode)
 ;; (add-hook 'emacs-lisp-mode-hook #'lispy-mode)
+(use-package
+  elisp-autofmt
+  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
+  :hook (emacs-lisp-mode . elisp-autofmt-mode))
 
 ;;; python
 ;; language server
-(use-package lsp-mode
+(use-package
+  lsp-mode
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
@@ -283,14 +311,35 @@ See URL `https://docs.astral.sh/ruff/'."
   ;; 		      :server-id 'ruff-server)
   ;;    )
   ;;   )
-  (setq lsp-disabled-clients '(python-mode . (ruff-lsp)))
-  :hook (python-mode . (lambda () (unless (eq major-mode 'snakemake-mode)
-				    (lsp))))
-  :commands lsp)
+  ;; (setq lsp-disabled-clients '(python-mode . (ruff-lsp)))
+  :hook
+  (python-mode
+   .
+   (lambda ()
+     (unless (eq major-mode 'snakemake-mode)
+       (lsp-deferred))))
+  :config
+  (setq lsp-pylsp-plugins-ruff-enabled t)
+  :commands lsp lsp-deferred)
 
+;; (use-package
+;;   lsp-pyright
+;;   :ensure t
+;;   :custom
+;;   (lsp-pyright-langserver-command
+;;    (if (executable-find "basedpyright")
+;;        "basedpyright"
+;;      "pyright"))
+;;   :hook
+;;   (python-mode
+;;    .
+;;    (lambda ()
+;;      (require 'lsp-pyright)
+;;      (lsp))))
 
 ;; formatting
-(use-package reformatter
+(use-package
+  reformatter
   :hook
   (python-mode . ruff-check-fix-on-save-mode)
   (python-mode . ruff-format-on-save-mode)
@@ -299,36 +348,40 @@ See URL `https://docs.astral.sh/ruff/'."
   ;; ACHTUNG: do NOT use `--stdin-filename` `buffer-file-name` because it will fail when
   ;; formatting notebooks (since in emacs buffers they are python scripts with percent
   ;; format using code-cells)
-  (reformatter-define ruff-check-fix
+  (reformatter-define
+    ruff-check-fix
     :program "ruff"
     :args `("check" "--fix" "--fix-only" "-"))
-  (reformatter-define ruff-format
+  (reformatter-define
+    ruff-format
     :program "ruff"
-    :args `("format" "-"))
-  )
+    :args `("format" "-")))
 
-(use-package python-docstring
+(use-package
+  python-docstring
   :hook (python-mode . python-docstring-mode)
   ;; this hook does not necessarily belong here as it applies to python-mode more broadly
   ;; but it is the most related use-package declaration
-  (python-mode . (lambda () (setq fill-column 88)
-		   ;; (auto-fill-mode t)
-		   (display-fill-column-indicator-mode 1))
-	       ))
+  (python-mode
+   .
+   (lambda ()
+     (setq fill-column 88)
+     ;; (auto-fill-mode t)
+     (display-fill-column-indicator-mode 1))))
 
-(use-package filladapt
-  :hook (python-mode . filladapt-mode))
+(use-package filladapt :hook (python-mode . filladapt-mode))
 
 ;;; Snakemake
+(use-package snakemake-mode)
 (use-package
-  snakemake-mode)
-(use-package format-all
+  format-all
   ;; TODO: replace with reformatter?
   :commands format-all-mode
   :hook (snakemake-mode . format-all-mode))
 
 ;;; docker
-(use-package dockerfile-mode
+(use-package
+  dockerfile-mode
   :mode "Dockerfile\\'"
   ;; :config
   ;; (add-hook 'dockerfile-mode 'smartparens-mode)
@@ -345,11 +398,13 @@ See URL `https://docs.astral.sh/ruff/'."
 ;;; org
 
 ;; base
-(use-package org
+(use-package
+  org
   :straight (:type built-in)
   :defer t
   :init
-  :config (setq org-startup-indented t)
+  :config
+  (setq org-startup-indented t)
   (setq org-return-follows-link t)
   (setq org-src-tab-acts-natively nil)
   (setq org-confirm-babel-evaluate nil)
@@ -357,29 +412,36 @@ See URL `https://docs.astral.sh/ruff/'."
   ;; (add-hook 'org-mode-hook (lambda ()
   ;; 			     (rainbow-delimiters-mode -1)))
   (require 'org-tempo)
-  (add-to-list 'org-structure-template-alist '("py" . "src jupyter-python")))
+  (add-to-list
+   'org-structure-template-alist '("py" . "src jupyter-python")))
 
-(use-package org-contrib
-  :after (org))
+(use-package org-contrib :after (org))
 
 ;; (use-package poly-org)
 
 ;; python and jupyter
 ;;; custom zmq build - see https://github.com/alexmurray/emacs-snap/issues/66
-(let* ((emacs-snap-dir (file-name-as-directory (getenv "EMACS_SNAP_DIR")))
-       (process-environment (append process-environment `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-10" )
-                                                          ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-10")
-                                                          ,(concat "CFLAGS=--sysroot=" emacs-snap-dir)
-							  ,(concat "CPPFLAGS=--sysroot=" emacs-snap-dir)
-							  ,(concat "LDFLAGS=--sysroot=" emacs-snap-dir " -L" emacs-snap-dir "/usr/lib")))))
+(let* ((emacs-snap-dir
+        (file-name-as-directory (getenv "EMACS_SNAP_DIR")))
+       (process-environment
+        (append
+         process-environment
+         `(,(concat "CC=" emacs-snap-dir "usr/bin/gcc-10")
+           ,(concat "CXX=" emacs-snap-dir "usr/bin/g++-10")
+           ,(concat "CFLAGS=--sysroot=" emacs-snap-dir)
+           ,(concat "CPPFLAGS=--sysroot=" emacs-snap-dir)
+           ,(concat
+             "LDFLAGS=--sysroot="
+             emacs-snap-dir
+             " -L"
+             emacs-snap-dir
+             "/usr/lib")))))
   (use-package zmq))
 ;;; emacs-jupyter
-(use-package
-  jupyter
-  :after (org))
-(org-babel-do-load-languages 'org-babel-load-languages '((python . t)
-							 (shell . t)
-							 (jupyter . t)))
+(use-package jupyter :after (org))
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t) (shell . t) (jupyter . t)))
 
 (defun my/jupyter-refresh-kernelspecs ()
   "Refresh Jupyter kernelspecs"
@@ -400,50 +462,63 @@ See URL `https://docs.astral.sh/ruff/'."
 
 (setq my/org-view-html-tmp-dir "/tmp/org-html-preview/")
 
-(use-package
-  f)
+(use-package f)
 
 (defun my/org-view-html ()
   (interactive)
   (let ((elem (org-element-at-point))
-	(temp-file-path (concat my/org-view-html-tmp-dir (number-to-string (random (expt 2 32)))
-				".html")))
-    (cond ((not (eq 'export-block (car elem)))
-	   (message "Not in an export block!"))
-	  ((not (string-equal (plist-get (car (cdr elem))
-					 :type) "HTML"))
-	   (message "Export block is not HTML!"))
-	  (t (progn (f-mkdir my/org-view-html-tmp-dir)
-		    (f-write (plist-get (car (cdr elem))
-					:value) 'utf-8 temp-file-path)
-		    (start-process "org-html-preview" nil "xdg-open" temp-file-path))))))
+        (temp-file-path
+         (concat
+          my/org-view-html-tmp-dir
+          (number-to-string (random (expt 2 32)))
+          ".html")))
+    (cond
+     ((not (eq 'export-block (car elem)))
+      (message "Not in an export block!"))
+     ((not (string-equal (plist-get (car (cdr elem)) :type) "HTML"))
+      (message "Export block is not HTML!"))
+     (t
+      (progn
+        (f-mkdir my/org-view-html-tmp-dir)
+        (f-write
+         (plist-get (car (cdr elem)) :value) 'utf-8 temp-file-path)
+        (start-process "org-html-preview" nil "xdg-open"
+                       temp-file-path))))))
 
 (use-package
   ob-async
   :after (org)
-  :config (setq ob-async-no-async-languages-alist '("python" "jupyter-python")))
+  :config
+  (setq ob-async-no-async-languages-alist
+	'("python" "jupyter-python")))
 
-(setq my/jupyter-runtime-folder (expand-file-name "~/.local/share/jupyter/runtime"))
+(setq my/jupyter-runtime-folder
+      (expand-file-name "~/.local/share/jupyter/runtime"))
 
 (defun my/get-open-ports ()
-  (mapcar #'string-to-number (split-string (shell-command-to-string
-					    "ss -tulpnH | awk '{print $5}' | sed -e 's/.*://'")
-					   "\n")))
+  (mapcar
+   #'string-to-number
+   (split-string (shell-command-to-string
+                  "ss -tulpnH | awk '{print $5}' | sed -e 's/.*://'")
+                 "\n")))
 
 (defun my/list-jupyter-kernel-files ()
-  (mapcar (lambda (file)
-	    (cons (car file)
-		  (cdr (assq 'shell_port (json-read-file (car file))))))
-	  (sort (directory-files-and-attributes my/jupyter-runtime-folder t ".*kernel.*json$")
-		(lambda (x y)
-		  (not (time-less-p (nth 6 x)
-				    (nth 6 y)))))))
+  (mapcar
+   (lambda (file)
+     (cons
+      (car file)
+      (cdr (assq 'shell_port (json-read-file (car file))))))
+   (sort
+    (directory-files-and-attributes my/jupyter-runtime-folder
+                                    t ".*kernel.*json$")
+    (lambda (x y) (not (time-less-p (nth 6 x) (nth 6 y)))))))
 
 (defun my/select-jupyter-kernel ()
   (let ((ports (my/get-open-ports))
-	(files (my/list-jupyter-kernel-files)))
-    (completing-read "Jupyter kernels: " (seq-filter (lambda (file)
-						       (member (cdr file) ports)) files))))
+        (files (my/list-jupyter-kernel-files)))
+    (completing-read
+     "Jupyter kernels: "
+     (seq-filter (lambda (file) (member (cdr file) ports)) files))))
 
 (defun my/insert-jupyter-kernel ()
   "Insert a path to an active Jupyter kernel into the buffer"
@@ -458,19 +533,22 @@ See URL `https://docs.astral.sh/ruff/'."
 (defun my/jupyter-cleanup-kernels ()
   (interactive)
   (let* ((ports (my/get-open-ports))
-	 (files (my/list-jupyter-kernel-files))
-	 (to-delete (seq-filter (lambda (file)
-				  (not (member (cdr file) ports))) files)))
+         (files (my/list-jupyter-kernel-files))
+         (to-delete
+          (seq-filter
+           (lambda (file) (not (member (cdr file) ports))) files)))
     (when (and (length> to-delete 0)
-	       (y-or-n-p (format "Delete %d files?" (length to-delete))))
+               (y-or-n-p
+                (format "Delete %d files?" (length to-delete))))
       (dolist (file to-delete)
-	(delete-file (car file))))))
+        (delete-file (car file))))))
 
 ;;; ein
 (use-package ein)
 
 ;;; code cells
-(use-package code-cells
+(use-package
+  code-cells
   :config
   ;; (setq code-cells-convert-ipynb-style '(("pandoc" "--to" "ipynb" "--from" "org")
   ;; 					 ("pandoc" "--to" "org" "--from" "ipynb")
@@ -486,19 +564,25 @@ See URL `https://docs.astral.sh/ruff/'."
     (define-key map (kbd "M-<down>") 'code-cells-move-cell-down)
     (define-key map (kbd "C-c C-c") 'code-cells-eval)
     ;; Overriding other minor mode bindings requires some insistence...
-    (define-key map [remap jupyter-eval-line-or-region] 'code-cells-eval)))
+    (define-key
+     map [remap jupyter-eval-line-or-region] 'code-cells-eval)))
 (defun my/new-notebook (notebook-name &optional kernel)
   "Creates an empty notebook in the current directory with an associated kernel."
   (interactive "sEnter the notebook name: ")
   (when (file-name-extension notebook-name)
     (setq notebook-name (file-name-sans-extension notebook-name)))
   (unless kernel
-    (setq kernel (jupyter-kernelspec-name (jupyter-completing-read-kernelspec))))
+    (setq kernel
+          (jupyter-kernelspec-name
+           (jupyter-completing-read-kernelspec))))
   (unless (executable-find "jupytext")
     (error "Can't find \"jupytext\""))
   (let ((notebook-py (concat notebook-name ".py")))
     (shell-command (concat "touch " notebook-py))
-    (shell-command (concat "jupytext --set-kernel " kernel " " notebook-py))
+    (shell-command
+     (concat "jupytext --set-kernel " kernel " " notebook-py))
     (shell-command (concat "jupytext --to notebook " notebook-py))
     (shell-command (concat "rm " notebook-py))
-    (message (concat "Notebook successfully created at " notebook-name ".ipynb"))))
+    (message
+     (concat
+      "Notebook successfully created at " notebook-name ".ipynb"))))
