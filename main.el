@@ -11,6 +11,9 @@
   ;; TODO: we need to activate the envs for python files but not for, e.g., jupyter repl buffer
   :hook (python-mode . (lambda () (conda-env-activate-for-buffer))))
 
+(use-package atomic-chrome
+  :config (atomic-chrome-start-server))
+
 ;;  key bindings
 (use-package
   which-key
