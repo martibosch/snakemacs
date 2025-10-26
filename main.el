@@ -146,21 +146,9 @@ See URL `https://docs.astral.sh/ruff/'."
     :next-checkers ((warning . python-mypy))))
 
 ;; code parsing
-(use-package
-  tree-sitter
-  :hook
-  (python-mode
-   .
-   (lambda ()
-     (unless (eq major-mode 'snakemake-mode)
-       (tree-sitter-mode))))
-  (python-mode
-   .
-   (lambda ()
-     (unless (eq major-mode 'snakemake-mode)
-       (tree-sitter-hl-mode)))))
-
-(use-package tree-sitter-langs :after tree-sitter)
+(use-package treesit-auto
+  :config
+  (global-treesit-auto-mode))
 
 ;;; YAML
 (use-package
