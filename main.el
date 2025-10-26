@@ -387,6 +387,12 @@ See URL `https://docs.astral.sh/ruff/'."
 ;;      (require 'lsp-pyright)
 ;;      (lsp))))
 
+;; virtual environment tracker
+(use-package pet
+  :config
+  (add-hook 'python-base-mode-hook 'pet-mode -10))
+
+;; cython
 (use-package cython-mode)
 
 ;; formatting
