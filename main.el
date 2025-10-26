@@ -3,14 +3,6 @@
 
 ;;; general
 ;; misc
-(use-package
-  conda
-  :config (conda-env-autoactivate-mode t)
-  (require 'conda-projectile)
-  (conda-projectile-mode-line-setup)
-  ;; TODO: we need to activate the envs for python files but not for, e.g., jupyter repl buffer
-  :hook (python-mode . (lambda () (conda-env-activate-for-buffer))))
-
 (use-package atomic-chrome
   :config (atomic-chrome-start-server))
 
