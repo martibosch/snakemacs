@@ -369,20 +369,20 @@ See URL `https://docs.astral.sh/ruff/'."
       orig-result)))
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 
-;; (use-package
-;;   lsp-pyright
-;;   :ensure t
-;;   :custom
-;;   (lsp-pyright-langserver-command
-;;    (if (executable-find "basedpyright")
-;;        "basedpyright"
-;;      "pyright"))
-;;   :hook
-;;   (python-mode
-;;    .
-;;    (lambda ()
-;;      (require 'lsp-pyright)
-;;      (lsp))))
+(use-package
+  lsp-pyright
+  :ensure t
+  :custom
+  (lsp-pyright-langserver-command
+   (if (executable-find "basedpyright")
+       "basedpyright"
+     "pyright"))
+  :hook
+  (python-mode
+   .
+   (lambda ()
+     (require 'lsp-pyright)
+     (lsp-deferred))))
 
 ;; virtual environment tracker
 (use-package pet
