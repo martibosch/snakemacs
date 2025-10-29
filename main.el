@@ -476,6 +476,22 @@ See URL `https://docs.astral.sh/ruff/'."
 
 ;; python and jupyter
 ;;; custom zmq build - see https://github.com/alexmurray/emacs-snap/issues/66
+(let* ((emacs-pixi-dir
+        (file-name-as-directory "~/.pixi/envs/emacs"))
+       (process-environment
+	(append
+	 process-environment
+	 `(,(concat "CC=" emacs-pixi-dir "gcc")
+	   ,(concat "CXX=" emacs-pixi-dir "g++")
+	   ,(concat "CFLAGS=--sysroot=" emacs-pixi-dir)
+	   ,(concat "CPPFLAGS=--sysroot=" emacs-pixi-dir)
+	   ,(concat
+             "LDFLAGS=--sysroot="
+             emacs-pixi-dir
+             " -L"
+             emacs-pixi-dir
+             "/usr/lib")))))
+  (use-package zmq))
 ;;; emacs-jupyter
 (use-package jupyter :after (org))
 (org-babel-do-load-languages
