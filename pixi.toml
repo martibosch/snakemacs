@@ -1,0 +1,36 @@
+[workspace]
+authors = ["Martí Bosch <marti.bosch@protonmail.com>"]
+channels = ["conda-forge", "bioconda"]
+name = "snakemacs"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+emacs-setup = """
+emacs -nw --batch --load early-init.el \
+                --eval '(progn
+                        (defvar url-show-status)
+                        (let ((debug-on-error t)
+                              (url-show-status nil)
+                              (user-emacs-directory default-directory)
+                              (user-init-file (expand-file-name "init.el"))
+                              (load-path (delq default-directory load-path)))
+                           (load-file user-init-file)
+                           (run-hooks (quote after-init-hook))))'
+"""
+zmq-build = "cd straight/repos/emacs-zmq && make"
+
+[dependencies]
+emacs = ">=30.2,<31"
+make = ">=4.4.1,<5"
+cmake = ">=4.1.2,<5"
+libtool = ">=2.5.4,<3"
+autoconf = ">=2.72,<3"
+automake = ">=1.17,<2"
+pkg-config = ">=0.29.2,<0.30"
+compilers = ">=1.11.0,<2"
+jupyter = ">=1.1.1,<2"
+pixi-kernel = ">=0.6.7,<0.7"
+ipykernel = ">=7.1.0,<8"
+snakefmt = ">=0.11.2,<0.12"
+jupytext = ">=1.18.1,<2"

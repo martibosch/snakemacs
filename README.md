@@ -5,13 +5,30 @@
 
 ![snakemacs logo](https://github.com/martibosch/snakemacs/blob/main/snakemacs.svg)
 
-emacs28 setup for Python with conda/mamba
+emacs30 setup for Python and Jupyter with [pixi](https://pixi.sh)
+
+## Features
+
+- Jupyter-like mode using plain-text Python buffers with [code-cells](https://github.com/astoff/code-cells.el), [emacs-jupyter](https://github.com/emacs-jupyter/jupyter) and [jupytext](https://github.com/mwouts/jupytext) (see the blog post ["Jupyter in the Emacs universe"](https://martibosch.github.io/jupyter-emacs-universe) for more details), with [pixi-kernels](https://github.com/renan-r-santos/pixi-kernel) to run Jupyter kernels with the per-directory pixi environments.
+- _Fast_ (with [emacs-lsp-booster](https://github.com/blahgeek/emacs-lsp-booster)) IDE features using [lsp-mode](https://github.com/emacs-lsp/lsp-mode) with [basedpyright](https://github.com/detachhead/basedpyright) and [ruff](https://github.com/astral-sh/ruff).
+
+![snakemacs example screencast](example-screencast.gif)
+
+### How to run notebooks
+
+Within a [pixi workspace](https://pixi.sh/latest/first_workspace):
+
+1. Open a notebook (using `C-x C-f`) or create a new one using `M-x my/new-notebook` and then entering a name and selecting "Python (Pixi)" as kernel.
+2. Start a [jupyter REPL](https://github.com/emacs-jupyter/jupyter?tab=readme-ov-file#repl) by running `M-x jupyter-run-repl` and selecting "Python (Pixi)" as kernel. This will run a jupyter REPL in a dedicated buffer with the [default environment](https://pixi.sh/latest/tutorials/multi_environment) of the pixi workspace.
+3. From the Jupyter notebook buffer, run `M-x jupyter-repl-associate-buffer` and select the previously created REPL buffer to associate it to the notebook. You may now execute code cells from the notebook buffer using `C-c C-c` (or `M-x code-cells-eval`).
+
+Note that the kernel will correspond to the [default pixi environment](<(https://github.com/renan-r-santos/pixi-kernel?tab=readme-ov-file#pixi-environments)>) of the workspace. If you need to use another environemnt, see the "Pixi environments and IDE features for Python buffers" section below.
 
 ## Installation
 
-This setup uses emacs 28. To get it working, you can follow the steps below:
+This setup uses emacs 30 and pixi. The only requirement is to [install pixi](https://pixi.sh/latest/installation), then you can follow the steps below:
 
-1. Navigate to your home folder and clone the repo, and navigate to the (newly-created) `~/.emacs.d/` folder:
+1. Navigate to your home folder and clone the repository, and navigate to the (newly-created) `~/.emacs.d/` folder:
 
    ```bash
    cd ~
@@ -19,68 +36,55 @@ This setup uses emacs 28. To get it working, you can follow the steps below:
    cd .emacs.d
    ```
 
-2. Use conda/mamba and the `environment.yml` file included in this repository to install the Python and C/C++ dependencies required for autocompletion, syntax checking and function documentation by either:
+   Alternatively, you can clone this repository into any directory and use [chemacs2](https://github.com/plexus/chemacs2) to set up `snakemacs` as a (potentially default) profile.
 
-   a. installing the requirements in the `base` environment (or any other existing environment _provided that it is active at the time of running the commands_):
-
-   ```bash
-   # or use mamba instead of conda
-   conda env update -f environment.yml
-   ```
-
-   b. create a new dedicated environment (e.g., named `emacs`) - **note** that in such case, you must always run emacs from within the dedicated environment:
+2. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, `libvterm` may not be installed properly):
 
    ```bash
-   # or use mamba instead of conda
-   conda env create -n emacs -f environment.yml
-   conda activate emacs
+   pixi run emacs
    ```
 
-3. Install emacs in your system. Currently, only ubuntu builds are supported, but the idea is to eventually (i.e., after several issues are addressed, see the caveats section below) use [conda-forge's emacs](https://github.com/conda-forge/emacs-feedstock) for a fully conda-based cross-platform setup.
+The only external (non-pixi) dependencies are:
 
-4. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, `libvterm` may not be installed properly):
-
-   ```bash
-   emacs
-   ```
-
-5. From inside emacs, install all the icon fonts `M-x nerd-icons-install-fonts`
+- [emacs-lsp-booster](https://github.com/blahgeek/emacs-lsp-booster) which you can set it up by [downloading the prebuilt binary and placing it to somewhere in your `$PATH`](https://github.com/blahgeek/emacs-lsp-booster?tab=readme-ov-file#obtain-or-build-emacs-lsp-booster). Using emacs-lsp-booster is _optional but highly recommended_ to improve the performance of the LSP features.
+- [Nerd Fonts](www.nerdfonts.com) for the icons, which you can install from inside emacs by running `M-x nerd-icons-install-fonts`.
 
 ## Caveats
 
-### Issues with emacs-jupyter and zmq
+### Pixi environments and IDE features for Python buffers
 
-Several [emacs-jupyter](https://github.com/emacs-jupyter) users (including myself) have encountered an error of the form:
+Each buffer with Python code (e.g., `.py` and `.ipynb` files) is associated to a pixi environment using [`emacs-pet`](https://github.com/wyuenho/emacs-pet). You can use `M-x pet-verify-setup` to check the local variables associated to each buffer. In order to get the IDE features from the per-directory pixi environment, you can customize the `python.pythonPath` setting of basedpyright [by adding a `.dir-locals.el` file with the following content](https://github.com/emacs-lsp/lsp-pyright/issues/52):
 
-```
-zmq.error.ZMQError: Address already in use
-```
-
-when trying to launch a Jupyter REPL, i.e., `M-x jupyter-run-repl`. In my case, I managed to avoid it following [the hack suggested by deepestthought42](https://github.com/emacs-jupyter/jupyter/issues/464#issuecomment-1937499393).
-
-### Issues with conda-forge emacs
-
-There are currently two main issues with the emacs from conda-forge, namely [an error with newer Linux versions](https://github.com/conda-forge/emacs-feedstock/issues/63) and [the lack of native JSON and native compilation](https://github.com/conda-forge/emacs-feedstock/issues/59), which slow down several features such as lsp. This may be addressed once [the v29.1 branch](https://github.com/conda-forge/emacs-feedstock/pull/73) is merged.
-
-### Conda environments and IDE features for Python buffers
-
-Each buffer with Python code (e.g., `.py` and `.ipynb` files) is associated to a conda/mamba environment. To ensure that IDE features are properly provided, each environment must have a set of packages installed, e.g., [python-lsp-ruff](https://github.com/python-lsp/python-lsp-ruff) for language server protocol (LSP) linting with [ruff](https://docs.astral.sh/ruff), also checking sytnax and style on the fly via flycheck, [jupytext](https://github.com/mwouts/jupytext) to convert Jupyter notebooks to Python scripts...
-
-In order to ensure that these packages are included by default in all environments at the time of their creation, you can set up the [`create_default_packages`](https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html#config-add-default-pkgs) options by adding the following (feel free to adapt the list of packages to suit your needs) to the `.condarc` file:
-
-```
-create_default_packages:
-  - ipykernel
-  - jupytext
-  - nodejs
-  - pandoc
-  - pre-commit
-  - python-lsp-ruff
-  - ruff
+```emacs-lisp
+((python-mode . ((eval . (with-eval-after-load 'lsp-pyright
+                           (progn
+                             (lsp-register-custom-settings
+                              `(("python.pythonPath" "D:/path/to/miniconda3/envs/stringle_pro/python.exe"))))
+                           )))))
 ```
 
-There remains nevertheless a caveat with this approach, as these packages will inevitably appear when exporting a conda environment (i.e., `conda env export`), adding dependencies that other users trying to reproduce your code may not need.
+at the project's root (note that this set up uses [projectile](https://github.com/bbatsov/projectile) to detect the appropriate project).
 
-### Default environment activation
+### Jupyter Pixi kernels
 
-The [`conda--infer-env-from-buffer` function of conda.el](https://github.com/necaris/conda.el/blob/main/conda.el#L264-L274) activates the base environment, i.e., happens if `conda-activate-base-by-default` is set to `true` (altough it is `nil` by default) or if the "auto_activate_base" conda setting is set to `true`, which depends on the user's settings. However, snakemacs should instead use the `emacs` environment by default. This can either be acheived by (a) contributing to conda.el or (b) overriding the `codna--infer-env-from-buffer` function within this configuration (see https://stackoverflow.com/questions/15717103/preferred-method-of-overriding-an-emacs-lisp-function).
+In order to run jupyter with the per-directory kernels, the snakemacs pixi environment includes [pixi-kernel](https://github.com/renan-r-santos/pixi-kernel). Therefore, from the appropriate project directory, you can run `M-x jupyter-run-repl` and select the "Python (pixi)" kernel, which will use the correct pixi environment for that project. **However, this requires that the pixi environment includes the `ipykernel` package,** which you can install by running `pixi add ipykernel` from the appropriate project directory.
+
+### Jupyter kernels for multiple Pixi environments
+
+While [it is possible to choose a pixi environment for the Jupyter kernel in JupyterLab](https://github.com/renan-r-santos/pixi-kernel?tab=readme-ov-file#pixi-environments), this setup currently does not provide a user interface for this feature.
+
+If you need to run a REPL with a different pixi environment, you can either:
+
+- Set the environment variable `PIXI_KERNEL_DEFAULT_ENVIRONMENT` to the desired Pixi environment.
+- Open a terminal by running `M-x vterm`, then in the terminal run (from the appropriate directory) the command `pixi run -e <your-environment> jupyter kernel`, which will show a path to a "Connection file". Then run `M-x my/jupyter-connect-repl` and select the appropriate connection file (which will be suggested in the minibuffer). This will open a Jupyter REPL buffer connected to the specified pixi environment.
+
+### Compiling zmq with emacs as pixi global tool
+
+The [emacs-jupyter](https://github.com/emacs-jupyter/jupyter) package relies on [emacs-zmq](https://github.com/emacs-jupyter/jupyter), which must be built as an emacs module. When installing emacs as a [pixi global tool](https://pixi.sh/latest/global_tools/introduction), i.e., running `pixi global install emacs`, I did not manage to [build zmq](https://github.com/nnicandro/emacs-zmq?tab=readme-ov-file#building) in my ubuntu computer - I got some compilation errors even with all the required dependencies installed as pixi global tools.
+
+If you want to install emacs as a pixi global tool, you may first follow the steps described in the "Installation" section above and answer `n` (No) to `Check for compatible module binary to download?` so that the module is compiled using the customized settings from your snippet above, i.e., then answering `y` to `ZMQ module not found. Build it?`. Then, if you have installed emacs as a pixi global tool, you may simply run `emacs` from the terminal and you will have the features of the previously-built ZMQ module.
+
+## See also
+
+- ["Jupyter in the Emacs universe"](https://martibosch.github.io/jupyter-emacs-universe) for more details about alternative Jupyter notebook emulations within emacs.
+- Many concepts of this setup are inspired by the excellent post ["Replacing Jupyter Notebook with Org Mode"](https://sqrtminusone.xyz/posts/2021-05-01-org-python) by Pavel Korytov. In fact, several functions such as `M-x my/jupyter-connect-repl` are essentially copied from there.
