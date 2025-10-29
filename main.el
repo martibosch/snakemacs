@@ -582,9 +582,6 @@ See URL `https://docs.astral.sh/ruff/'."
       (dolist (file to-delete)
         (delete-file (car file))))))
 
-;;; ein
-(use-package ein)
-
 ;;; code cells
 (use-package
   code-cells
