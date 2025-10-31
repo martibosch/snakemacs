@@ -264,12 +264,13 @@ See URL `https://docs.astral.sh/ruff/'."
 	'("%f" "--synctex" "--keep-logs" "--keep-intermediates")))
 
 ;;; lisp
-(use-package
-  lispy
-  :hook (emacs-lisp-mode . (lambda () (lispy-mode 1))))
-(add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-;; (add-hook 'emacs-lisp-mode-hook #'smartparens-strict-mode)
-;; (add-hook 'emacs-lisp-mode-hook #'lispy-mode)
+(use-package elsa
+  :defer t
+  :ensure t)
+(use-package flymake-elsa
+  :straight (flymake-elsa :type git :host github :repo "flymake/flymake-elsa")
+  :hook
+  (emacs-lisp-mode . flymake-elsa-load))
 (use-package
   elisp-autofmt
   :commands (elisp-autofmt-mode elisp-autofmt-buffer)
