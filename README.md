@@ -84,6 +84,10 @@ The [emacs-jupyter](https://github.com/emacs-jupyter/jupyter) package relies on 
 
 If you want to install emacs as a pixi global tool, you may first follow the steps described in the "Installation" section above and answer `n` (No) to `Check for compatible module binary to download?` so that the module is compiled using the customized settings from your snippet above, i.e., then answering `y` to `ZMQ module not found. Build it?`. Then, if you have installed emacs as a pixi global tool, you may simply run `emacs` from the terminal and you will have the features of the previously-built ZMQ module.
 
+### Code cells and LSP formatting
+
+The [ruff language server](https://docs.astral.sh/ruff/editors/#language-server-protocol) provides formatting capabilities via the LSP protocol. However, when editing [Jupyter notebooks as Python scripts via code-cells](https://github.com/astoff/code-cells.el), ruff needs to format a plain-text Python file rather than a JSON notebook. Therefore, in this set up the `lsp-format-buffer` and `lsp-organize-imports` hooks are deactivated in Python mode and instead ruff operates by sending the buffer content via standard input using [reformatter](https://github.com/purcell/emacs-reformatter).
+
 ## See also
 
 - ["Jupyter in the Emacs universe"](https://martibosch.github.io/jupyter-emacs-universe) for more details about alternative Jupyter notebook emulations within emacs.
