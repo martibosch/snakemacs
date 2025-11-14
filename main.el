@@ -292,7 +292,11 @@ See URL `https://docs.astral.sh/ruff/'."
     (remove-hook 'before-save-hook #'lsp-organize-imports t)))
  :commands
  lsp
- lsp-deferred)
+ lsp-deferred
+ :config
+  ;; ignore .pixi folder
+ (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.pixi\\'")
+ )
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
   (or (when (equal (following-char) ?#)
