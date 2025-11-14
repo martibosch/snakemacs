@@ -53,7 +53,7 @@ The only external (non-pixi) dependencies are:
 
 ### Pixi environments and IDE features for Python buffers
 
-Each buffer with Python code (e.g., `.py` and `.ipynb` files) is associated to a pixi environment using [`emacs-pet`](https://github.com/wyuenho/emacs-pet). You can use `M-x pet-verify-setup` to check the local variables associated to each buffer. In order to get the IDE features from the per-directory pixi environment, you can customize the `python.pythonPath` setting of basedpyright [by adding a `.dir-locals.el` file with the following content](https://github.com/emacs-lsp/lsp-pyright/issues/52):
+In order to get the IDE features from the per-directory pixi environment, you can customize the `python.pythonPath` setting of basedpyright [by adding a `.dir-locals.el` file with the following content](https://github.com/emacs-lsp/lsp-pyright/issues/52):
 
 ```emacs-lisp
 ((python-mode . ((eval . (with-eval-after-load 'lsp-pyright
