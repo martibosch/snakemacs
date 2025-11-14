@@ -1,5 +1,6 @@
+;; -*- lexical-binding: t; -*-
 ;;; applications
-;;; -*- lexical-binding: t; -*-
+
 
 ;; shell
 (use-package

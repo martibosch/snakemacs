@@ -1,5 +1,6 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; early init
-;;; -*- lexical-binding: t; -*-
 
 ;; for emacs>=27
 (setq package-enable-at-startup nil)

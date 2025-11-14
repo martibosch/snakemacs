@@ -1,7 +1,8 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; snakemacs
 ;;; description: emacs 28 setup for Python with conda/mamba and Jupyter
 ;;; author: Martí Bosch <marti.bosch@protonmail.com>
-;;; -*- lexical-binding: t; -*-
 
 ;;; bootstrap straight and use-package
 ;; see https://jeffkreeftmeijer.com/emacs-native-comp-log/

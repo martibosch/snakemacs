@@ -1,5 +1,6 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; look
-;;; -*- lexical-binding: t; -*-
 
 ;; no startup screen
 (setq inhibit-startup-screen t)

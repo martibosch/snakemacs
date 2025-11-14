@@ -1,5 +1,5 @@
+;; -*- lexical-binding: t; -*-
 ;;; main
-;;; -*- lexical-binding: t; -*-
 
 ;;; general
 ;; misc
