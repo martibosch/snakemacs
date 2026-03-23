@@ -340,11 +340,23 @@ See URL `https://docs.astral.sh/ruff/'."
   (if (executable-find "basedpyright")
       "basedpyright"
     "pyright"))
+ :config
+ (defvar-local my/pixi-env-name "default"
+   "Pixi environment name to use for lsp-pyright. Set via .dir-locals.el to override.")
+ (defun my/lsp-pyright-set-pixi-python ()
+   "Set lsp-pyright python interpreter to pixi env if present at project root.
+Uses `my/pixi-env-name' (default: \"default\") to select the environment."
+   (when-let* ((root (projectile-project-root))
+               (pixi-python (expand-file-name
+                             (format ".pixi/envs/%s/bin/python" my/pixi-env-name) root))
+               ((file-executable-p pixi-python)))
+     (setq-local lsp-pyright-python-executable-cmd pixi-python)))
  :hook
  (python-mode
   .
   (lambda ()
     (unless (eq major-mode 'snakemake-mode)
+      (my/lsp-pyright-set-pixi-python)
       (require 'lsp-pyright)
       (lsp-deferred)))))
 
