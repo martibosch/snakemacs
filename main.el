@@ -422,6 +422,9 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
  ;; :hook (terraform-mode . lsp)
  :hook (terraform-mode . terraform-format-on-save-mode))
 
+;;; just
+(use-package justl)
+
 ;;; org
 
 ;; base
