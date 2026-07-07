@@ -12,3 +12,8 @@
 
 ;; for lsp-booster
 (setenv "LSP_USE_PLISTS" "true")
+
+;; lsp-mode throughput: raise GC threshold and the max chunk read from the
+;; language server process (default 4k is too small for lsp payloads)
+(setq gc-cons-threshold (* 100 1024 1024)) ;; 100 MB
+(setq read-process-output-max (* 3 1024 1024)) ;; 3 MB
