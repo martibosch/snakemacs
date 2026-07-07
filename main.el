@@ -364,6 +364,15 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
       (require 'lsp-pyright)
       (lsp-deferred)))))
 
+;; ty is still preview and its LSP feature surface lags basedpyright; keep it
+;; disabled so only one type-checker LSP starts. Re-enable to A/B against pyright.
+;; (use-package
+;;  lsp-python-ty
+;;  :straight nil
+;;  :after lsp-mode
+;;  :custom
+;;  (lsp-python-ty-clients-server-command '("ty" "server")))
+
 ;; cython
 (use-package cython-mode)
 
