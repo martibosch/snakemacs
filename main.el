@@ -3,6 +3,9 @@
 
 ;;; general
 ;; misc
+;; (use-package exec-path-from-shell
+;;   :config (exec-path-from-shell-initialize))
+
 (use-package atomic-chrome :config (atomic-chrome-start-server))
 
 ;;  key bindings
