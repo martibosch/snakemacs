@@ -59,11 +59,12 @@
  :after counsel
  :custom (ivy-prescient-retain-classic-highlighting t)
  :config (ivy-prescient-mode +1) (prescient-persist-mode 1)
- ;; Do not use prescient in find-file
- (ivy--alist-set
-  'ivy-sort-functions-alist
-  #'read-file-name-internal
-  #'ivy-sort-file-function-default))
+ ;; ;; Do not use prescient in find-file
+ ;; (ivy--alist-set
+ ;;  'ivy-sort-functions-alist
+ ;;  #'read-file-name-internal
+ ;;  #'ivy-sort-file-function-default)
+ )
 
 (use-package company :config (global-company-mode))
 
