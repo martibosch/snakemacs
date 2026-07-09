@@ -53,17 +53,13 @@ The only external (non-pixi) dependencies are:
 
 ### Pixi environments and IDE features for Python buffers
 
-In order to get the IDE features from the per-directory pixi environment, you can customize the `python.pythonPath` setting of basedpyright [by adding a `.dir-locals.el` file with the following content](https://github.com/emacs-lsp/lsp-pyright/issues/52):
+This setup automatically connects IDE features to the per-directory (and associated pixi workspace) [default pixi environment](https://pixi.sh/latest/tutorials/multi_environment), i.e., `lsp-pyright` infers the interpreter from `./.pixi/envs/default/bin/python` relative to the project root.
+
+In order to use a non-default environment of the pixi workspace, set `my/pixi-env-name` at the project root via a `.dir-locals.el` file (this setup uses [projectile](https://github.com/bbatsov/projectile) to detect the project root):
 
 ```emacs-lisp
-((python-mode . ((eval . (with-eval-after-load 'lsp-pyright
-                           (progn
-                             (lsp-register-custom-settings
-                              `(("python.pythonPath" "D:/path/to/miniconda3/envs/stringle_pro/python.exe"))))
-                           )))))
+((python-mode . ((my/pixi-env-name . "your-env-name"))))
 ```
-
-at the project's root (note that this set up uses [projectile](https://github.com/bbatsov/projectile) to detect the appropriate project).
 
 ### Jupyter Pixi kernels
 
