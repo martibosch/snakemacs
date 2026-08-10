@@ -432,6 +432,8 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
  :hook (terraform-mode . terraform-format-on-save-mode))
 
 ;;; just
+(use-package just-mode)
+
 (use-package justl)
 
 ;;; org
