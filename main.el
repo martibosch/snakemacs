@@ -148,12 +148,23 @@ See URL `https://docs.astral.sh/ruff/'."
 ;; code parsing
 (use-package treesit-auto :config (global-treesit-auto-mode))
 
-;;; YAML
+;; indentation guides
 (use-package
- yaml-mode
- :mode "\\.yml\\'"
- ;; :hook (yaml-mode . highlight-indent-guides-mode)
- :config (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode)))
+ highlight-indent-guides
+ :straight (:host github :repo "bumblepup/highlight-indent-guides")
+ :custom
+ ;; `character' is the portable method, `bitmap' needs image support
+ (highlight-indent-guides-method 'character)
+ ;; highlight the guide of the block point is in
+ (highlight-indent-guides-responsive 'top)
+ ;; faces are derived from the theme background
+ (highlight-indent-guides-auto-character-face-perc 25)
+ (highlight-indent-guides-auto-top-character-face-perc 80)
+ ;; hook both so guides survive a treesit-auto remap to `yaml-ts-mode'
+ :hook ((yaml-mode yaml-ts-mode) . highlight-indent-guides-mode))
+
+;;; YAML
+(use-package yaml-mode :mode "\\.ya?ml\\'")
 
 ;;; web
 (use-package
