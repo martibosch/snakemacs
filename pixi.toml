@@ -35,3 +35,26 @@ ipykernel = ">=7.2.0,<8"
 snakefmt = ">=0.11.4,<0.12"
 jupytext = ">=1.19.1,<2"
 basedpyright = ">=1.39.8,<2"
+
+# optional latex toolchain for org -> pdf export, enabled with `pixi run -e tex ...`
+# (named environments implicitly include the default feature, so `-e tex` is the full
+# snakemacs environment plus these two)
+# ACHTUNG: the extra channel is declared on the feature rather than on the workspace on
+# purpose - adding it to `[workspace] channels' changes the channel set of *every*
+# environment and forces a full re-resolve of the default one
+[feature.tex]
+channels = [{ channel = "dnachun", priority = -1 }]
+
+[feature.tex.dependencies]
+tectonic = ">=0.17,<0.18"
+# ACHTUNG: tectonic carries its own texlive bundle but shells out to an *external*
+# biber, and biber is strictly version-coupled to the biblatex it reads: the bundle of
+# tectonic 0.17 ships biblatex 3.17, which only biber 2.17 understands.  the channel
+# default (2.20) fails with "Found biblatex control file version 3.8, expected version
+# 3.11", so bump this pin only together with the tectonic bundle.  biber is not on
+# conda-forge (see https://github.com/plk/biber/issues/485), hence the dnachun channel,
+# which is also where its ~60 perl dependencies come from
+biber = { version = "==2.17", channel = "dnachun" }
+
+[environments]
+tex = ["tex"]
