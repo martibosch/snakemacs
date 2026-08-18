@@ -363,14 +363,7 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
                              (format ".pixi/envs/%s/bin/python" my/pixi-env-name) root))
                ((file-executable-p pixi-python)))
      (setq-local lsp-pyright-python-executable-cmd pixi-python)))
- :hook
- (python-mode
-  .
-  (lambda ()
-    (unless (eq major-mode 'snakemake-mode)
-      (my/lsp-pyright-set-pixi-python)
-      (require 'lsp-pyright)
-      (lsp-deferred)))))
+ )
 
 ;; ty is still preview and its LSP feature surface lags basedpyright; keep it
 ;; disabled so only one type-checker LSP starts. Re-enable to A/B against pyright.
@@ -382,15 +375,41 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
 ;;  (lsp-python-ty-clients-server-command '("ty" "server")))
 
 ;; cython
+;; ACHTUNG: `snakemake-mode' is derived from `python-mode', so `python-mode-hook' runs
+;; in Snakefile buffers too and everything python-only has to opt out explicitly.  ruff
+;; cannot even parse Snakefile syntax - "rule x:" is not python - so before this guard
+;; existed, `ruff-format' errored on every Snakefile save.  Snakefiles get `snakefmt'
+;; instead, hooked on `snakemake-mode' in the `reformatter' declaration below.
+(defun my/python-mode-setup ()
+  "Set up a genuine `python-mode' buffer, i.e. not a derived Snakefile one."
+  (unless (derived-mode-p 'snakemake-mode)
+    ;; formatting - ruff over stdin, see the `reformatter' declaration
+    (ruff-check-fix-on-save-mode 1)
+    (ruff-format-on-save-mode 1)
+    ;; docstrings and filling
+    (python-docstring-mode 1)
+    (filladapt-mode 1)
+    (setq fill-column 88)
+    (display-fill-column-indicator-mode 1)
+    ;; lsp last - the pixi interpreter has to be set before the session starts
+    (my/lsp-pyright-set-pixi-python)
+    (require 'lsp-pyright)
+    (lsp-deferred)))
+
+(use-package
+ python
+ :straight (:type built-in)
+ :hook (python-mode . my/python-mode-setup))
+
 (use-package cython-mode)
 
 ;; formatting
 (use-package
  reformatter
- :hook
- (python-mode . ruff-check-fix-on-save-mode)
- (python-mode . ruff-format-on-save-mode)
- (snakemake-mode . snakefmt-on-save-mode)
+ ;; ACHTUNG: the two ruff modes are enabled from `my/python-mode-setup', not hooked
+ ;; here - `python-mode-hook' also runs in Snakefile buffers and ruff cannot parse
+ ;; Snakefile syntax; those get `snakefmt' below instead
+ :hook (snakemake-mode . snakefmt-on-save-mode)
  :config
  ;; from https://www.reddit.com/r/emacs/comments/17gqjsy/using_ruff_format_with_emacs_to_reformat_python/
  ;; ACHTUNG: do NOT use `--stdin-filename` `buffer-file-name` because it will fail when
@@ -406,19 +425,9 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
   :args `("format" "-"))
  (reformatter-define snakefmt :program "snakefmt" :args `("-")))
 
-(use-package
- python-docstring
- :hook (python-mode . python-docstring-mode)
- ;; this hook does not necessarily belong here as it applies to python-mode more broadly
- ;; but it is the most related use-package declaration
- (python-mode
-  .
-  (lambda ()
-    (setq fill-column 88)
-    ;; (auto-fill-mode t)
-    (display-fill-column-indicator-mode 1))))
+(use-package python-docstring :demand t)
 
-(use-package filladapt :hook (python-mode . filladapt-mode))
+(use-package filladapt :demand t)
 
 ;;; Snakemake
 (use-package snakemake-mode)
