@@ -348,6 +348,13 @@ See URL `https://docs.astral.sh/ruff/'."
  'lsp-resolve-final-command
  :around #'lsp-booster--advice-final-command)
 
+;; ACHTUNG: defined at top level rather than in `lsp-pyright''s `:config' because
+;; directory-local variables are applied when the file is opened, which can precede
+;; that package loading; `safe-local-variable' keeps `.dir-locals.el' from prompting
+(defvar-local my/pixi-env-name "default"
+  "Pixi environment name to use for lsp-pyright.  Set via .dir-locals.el to override.")
+(put 'my/pixi-env-name 'safe-local-variable #'stringp)
+
 (use-package
  lsp-pyright
  :custom
@@ -356,8 +363,6 @@ See URL `https://docs.astral.sh/ruff/'."
       "basedpyright"
     "pyright"))
  :config
- (defvar-local my/pixi-env-name "default"
-   "Pixi environment name to use for lsp-pyright. Set via .dir-locals.el to override.")
  (defun my/lsp-pyright-set-pixi-python ()
    "Set lsp-pyright python interpreter to pixi env if present at project root.
 Uses `my/pixi-env-name' (default: \"default\") to select the environment."
