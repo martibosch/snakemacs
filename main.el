@@ -469,6 +469,86 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
 
 (use-package org-contrib :after (org))
 
+;; citations
+;; ACHTUNG: the bibliography variables are set buffer-locally below, so a report and its
+;; `references.bib' are associated by living in the same folder - no `#+bibliography:'
+;; keyword needed (adding one still works, it just adds more files).
+(defun my/org-cite-local-bibliography ()
+  "Point the bibliography variables at the .bib files next to the current file.
+
+Looks in the buffer's own directory and, failing that, walks up until a directory
+containing at least one .bib file is found.  Sets both
+`org-cite-global-bibliography' (used by the exporters) and `citar-bibliography'
+(used by the citar completion UI) - ACHTUNG: `citar-org-local-bib-files' returns
+the org-cite files *minus* the global ones, so setting only the former would
+leave citar with nothing."
+  (interactive)
+  (when-let* ((filepath (buffer-file-name))
+              (bib-dir
+               (locate-dominating-file
+                filepath
+                (lambda (dir) (directory-files dir nil "\\.bib\\'" t))))
+              (bib-filepaths (directory-files bib-dir t "\\.bib\\'" t)))
+    (setq-local org-cite-global-bibliography bib-filepaths)
+    (setq-local citar-bibliography bib-filepaths)))
+
+(use-package
+ oc
+ :straight (:type built-in)
+ :after (org)
+ :hook (org-mode . my/org-cite-local-bibliography)
+ ;; parity with reftex-citation in LaTeX buffers, shadowing the default
+ ;; `org-agenda-file-to-front' (still reachable via M-x); `C-c C-x @' also works
+ :bind (:map org-mode-map ("C-c [" . org-cite-insert))
+ :config
+ (setq org-cite-global-bibliography nil)
+ (setq org-cite-insert-processor 'citar)
+ (setq org-cite-follow-processor 'citar)
+ (setq org-cite-activate-processor 'citar)
+ ;; biblatex for latex/pdf export, citeproc (CSL) everywhere else
+ (setq org-cite-export-processors '((latex biblatex) (t csl))))
+
+;; the completion UI behind the org-cite processors above; the `citar' processor is
+;; registered from citar's autoloads via `with-eval-after-load' on `oc', so no require
+(use-package
+ citar
+ :after (org)
+ ;; completion-at-point inside `[cite:@...]', picked up by company
+ :hook ((org-mode LaTeX-mode) . citar-capf-setup)
+ :custom (citar-bibliography nil))
+
+;; pdf export
+(use-package
+ ox-latex
+ :straight (:type built-in)
+ :after (org)
+ :config
+ ;; prefer tectonic, which is an optional pixi dependency (see the `tex' feature in
+ ;; pixi.toml) - ACHTUNG: resolved once at startup, so restart emacs after switching
+ ;; environments with `pixi run -e tex ...'
+ (if (executable-find "tectonic")
+     (progn
+       ;; tectonic is xetex-based; telling org so drops the pdflatex-only `inputenc'
+       ;; and `fontenc' in favour of `fontspec', without which the unicode citeproc
+       ;; emits (en-dashes in page ranges) falls outside the T1 fonts
+       (setq org-latex-compiler "xelatex")
+       ;; tectonic fetches missing packages by itself and reruns the engine - and
+       ;; biber - as many times as needed, so a single invocation is enough
+       (setq org-latex-pdf-process '("tectonic --outdir %o %f")))
+   ;; ACHTUNG: the default value runs the latex compiler three times but never calls
+   ;; biber, so every biblatex citation comes out undefined - interleave a biber run
+   ;; (`%o' is the output dir, `%b' the base name, `%f' the tex file)
+   (setq org-latex-pdf-process
+         '("%latex -interaction nonstopmode -output-directory %o %f"
+           "biber --input-directory %o --output-directory %o %b"
+           "%latex -interaction nonstopmode -output-directory %o %f"
+           "%latex -interaction nonstopmode -output-directory %o %f")))
+ ;; keep the .bbl out of the way too, `org-latex-logfiles-extensions' misses it
+ (add-to-list 'org-latex-logfiles-extensions "bbl"))
+
+;; needed by the `csl' export processor, i.e., non-latex export backends
+(use-package citeproc :after (org))
+
 ;; (use-package poly-org)
 
 ;; python and jupyter
