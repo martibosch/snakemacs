@@ -22,7 +22,7 @@ Within a [pixi workspace](https://pixi.sh/latest/first_workspace):
 2. Start a [jupyter REPL](https://github.com/emacs-jupyter/jupyter?tab=readme-ov-file#repl) by running `M-x jupyter-run-repl` and selecting "Python (Pixi)" as kernel. This will run a jupyter REPL in a dedicated buffer with the [default environment](https://pixi.sh/latest/tutorials/multi_environment) of the pixi workspace.
 3. From the Jupyter notebook buffer, run `M-x jupyter-repl-associate-buffer` and select the previously created REPL buffer to associate it to the notebook. You may now execute code cells from the notebook buffer using `C-c C-c` (or `M-x code-cells-eval`).
 
-Note that the kernel will correspond to the [default pixi environment](<(https://github.com/renan-r-santos/pixi-kernel?tab=readme-ov-file#pixi-environments)>) of the workspace. If you need to use another environemnt, see the "Pixi environments and IDE features for Python buffers" section below.
+Note that the kernel will correspond to the [default pixi environment](<(https://github.com/renan-r-santos/pixi-kernel?tab=readme-ov-file#pixi-environments)>) of the workspace. If you need to use another environment, see the "Pixi environments and IDE features for Python buffers" section below.
 
 ## Installation
 

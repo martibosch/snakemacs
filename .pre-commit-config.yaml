@@ -1,31 +1,80 @@
-default_stages: [commit]
-default_language_version:
-  node: system
+ci:
+  autofix_commit_msg: "style(pre-commit.ci): auto fixes from pre-commit hooks"
+  autoupdate_commit_msg: "style(pre-commit.ci): pre-commit autoupdate"
+  autoupdate_schedule: weekly
+  # the elisp hooks shell out to emacs and tombi fetches a schema catalog over the
+  # network, neither of which is available on pre-commit.ci
+  skip: [elisp-check-parens, tombi-format, tombi-lint]
+  submodules: false
+
+# commitizen runs at the commit-msg stage, which `pre-commit install` alone does not
+# wire up
+default_install_hook_types: [pre-commit, commit-msg]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-case-conflict
+      - id: mixed-line-ending
+      - id: detect-private-key
+      - id: check-added-large-files
+
+  - repo: https://github.com/jamescherti/pre-commit-elisp
+    rev: v1.0.9
+    hooks:
+      - id: elisp-check-parens
 
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v2.37.0
+    rev: v4.17.1
     hooks:
       - id: commitizen
+        stages: [commit-msg]
 
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.4
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 1.0.0
     hooks:
-      - id: prettier
+      - id: mdformat
+        # keep consecutive numbering in the ordered lists of the README
+        args: ["--number"]
+        additional_dependencies:
+          - mdformat-gfm
+
+  - repo: https://github.com/tombi-toml/tombi-pre-commit
+    rev: v1.4.1
+    hooks:
+      - id: tombi-format
+      - id: tombi-lint
+
+  - repo: https://github.com/google/yamlfmt
+    rev: v0.21.0
+    hooks:
+      - id: yamlfmt
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.38.0
+    hooks:
+      - id: yamllint
+        args: ["-d relaxed"]
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.18.4
+    rev: 0.38.0
     hooks:
       - id: check-github-workflows
+      - id: check-dependabot
 
-ci:
-  autoupdate_schedule: weekly
-  skip: []
-  submodules: false
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.3
+    hooks:
+      - id: codespell
+        # a lockfile full of package names is all false positives
+        exclude: ^pixi\.lock$
