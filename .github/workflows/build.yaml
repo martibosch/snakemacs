@@ -5,8 +5,10 @@ on: push
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     strategy:
+      # let every matrix leg finish instead of cancelling the rest on the first
+      # failure; this is what `continue-on-error` was reaching for, without also
+      # making the job incapable of failing
       fail-fast: false
       matrix:
         os: [ubuntu-latest] # [ubuntu-latest, macos-latest]
