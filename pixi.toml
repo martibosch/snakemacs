@@ -35,6 +35,11 @@ ipykernel = ">=7.2.0,<8"
 snakefmt = ">=0.11.4,<0.12"
 jupytext = ">=1.19.1,<2"
 basedpyright = ">=1.39.8,<2"
+# ACHTUNG: `reformatter` resolves ruff from $PATH (see the on-save hooks in main.el),
+# so it has to be in the environment - not just installed globally.  same for `just`,
+# which `justl-executable' and `just-executable' both look up by name
+ruff = ">=0.16.3,<0.17"
+just = ">=1.58,<2"
 
 # optional latex toolchain for org -> pdf export, enabled with `pixi run -e tex ...`
 # (named environments implicitly include the default feature, so `-e tex` is the full
