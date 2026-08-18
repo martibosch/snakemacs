@@ -294,17 +294,9 @@ See URL `https://docs.astral.sh/ruff/'."
  :init
  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
  (setq lsp-keymap-prefix "C-c l")
- :hook
- (python-mode
-  .
-  (lambda ()
-    (unless (eq major-mode 'snakemake-mode)
-      (lsp-deferred))))
- (python-mode
-  .
-  (lambda ()
-    (remove-hook 'before-save-hook #'lsp-format-buffer t)
-    (remove-hook 'before-save-hook #'lsp-organize-imports t)))
+ ;; ACHTUNG: the session is started from the `lsp-pyright' hook below, not here -
+ ;; that hook has to set the pixi interpreter *before* `lsp-deferred' runs, and
+ ;; having both start it made the ordering depend on declaration order
  :commands
  lsp
  lsp-deferred
