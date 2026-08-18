@@ -552,22 +552,11 @@ leave citar with nothing."
 ;; (use-package poly-org)
 
 ;; python and jupyter
-;;; custom zmq build - see https://github.com/alexmurray/emacs-snap/issues/66
-(let* ((emacs-pixi-dir (file-name-as-directory "~/.pixi/envs/emacs"))
-       (process-environment
-        (append
-         process-environment
-         `(,(concat "CC=" emacs-pixi-dir "gcc")
-           ,(concat "CXX=" emacs-pixi-dir "g++")
-           ,(concat "CFLAGS=--sysroot=" emacs-pixi-dir)
-           ,(concat "CPPFLAGS=--sysroot=" emacs-pixi-dir)
-           ,(concat
-             "LDFLAGS=--sysroot="
-             emacs-pixi-dir
-             " -L"
-             emacs-pixi-dir
-             "/usr/lib")))))
-  (use-package zmq))
+;;; the conda-forge `compilers' package sets CC/CFLAGS/CPPFLAGS/LDFLAGS (sysroot and
+;;; include/lib paths included) on environment activation, so the module builds with no
+;;; help from here - ACHTUNG: emacs-zmq downloads and statically links its own libzmq
+;;; (4.3.1, pinned in its Makefile), so the conda `zeromq' in the environment is unused
+(use-package zmq)
 ;;; emacs-jupyter
 (use-package jupyter :after (org))
 (org-babel-do-load-languages

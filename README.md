@@ -74,11 +74,21 @@ If you need to run a REPL with a different pixi environment, you can either:
 - Set the environment variable `PIXI_KERNEL_DEFAULT_ENVIRONMENT` to the desired Pixi environment.
 - Open a terminal by running `M-x vterm`, then in the terminal run (from the appropriate directory) the command `pixi run -e <your-environment> jupyter kernel`, which will show a path to a "Connection file". Then run `M-x my/jupyter-connect-repl` and select the appropriate connection file (which will be suggested in the minibuffer). This will open a Jupyter REPL buffer connected to the specified pixi environment.
 
-### Compiling zmq with emacs as pixi global tool
+### Building the emacs-zmq module
 
-The [emacs-jupyter](https://github.com/emacs-jupyter/jupyter) package relies on [emacs-zmq](https://github.com/emacs-jupyter/jupyter), which must be built as an emacs module. When installing emacs as a [pixi global tool](https://pixi.sh/latest/global_tools/introduction), i.e., running `pixi global install emacs`, I did not manage to [build zmq](https://github.com/nnicandro/emacs-zmq?tab=readme-ov-file#building) in my ubuntu computer - I got some compilation errors even with all the required dependencies installed as pixi global tools.
+[emacs-jupyter](https://github.com/emacs-jupyter/jupyter) depends on
+[emacs-zmq](https://github.com/nnicandro/emacs-zmq), which is built as a native emacs
+module. It is compiled during the first run, and can be rebuilt at any time with:
 
-If you want to install emacs as a pixi global tool, you may first follow the steps described in the "Installation" section above and answer `n` (No) to `Check for compatible module binary to download?` so that the module is compiled using the customized settings from your snippet above, i.e., then answering `y` to `ZMQ module not found. Build it?`. Then, if you have installed emacs as a pixi global tool, you may simply run `emacs` from the terminal and you will have the features of the previously-built ZMQ module.
+```bash
+pixi run zmq-build
+```
+
+No special configuration is needed: conda-forge's `compilers` package sets the
+compiler and sysroot variables when the pixi environment activates. Note that if you
+run emacs as a [pixi global tool](https://pixi.sh/latest/global_tools/introduction)
+rather than through this workspace, the module is built against the global
+environment instead, and the two can drift.
 
 ### Code cells and LSP formatting
 
