@@ -1,98 +1,42 @@
 [![build](https://github.com/martibosch/snakemacs/actions/workflows/build.yaml/badge.svg)](https://github.com/martibosch/snakemacs/actions/workflows/build.yaml)
+[![docs](https://readthedocs.org/projects/snakemacs/badge/?version=latest)](https://snakemacs.readthedocs.io/en/latest/)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/martibosch/snakemacs/main.svg)](https://results.pre-commit.ci/latest/github/martibosch/snakemacs/main)
 
 # snakemacs
 
-![snakemacs logo](https://github.com/martibosch/snakemacs/blob/main/snakemacs.svg)
+![snakemacs logo](https://github.com/martibosch/snakemacs/blob/main/docs/assets/snakemacs.svg)
 
-emacs30 setup for Python and Jupyter with [pixi](https://pixi.sh)
+emacs 30 setup for Python and Jupyter with [pixi](https://pixi.sh)
+
+![snakemacs example screencast](docs/assets/example-screencast.gif)
 
 ## Features
 
-- Jupyter-like mode using plain-text Python buffers with [code-cells](https://github.com/astoff/code-cells.el), [emacs-jupyter](https://github.com/emacs-jupyter/jupyter) and [jupytext](https://github.com/mwouts/jupytext) (see the blog post ["Jupyter in the Emacs universe"](https://martibosch.github.io/jupyter-emacs-universe) for more details), with [pixi-kernels](https://github.com/renan-r-santos/pixi-kernel) to run Jupyter kernels with the per-directory pixi environments.
-- _Fast_ (with [emacs-lsp-booster](https://github.com/blahgeek/emacs-lsp-booster)) IDE features using [lsp-mode](https://github.com/emacs-lsp/lsp-mode) with [basedpyright](https://github.com/detachhead/basedpyright) and [ruff](https://github.com/astral-sh/ruff).
+- Jupyter-like mode using plain-text Python buffers with [code-cells](https://github.com/astoff/code-cells.el), [emacs-jupyter](https://github.com/emacs-jupyter/jupyter) and [jupytext](https://github.com/mwouts/jupytext) (see the blog post ["Jupyter in the Emacs universe"](https://martibosch.github.io/jupyter-emacs-universe) for more details), with [pixi-kernel](https://github.com/renan-r-santos/pixi-kernel) to run Jupyter kernels with the per-directory pixi environments.
+- _Fast_ (with [emacs-lsp-booster](https://github.com/blahgeek/emacs-lsp-booster)) IDE features using [lsp-mode](https://github.com/emacs-lsp/lsp-mode) with [basedpyright](https://github.com/detachhead/basedpyright) and [ruff](https://github.com/astral-sh/ruff), wired automatically to the pixi environment of the project you are editing.
+- Org and LaTeX for writing things up: citations from a `references.bib` next to your document, and PDF export through [tectonic](https://tectonic-typesetting.github.io) or a system TeX Live.
 
-![snakemacs example screencast](example-screencast.gif)
+## Quickstart
 
-### How to run notebooks
-
-Within a [pixi workspace](https://pixi.sh/latest/first_workspace):
-
-1. Open a notebook (using `C-x C-f`) or create a new one using `M-x my/new-notebook` and then entering a name and selecting "Python (Pixi)" as kernel.
-2. Start a [jupyter REPL](https://github.com/emacs-jupyter/jupyter?tab=readme-ov-file#repl) by running `M-x jupyter-run-repl` and selecting "Python (Pixi)" as kernel. This will run a jupyter REPL in a dedicated buffer with the [default environment](https://pixi.sh/latest/tutorials/multi_environment) of the pixi workspace.
-3. From the Jupyter notebook buffer, run `M-x jupyter-repl-associate-buffer` and select the previously created REPL buffer to associate it to the notebook. You may now execute code cells from the notebook buffer using `C-c C-c` (or `M-x code-cells-eval`).
-
-Note that the kernel will correspond to the [default pixi environment](<(https://github.com/renan-r-santos/pixi-kernel?tab=readme-ov-file#pixi-environments)>) of the workspace. If you need to use another environment, see the "Pixi environments and IDE features for Python buffers" section below.
-
-## Installation
-
-This setup uses emacs 30 and pixi. The only requirement is to [install pixi](https://pixi.sh/latest/installation), then you can follow the steps below:
-
-1. Navigate to your home folder and clone the repository, and navigate to the (newly-created) `~/.emacs.d/` folder:
-
-   ```bash
-   cd ~
-   git clone https://github.com/martibosch/snakemacs ~/.emacs.d
-   cd .emacs.d
-   ```
-
-   Alternatively, you can clone this repository into any directory and use [chemacs2](https://github.com/plexus/chemacs2) to set up `snakemacs` as a (potentially default) profile.
-
-2. Run emacs for the first time from the shell so that all packages can be installed (if you do not run it from the shell, `libvterm` may not be installed properly):
-
-   ```bash
-   pixi run emacs
-   ```
-
-The only external (non-pixi) dependencies are:
-
-- [emacs-lsp-booster](https://github.com/blahgeek/emacs-lsp-booster) which you can set it up by [downloading the prebuilt binary and placing it to somewhere in your `$PATH`](https://github.com/blahgeek/emacs-lsp-booster?tab=readme-ov-file#obtain-or-build-emacs-lsp-booster). Using emacs-lsp-booster is _optional but highly recommended_ to improve the performance of the LSP features.
-- [Nerd Fonts](www.nerdfonts.com) for the icons, which you can install from inside emacs by running `M-x nerd-icons-install-fonts`.
-
-## Caveats
-
-### Pixi environments and IDE features for Python buffers
-
-This setup automatically connects IDE features to the per-directory (and associated pixi workspace) [default pixi environment](https://pixi.sh/latest/tutorials/multi_environment), i.e., `lsp-pyright` infers the interpreter from `./.pixi/envs/default/bin/python` relative to the project root.
-
-In order to use a non-default environment of the pixi workspace, set `my/pixi-env-name` at the project root via a `.dir-locals.el` file (this setup uses [projectile](https://github.com/bbatsov/projectile) to detect the project root):
-
-```emacs-lisp
-((python-mode . ((my/pixi-env-name . "your-env-name"))))
-```
-
-### Jupyter Pixi kernels
-
-In order to run jupyter with the per-directory kernels, the snakemacs pixi environment includes [pixi-kernel](https://github.com/renan-r-santos/pixi-kernel). Therefore, from the appropriate project directory, you can run `M-x jupyter-run-repl` and select the "Python (pixi)" kernel, which will use the correct pixi environment for that project. **However, this requires that the pixi environment includes the `ipykernel` package,** which you can install by running `pixi add ipykernel` from the appropriate project directory.
-
-### Jupyter kernels for multiple Pixi environments
-
-While [it is possible to choose a pixi environment for the Jupyter kernel in JupyterLab](https://github.com/renan-r-santos/pixi-kernel?tab=readme-ov-file#pixi-environments), this setup currently does not provide a user interface for this feature.
-
-If you need to run a REPL with a different pixi environment, you can either:
-
-- Set the environment variable `PIXI_KERNEL_DEFAULT_ENVIRONMENT` to the desired Pixi environment.
-- Open a terminal by running `M-x vterm`, then in the terminal run (from the appropriate directory) the command `pixi run -e <your-environment> jupyter kernel`, which will show a path to a "Connection file". Then run `M-x my/jupyter-connect-repl` and select the appropriate connection file (which will be suggested in the minibuffer). This will open a Jupyter REPL buffer connected to the specified pixi environment.
-
-### Building the emacs-zmq module
-
-[emacs-jupyter](https://github.com/emacs-jupyter/jupyter) depends on
-[emacs-zmq](https://github.com/nnicandro/emacs-zmq), which is built as a native emacs
-module. It is compiled during the first run, and can be rebuilt at any time with:
+The only requirement is to [install pixi](https://pixi.sh/latest/installation):
 
 ```bash
-pixi run zmq-build
+git clone https://github.com/martibosch/snakemacs ~/.emacs.d
+cd ~/.emacs.d
+pixi run emacs
 ```
 
-No special configuration is needed: conda-forge's `compilers` package sets the
-compiler and sysroot variables when the pixi environment activates. Note that if you
-run emacs as a [pixi global tool](https://pixi.sh/latest/global_tools/introduction)
-rather than through this workspace, the module is built against the global
-environment instead, and the two can drift.
+Run that first launch from a shell so that `libvterm` is installed properly. See the [installation guide](https://snakemacs.readthedocs.io/en/latest/installation) for [chemacs2](https://github.com/plexus/chemacs2) profiles, the optional `tex` and `docs` environments, and ways to launch emacs afterwards.
 
-### Code cells and LSP formatting
+## Documentation
 
-The [ruff language server](https://docs.astral.sh/ruff/editors/#language-server-protocol) provides formatting capabilities via the LSP protocol. However, when editing [Jupyter notebooks as Python scripts via code-cells](https://github.com/astoff/code-cells.el), ruff needs to format a plain-text Python file rather than a JSON notebook. Therefore, in this set up the `lsp-format-buffer` and `lsp-organize-imports` hooks are deactivated in Python mode and instead ruff operates by sending the buffer content via standard input using [reformatter](https://github.com/purcell/emacs-reformatter).
+Full documentation at **[snakemacs.readthedocs.io](https://snakemacs.readthedocs.io/en/latest/)**:
+
+- [Dependencies](https://snakemacs.readthedocs.io/en/latest/dependencies) - what pixi provides, what you install yourself, and where the pixi story ends
+- [Notebooks](https://snakemacs.readthedocs.io/en/latest/notebooks) and [environments and kernels](https://snakemacs.readthedocs.io/en/latest/repl-and-kernels) - the Jupyter workflow
+- [IDE features](https://snakemacs.readthedocs.io/en/latest/ide) - LSP, basedpyright, ruff
+- [Org](https://snakemacs.readthedocs.io/en/latest/org) and [LaTeX](https://snakemacs.readthedocs.io/en/latest/latex) - citations and PDF export
+- [Troubleshooting](https://snakemacs.readthedocs.io/en/latest/troubleshooting)
 
 ## See also
 

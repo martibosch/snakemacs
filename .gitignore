@@ -64,3 +64,6 @@ recentf
 # lsp
 .cache
 .lsp-session-v1
+
+# mystmd build output
+_build/

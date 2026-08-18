@@ -1,0 +1,30 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  title: snakemacs
+  description: emacs 30 setup for Python and Jupyter with pixi
+  keywords: [emacs, python, jupyter, pixi, org-mode, latex]
+  authors:
+    - name: Martí Bosch
+  github: https://github.com/martibosch/snakemacs
+  toc:
+    - file: docs/index.md
+    - title: Getting started
+      children:
+        - file: docs/installation.md
+        - file: docs/dependencies.md
+    - title: Python and Jupyter
+      children:
+        - file: docs/python-jupyter/notebooks.md
+        - file: docs/python-jupyter/repl-and-kernels.md
+        - file: docs/python-jupyter/ide.md
+    - title: Writing
+      children:
+        - file: docs/writing/org.md
+        - file: docs/writing/latex.md
+    - file: docs/troubleshooting.md
+site:
+  template: book-theme
+  options:
+    logo: docs/assets/snakemacs.svg
+    favicon: docs/assets/snakemacs.svg

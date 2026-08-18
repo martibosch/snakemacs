@@ -61,5 +61,12 @@ tectonic = ">=0.17,<0.18"
 # which is also where its ~60 perl dependencies come from
 biber = { version = "==2.17", channel = "dnachun" }
 
+# optional docs toolchain, built with `pixi run -e docs myst start`
+# ACHTUNG: mystmd is the standalone MyST engine (no sphinx), which is why it drags in
+# nodejs - confined to this environment, the default one stays node-free
+[feature.docs.dependencies]
+mystmd = ">=1.10.1,<2"
+
 [environments]
 tex = ["tex"]
+docs = ["docs"]

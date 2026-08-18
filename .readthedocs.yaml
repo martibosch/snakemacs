@@ -1,0 +1,20 @@
+# See https://docs.readthedocs.com/platform/stable/config-file/v2.html
+version: 2
+
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3.12"
+    nodejs: "20"
+  jobs:
+    install:
+      - npm install -g mystmd
+    build:
+      html:
+        - myst build --html
+        # ACHTUNG: move *into* $READTHEDOCS_OUTPUT/html explicitly.  `mv ./_build/html
+        # $READTHEDOCS_OUTPUT` renames rather than moves when the target directory does
+        # not exist yet, leaving index.html one level too high and failing the build
+        # with "Index file is not present in HTML output directory"
+        - mkdir -p $READTHEDOCS_OUTPUT
+        - mv ./_build/html $READTHEDOCS_OUTPUT/html
