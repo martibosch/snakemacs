@@ -26,7 +26,7 @@ cd ~/.emacs.d
 pixi run emacs
 ```
 
-Run that first launch from a shell so that `libvterm` is installed properly. See the [installation guide](https://snakemacs.readthedocs.io/en/latest/installation) for [chemacs2](https://github.com/plexus/chemacs2) profiles, the optional `tex` and `docs` environments, and ways to launch emacs afterwards.
+Run that first launch from a shell so that `libvterm` is installed properly. See the [installation guide](https://snakemacs.readthedocs.io/en/latest/installation) for [chemacs2](https://github.com/plexus/chemacs2) profiles, the optional `md`, `tex` and `docs` environments, and ways to launch emacs afterwards.
 
 ## Documentation
 

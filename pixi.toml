@@ -41,23 +41,23 @@ basedpyright = ">=1.39.8,<2"
 ruff = ">=0.16.3,<0.17"
 just = ">=1.58,<2"
 
-# optional toolchain for the org -> pdf and markdown -> pdf export routes, enabled
-# with `pixi run -e tex ...`
-# (named environments implicitly include the default feature, so `-e tex` is the full
-# snakemacs environment plus these three)
+# the pdf toolchain both writing routes share: an engine, and pandoc for markdown ->
+# pdf (see `my/markdown-export-pdf' in main.el, and `markdown-command' for the
+# `C-c C-c p' html preview).  everything here is plain conda-forge
+[feature.pdf.dependencies]
+tectonic = ">=0.17,<0.18"
+pandoc = ">=3.10.2,<4"
+
+# biblatex's backend, needed only by the org and latex routes - pandoc resolves
+# citations itself with `--citeproc', so the markdown route never calls biber and does
+# not want the ~165 perl packages that come with it
 # ACHTUNG: the extra channel is declared on the feature rather than on the workspace on
 # purpose - adding it to `[workspace] channels' changes the channel set of *every*
 # environment and forces a full re-resolve of the default one
-[feature.tex]
+[feature.biber]
 channels = [{ channel = "dnachun", priority = -1 }]
 
-[feature.tex.dependencies]
-tectonic = ">=0.17,<0.18"
-# markdown -> pdf goes through pandoc (see `my/markdown-export-pdf' in main.el), which
-# also backs the `C-c C-c p' html preview.  ACHTUNG: with `--citeproc' pandoc renders
-# citations itself from the .bib, so that route needs no biber and is unaffected by the
-# pin below - only the org/latex route is
-pandoc = ">=3.10.2,<4"
+[feature.biber.dependencies]
 # ACHTUNG: tectonic carries its own texlive bundle but shells out to an *external*
 # biber, and biber is strictly version-coupled to the biblatex it reads: the bundle of
 # tectonic 0.17 ships biblatex 3.17, which only biber 2.17 understands.  the channel
@@ -73,6 +73,11 @@ biber = { version = "==2.17", channel = "dnachun" }
 [feature.docs.dependencies]
 mystmd = ">=1.10.1,<2"
 
+# named environments implicitly include the default feature, so each of these is the
+# full snakemacs environment plus the features listed
 [environments]
-tex = ["tex"]
+# markdown -> pdf: two extra conda-forge packages, no extra channel
+md = ["pdf"]
+# org and latex -> pdf: the above plus biber and its perl closure, off dnachun
+tex = ["pdf", "biber"]
 docs = ["docs"]

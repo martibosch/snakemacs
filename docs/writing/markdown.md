@@ -13,12 +13,16 @@ blocks and the rest of the org ecosystem.
 
 ## What you need
 
-Citation completion works out of the box. Producing a PDF needs `pandoc`, which lives
-in the optional `tex` environment alongside `tectonic`:
+Citation completion works out of the box. Producing a PDF needs `pandoc` and a PDF
+engine, which live in the optional `md` environment:
 
 ```bash
-pixi run -e tex emacs
+pixi run -e md emacs
 ```
+
+`md` is deliberately lighter than `tex`: it adds `pandoc` and `tectonic` and nothing
+else, where `tex` adds `biber` and its ~165 `perl-*` dependencies off an extra
+channel. Since pandoc resolves citations itself, none of that is on this path.
 
 The engine is chosen at startup with `executable-find`, so **restart emacs after
 switching environments**, exactly as on the [LaTeX](latex.md) page.
@@ -77,8 +81,52 @@ The in-text form `@doe2020 [p. 10]` has to be typed by hand; `C-c [` always inse
 the bracketed form.
 
 Locator abbreviations - `p.`, `pp.`, `chap.`, `sec.`, `fig.`, `no.`, `vol.` - are
-parsed rather than passed through, which is why `p. 10` renders as a bare `10` under
-the default author-date style while `chap. 2` keeps its label.
+parsed rather than passed through. This is the one place where the markdown route
+behaves visibly differently from org, and it has its own section below.
+
+## Locators and the `p.` that goes missing
+
+Write `[@doe2020, p. 10]` and the default style renders `(Doe 2020, 10)` - the label
+is gone. This is not pandoc dropping it. Under CSL the *style* decides whether a
+locator label is printed, and pandoc's built-in default,
+`chicago-author-date`, suppresses it for pages because a bare number after the year is
+already unambiguous. `chap. 2` keeps its label because a bare `2` there would not be.
+
+Biblatex has no such rule - it passes `p. 10` through verbatim - which is why the same
+document exported from org looks different.
+
+To keep the label, point `csl:` at a style that prints it:
+
+```yaml
+---
+title: Lorem ipsum
+csl: /path/to/elsevier-harvard.csl
+---
+```
+
+Rendering of `[@rasp2021data, p. 3]`, `[@rasp2021data, pp. 3-5]` and
+`[@rasp2021data, chap. 2]`:
+
+| style                               | page         | range           | chapter           |
+| ----------------------------------- | ------------ | --------------- | ----------------- |
+| `chicago-author-date` (default)     | `2021, 3`    | `2021, 3–5`     | `2021, chap. 2`   |
+| `elsevier-harvard`                  | `2021, p. 3` | `2021, pp. 3–5` | `2021, chap. 2`   |
+| `harvard-cite-them-right`           | `2021, p. 3` | `2021, pp. 3–5` | `2021, chap. 2`   |
+| `apa`                               | `2021, p. 3` | `2021, pp. 3–5` | `2021, Chapter 2` |
+| `american-sociological-association` | `2021:3`     | `2021:3–5`      | `2021:2`          |
+
+Note that CSL *understands* the locator: it pluralises `p.` to `pp.` for a range and
+turns the hyphen into an en-dash on its own. Biblatex does neither.
+
+If you have Zotero installed, its styles are already on disk under
+`~/Zotero/styles/`. Otherwise, fetch one from the
+[CSL styles repository](https://github.com/citation-style-language/styles) and keep it
+next to the document so the path stays portable.
+
+:::{warning}
+A `--csl` flag on the command line overrides the document's own `csl:` key, not the
+other way round. Set the style in the YAML header and let `C-c C-e` alone.
+:::
 
 ## Getting a PDF
 
@@ -128,17 +176,18 @@ This is the practical difference from the org and LaTeX routes. `--citeproc` mak
 pandoc resolve citations itself, from the `.bib` and a CSL style, and emit
 already-formatted text. LaTeX only ever sees a finished reference list.
 
-|                   | org / LaTeX            | markdown                 |
-| ----------------- | ---------------------- | ------------------------ |
-| citation engine   | biblatex + biber       | pandoc citeproc (CSL)    |
-| passes            | latex, biber, latex ×2 | one pandoc invocation    |
-| PDF engine        | tectonic or TeX Live   | tectonic or TeX Live     |
-| style switched by | `\usepackage[style=…]` | `--csl` / `csl:` in YAML |
+|                   | org / LaTeX            | markdown                  |
+| ----------------- | ---------------------- | ------------------------- |
+| citation engine   | biblatex + biber       | pandoc citeproc (CSL)     |
+| passes            | latex, biber, latex ×2 | one pandoc invocation     |
+| PDF engine        | tectonic or TeX Live   | tectonic or TeX Live      |
+| style switched by | `\usepackage[style=…]` | `csl:` in the YAML header |
 
 The consequence worth knowing: the `biber = "==2.17"` pin in `pixi.toml` exists
 because biber is version-coupled to the biblatex that tectonic's bundle ships (see
 [Dependencies](../dependencies.md)). That pin does not constrain this route at all -
-if the pin ever breaks, markdown documents keep exporting.
+if the pin ever breaks, markdown documents keep exporting. It is also why `biber`
+lives in its own pixi feature, and why the `md` environment does not include it.
 
 Both routes still end at the same PDF engine, `tectonic` when it is on `$PATH` and
 pandoc's default otherwise.

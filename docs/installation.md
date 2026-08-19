@@ -141,19 +141,23 @@ you, use a daemon.
 
 ## Optional environments
 
-The default environment is everything you need to edit Python and run notebooks. Two
-optional environments layer on top of it:
+The default environment is everything you need to edit Python and run notebooks.
+Three optional environments layer on top of it:
 
 ```bash
-pixi run -e tex emacs     # adds tectonic + biber, for org/LaTeX -> PDF
+pixi run -e md emacs          # adds tectonic + pandoc, for markdown -> PDF
+pixi run -e tex emacs         # the above plus biber, for org/LaTeX -> PDF
 pixi run -e docs myst start   # builds this documentation site
 ```
 
 Named pixi environments implicitly include the default feature, so `-e tex` is the
 full snakemacs environment *plus* the LaTeX toolchain, not a replacement for it.
 
+`md` is the one to reach for if you write in markdown: it adds two conda-forge
+packages, where `tex` adds around 165 and needs an extra channel for `biber`. See
+[Dependencies](dependencies.md).
+
 :::{note}
-`-e tex` installs a complete second copy of the environment - about 2.2 GB on disk.
-Use it only if you export org or LaTeX documents to PDF. See
-[Dependencies](dependencies.md) for what it contains and why.
+Each of these installs a complete second copy of the environment - about 2.2 GB on
+disk. Use one only if you actually export documents to PDF.
 :::

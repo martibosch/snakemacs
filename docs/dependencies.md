@@ -16,15 +16,27 @@ what you have to install yourself.
 | `ruff`, `snakefmt`                                                    | default     | formatting and linting, driven by `reformatter` |
 | `just`                                                                | default     | running recipes from `justl` and `just-mode`    |
 | `compilers`, `cmake`, `libtool`, `autoconf`, `automake`, `pkg-config` | default     | building the `emacs-zmq` module                 |
-| `tectonic`, `biber`                                                   | `tex`       | org and LaTeX export to PDF                     |
+| `tectonic`, `pandoc`                                                  | `md`, `tex` | markdown export to PDF                          |
+| `biber`                                                               | `tex`       | org and LaTeX export to PDF                     |
 | `mystmd`                                                              | `docs`      | building this site                              |
 
 Install an optional environment by naming it:
 
 ```bash
+pixi install -e md
 pixi install -e tex
 pixi install -e docs
 ```
+
+`tex` is `md` plus `biber`. The split is not cosmetic: `biber` is not on conda-forge
+(see [below](#biber)) and pulls in around 165 `perl-*` packages, none of which the
+markdown route touches - pandoc resolves citations itself. Measured on the lockfile:
+
+| environment | packages | extra channel |
+| ----------- | -------- | ------------- |
+| `default`   | 296      | -             |
+| `md`        | 298      | -             |
+| `tex`       | 458      | `dnachun`     |
 
 :::{note}
 `ruff` and `snakefmt` are invoked by name through
@@ -108,8 +120,9 @@ This means that your biber (2.20) and biblatex (3.17) versions are incompatible.
 
 biber is [not packaged on conda-forge](https://github.com/plk/biber/issues/485) -
 doing so would require packaging its ~60 Perl dependencies first - so it comes from
-the community `dnachun` channel, declared on the `tex` feature rather than on the
-workspace so that the default environment's resolution is untouched.
+the community `dnachun` channel, declared on the `biber` feature rather than on the
+workspace so that no other environment's resolution is touched - `default`, `md` and
+`docs` never see it.
 
 :::{warning}
 Bump the `biber` pin only together with the tectonic version. Nothing will warn you

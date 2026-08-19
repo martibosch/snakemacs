@@ -574,7 +574,7 @@ ones, so setting only the former would leave citar with nothing."
  :straight (:type built-in)
  :after (org)
  :config
- ;; prefer tectonic, which is an optional pixi dependency (see the `tex' feature in
+ ;; prefer tectonic, which is an optional pixi dependency (see the `pdf' feature in
  ;; pixi.toml) - ACHTUNG: resolved once at startup, so restart emacs after switching
  ;; environments with `pixi run -e tex ...'
  (if (executable-find "tectonic")
