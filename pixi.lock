@@ -827,6 +827,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/overrides-7.7.0-pyhd8ed1ab_1.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/p11-kit-0.26.5-h586ad30_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-26.3-pyhc364b38_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/linux-64/pandoc-3.10.2-ha770c72_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/pandocfilters-1.5.0-pyhd8ed1ab_0.tar.bz2
       - conda: https://conda.anaconda.org/conda-forge/linux-64/pango-1.58.2-hda50119_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/parso-0.8.7-pyhcf101f3_0.conda
@@ -5940,6 +5941,13 @@ packages:
   license_family: APACHE
   size: 116363
   timestamp: 1785888127370
+- conda: https://conda.anaconda.org/conda-forge/linux-64/pandoc-3.10.2-ha770c72_0.conda
+  sha256: 509d03571e126232f9eb38f1988ac9116f8c51df4a151071c4c6f3761d3fcb44
+  md5: 80b992667dc547968afb633772891f71
+  license: GPL-2.0-or-later
+  license_family: GPL
+  size: 22618408
+  timestamp: 1786704311096
 - conda: https://conda.anaconda.org/conda-forge/noarch/pandocfilters-1.5.0-pyhd8ed1ab_0.tar.bz2
   sha256: 2bb9ba9857f4774b85900c2562f7e711d08dd48e2add9bee4e1612fbee27e16f
   md5: 457c2c8c08e54905d6954e79cb5b5db9

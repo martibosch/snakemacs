@@ -41,9 +41,10 @@ basedpyright = ">=1.39.8,<2"
 ruff = ">=0.16.3,<0.17"
 just = ">=1.58,<2"
 
-# optional latex toolchain for org -> pdf export, enabled with `pixi run -e tex ...`
+# optional toolchain for the org -> pdf and markdown -> pdf export routes, enabled
+# with `pixi run -e tex ...`
 # (named environments implicitly include the default feature, so `-e tex` is the full
-# snakemacs environment plus these two)
+# snakemacs environment plus these three)
 # ACHTUNG: the extra channel is declared on the feature rather than on the workspace on
 # purpose - adding it to `[workspace] channels' changes the channel set of *every*
 # environment and forces a full re-resolve of the default one
@@ -52,6 +53,11 @@ channels = [{ channel = "dnachun", priority = -1 }]
 
 [feature.tex.dependencies]
 tectonic = ">=0.17,<0.18"
+# markdown -> pdf goes through pandoc (see `my/markdown-export-pdf' in main.el), which
+# also backs the `C-c C-c p' html preview.  ACHTUNG: with `--citeproc' pandoc renders
+# citations itself from the .bib, so that route needs no biber and is unaffected by the
+# pin below - only the org/latex route is
+pandoc = ">=3.10.2,<4"
 # ACHTUNG: tectonic carries its own texlive bundle but shells out to an *external*
 # biber, and biber is strictly version-coupled to the biblatex it reads: the bundle of
 # tectonic 0.17 ships biblatex 3.17, which only biber 2.17 understands.  the channel

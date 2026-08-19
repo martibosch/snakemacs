@@ -182,19 +182,64 @@ See URL `https://docs.astral.sh/ruff/'."
            (web-mode-set-engine "django")))))
 
 ;;; markdown
+;; markdown as a lighter-weight alternative to org for writing things up, going through
+;; pandoc rather than through the org exporters - ACHTUNG: `--citeproc' makes pandoc
+;; resolve citations itself (CSL), emitting already-formatted output, so this route
+;; never runs biblatex/biber; the `biber' pin in pixi.toml only constrains org/LaTeX
+(defun my/markdown-export-pdf ()
+  "Export the current markdown buffer to PDF with pandoc.
+
+Citations come from the .bib files that `my/cite-local-bibliography' found next to
+the file, so neither a YAML `bibliography:' key nor a `--bibliography' flag has to
+be written by hand.  Uses tectonic as the PDF engine when available (see the `tex'
+feature in pixi.toml), otherwise whichever engine pandoc defaults to."
+  (interactive)
+  (unless (executable-find "pandoc")
+    (user-error "`pandoc' not found - it ships with the `tex' pixi environment"))
+  (unless (buffer-file-name)
+    (user-error "Buffer is not visiting a file"))
+  (let* ((md-filepath (buffer-file-name))
+         (pdf-filepath (concat (file-name-sans-extension md-filepath) ".pdf"))
+         (args
+          (append
+           (list "--citeproc")
+           ;; one `--bibliography' per file, mirroring what citar completes against
+           (mapcan
+            (lambda (bib-filepath) (list "--bibliography" bib-filepath))
+            (bound-and-true-p citar-bibliography))
+           (when (executable-find "tectonic")
+             (list "--pdf-engine" "tectonic"))
+           (list "--output" pdf-filepath md-filepath))))
+    (save-buffer)
+    (compile (mapconcat #'shell-quote-argument (cons "pandoc" args) " "))))
+
 (use-package
  markdown-mode
  :mode ("README\\.md\\'" . gfm-mode)
+ ;; citar ships a markdown dispatch table built on pandoc's `[@key]' syntax, and
+ ;; `citar-capf' completes keys inside it, so markdown buffers get the same citation
+ ;; UI as org ones for free (see the citations block in the org section below)
+ :hook
+ ((markdown-mode . my/cite-local-bibliography)
+  (markdown-mode . citar-capf-setup))
+ ;; `C-c [' for parity with org and reftex, `C-c C-e' for parity with org's export
+ ;; dispatch - both are unbound in `markdown-mode-map'
+ :bind
+ (:map
+  markdown-mode-map
+  ("C-c [" . citar-insert-citation)
+  ("C-c C-e" . my/markdown-export-pdf))
  :config
- ;; (setq markdown-command
- ;; 	(concat
- ;; 	 "pandoc"
- ;; 	 " --from=markdown --to=html"
- ;; 	 " --standalone --mathjax --highlight-style=pygments"
- ;; 	 " --css=pandoc.css"
- ;; 	 " --quiet"
- ;; 	 ))
- )
+ ;; pandoc for the `C-c C-c p' html preview too, so citations render there as well -
+ ;; guarded because the defcustom otherwise picks the first markdown binary on $PATH
+ (when (executable-find "pandoc")
+   (setq markdown-command
+         (concat
+          "pandoc"
+          " --from=markdown --to=html"
+          " --standalone --mathjax --highlight-style=pygments"
+          " --citeproc"
+          " --quiet"))))
 
 ;;; LaTeX
 (use-package
@@ -479,15 +524,15 @@ Uses `my/pixi-env-name' (default: \"default\") to select the environment."
 ;; ACHTUNG: the bibliography variables are set buffer-locally below, so a report and its
 ;; `references.bib' are associated by living in the same folder - no `#+bibliography:'
 ;; keyword needed (adding one still works, it just adds more files).
-(defun my/org-cite-local-bibliography ()
+(defun my/cite-local-bibliography ()
   "Point the bibliography variables at the .bib files next to the current file.
 
 Looks in the buffer's own directory and, failing that, walks up until a directory
 containing at least one .bib file is found.  Sets both
-`org-cite-global-bibliography' (used by the exporters) and `citar-bibliography'
-(used by the citar completion UI) - ACHTUNG: `citar-org-local-bib-files' returns
-the org-cite files *minus* the global ones, so setting only the former would
-leave citar with nothing."
+`org-cite-global-bibliography' (used by the org exporters) and `citar-bibliography'
+(used by the citar completion UI, in org, markdown and LaTeX buffers alike) -
+ACHTUNG: `citar-org-local-bib-files' returns the org-cite files *minus* the global
+ones, so setting only the former would leave citar with nothing."
   (interactive)
   (when-let* ((filepath (buffer-file-name))
               (bib-dir
@@ -502,7 +547,7 @@ leave citar with nothing."
  oc
  :straight (:type built-in)
  :after (org)
- :hook (org-mode . my/org-cite-local-bibliography)
+ :hook (org-mode . my/cite-local-bibliography)
  ;; parity with reftex-citation in LaTeX buffers, shadowing the default
  ;; `org-agenda-file-to-front' (still reachable via M-x); `C-c C-x @' also works
  :bind (:map org-mode-map ("C-c [" . org-cite-insert))
