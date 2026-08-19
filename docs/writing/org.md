@@ -9,7 +9,7 @@ the end of it.
 ## Bibliographies are found automatically
 
 You do not need a `#+bibliography:` keyword. On opening an org file,
-`my/org-cite-local-bibliography` looks for `.bib` files next to it and, failing that,
+`my/cite-local-bibliography` looks for `.bib` files next to it and, failing that,
 walks up until it finds a directory containing one - so a report in a subdirectory
 still picks up a bibliography at the project root.
 
@@ -23,7 +23,7 @@ Adding a `#+bibliography:` keyword still works; it simply adds more files.
 
 :::{note}
 The hook runs when `org-mode` starts. If you create the `.bib` *after* opening the
-org file, run `M-x my/org-cite-local-bibliography` or revert the buffer.
+org file, run `M-x my/cite-local-bibliography` or revert the buffer.
 :::
 
 ## Inserting citations
@@ -105,4 +105,5 @@ add `[cite/n:@key]` - the `nocite` style - somewhere in the file.
 :::
 
 Which toolchain actually produces the PDF depends on what is installed; see
-[LaTeX](latex.md).
+[LaTeX](latex.md). If you would rather write plain markdown and let pandoc do the
+same job, see [Markdown](markdown.md).

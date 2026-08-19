@@ -45,9 +45,9 @@ bundle; see [Dependencies](dependencies.md).
 
 ## citar shows no references
 
-The bibliography is resolved when `org-mode` starts. If the `.bib` file appeared
-afterwards, run `M-x my/org-cite-local-bibliography` or revert the buffer. See
-[Org](writing/org.md).
+The bibliography is resolved when `org-mode` or `markdown-mode` starts. If the `.bib`
+file appeared afterwards, run `M-x my/cite-local-bibliography` or revert the buffer.
+See [Org](writing/org.md) and [Markdown](writing/markdown.md).
 
 ## `emacs-jupyter` complains that the ZMQ module is missing
 

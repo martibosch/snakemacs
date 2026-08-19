@@ -21,6 +21,7 @@ project:
     - title: Writing
       children:
         - file: docs/writing/org.md
+        - file: docs/writing/markdown.md
         - file: docs/writing/latex.md
     - file: docs/troubleshooting.md
 site:
