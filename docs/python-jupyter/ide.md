@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: IDE features
+---
+title: IDE features
+---
 
 snakemacs uses [lsp-mode](https://github.com/emacs-lsp/lsp-mode) with
 [basedpyright](https://github.com/detachhead/basedpyright) for type checking and

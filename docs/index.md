@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## snakemacs
+---
+title: snakemacs
+---
 
 emacs 30 setup for Python and Jupyter with [pixi](https://pixi.sh).
 

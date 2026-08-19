@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: Troubleshooting
+---
+title: Troubleshooting
+---
 
 ## `libvterm` was not installed
 

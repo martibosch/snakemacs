@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: Notebooks
+---
+title: Notebooks
+---
 
 The core idea of snakemacs is that you never edit JSON. Notebooks are opened as
 plain-text Python buffers via [jupytext](https://github.com/mwouts/jupytext), and

@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: Environments and kernels
+---
+title: Environments and kernels
+---
 
 snakemacs ships [pixi-kernel](https://github.com/renan-r-santos/pixi-kernel), so the
 "Python (Pixi)" kernel resolves to the pixi environment of whatever project directory

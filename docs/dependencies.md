@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: Dependencies
+---
+title: Dependencies
+---
 
 Almost everything snakemacs needs is declared in `pixi.toml` and pinned in
 `pixi.lock`. This page is about the boundary: what pixi handles, what it cannot, and

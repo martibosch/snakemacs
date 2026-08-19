@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: LaTeX
+---
+title: LaTeX
+---
 
 snakemacs uses [AUCTeX](https://www.gnu.org/software/auctex/) with
 [RefTeX](https://www.gnu.org/software/auctex/reftex.html) for `.tex` files, and

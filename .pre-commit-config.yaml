@@ -43,6 +43,9 @@ repos:
         args: ["--number"]
         additional_dependencies:
           - mdformat-gfm
+          # without it, the YAML frontmatter of the docs pages is reformatted into a
+          # thematic break plus a setext heading, i.e. every page loses its title
+          - mdformat-frontmatter
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit
     rev: v1.4.1

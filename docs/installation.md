@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: Installation
+---
+title: Installation
+---
 
 This setup uses emacs 30 and pixi. The only prerequisite is to
 [install pixi](https://pixi.sh/latest/installation); everything else is either pulled

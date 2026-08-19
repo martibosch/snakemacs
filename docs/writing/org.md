@@ -1,6 +1,6 @@
-______________________________________________________________________
-
-## title: Org
+---
+title: Org
+---
 
 snakemacs sets org up as a lightweight LaTeX alternative: a folder holding a report
 and its `references.bib`, with citations completed from the minibuffer and a PDF at
