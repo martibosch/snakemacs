@@ -30,7 +30,7 @@ repos:
       - id: elisp-check-parens
 
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.17.1
+    rev: v4.19.0
     hooks:
       - id: commitizen
         stages: [commit-msg]
@@ -48,7 +48,7 @@ repos:
           - mdformat-frontmatter
 
   - repo: https://github.com/tombi-toml/tombi-pre-commit
-    rev: v1.4.1
+    rev: v1.5.8
     hooks:
       - id: tombi-format
       - id: tombi-lint
@@ -65,7 +65,7 @@ repos:
         args: ["-d relaxed"]
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.38.0
+    rev: 0.38.2
     hooks:
       - id: check-github-workflows
       - id: check-dependabot
